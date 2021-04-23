@@ -1,25 +1,25 @@
-import "./styles/common.scss";
+import logo from './logo.svg';
+import './App.css';
 
-// firebase stuff
-import firebase from "firebase/app";
-import firebaseConfig from "./config/Firebase";
-
-// providers
-import UserProvider from "./providers/UserProvider";
-
-// components
-import Routes from "./components/Routes";
-
-export default function App() {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app(); // if already initialized, use that one
-  }
-
+function App() {
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
+
+export default App;
