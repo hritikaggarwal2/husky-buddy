@@ -2,8 +2,9 @@
 
 ## Why this folder?
 
-- Add individual components in this folder. Things like FancyButton, SearchBar,
-  ListItem etc.
+- Add individual components/widgets (that do not take up the full-page) in this
+  folder.
+- Things like FancyButton, SearchBar, ListItem etc.
 
 ## Conventions inside this folder
 

@@ -4,6 +4,7 @@
 
 - Add complete screen components in this folder. Things like Dashboard, Profile
   etc.
+- Do not put individual screen components here - like widgets, buttons, etc.
 
 ## Conventions inside this folder
 
