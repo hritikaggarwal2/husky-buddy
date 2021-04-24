@@ -1266,22 +1266,22 @@
     "tslib" "^2.1.0"
     "xmlhttprequest" "1.8.0"
 
-"@firebase/auth-interop-types@0.1.5":
-  "integrity" "sha512-88h74TMQ6wXChPA6h9Q3E1Jg6TkTHep2+k63OWg3s0ozyGVMeY+TTOti7PFPzq5RhszQPQOoCi59es4MaRvgCw=="
-  "resolved" "https://registry.npmjs.org/@firebase/auth-interop-types/-/auth-interop-types-0.1.5.tgz"
-  "version" "0.1.5"
+"@firebase/auth-interop-types@0.1.6":
+  "integrity" "sha512-etIi92fW3CctsmR9e3sYM3Uqnoq861M0Id9mdOPF6PWIg38BXL5k4upCNBggGUpLIS0H1grMOvy/wn1xymwe2g=="
+  "resolved" "https://registry.npmjs.org/@firebase/auth-interop-types/-/auth-interop-types-0.1.6.tgz"
+  "version" "0.1.6"
 
-"@firebase/auth-types@0.10.2":
-  "integrity" "sha512-0GMWVWh5TBCYIQfVerxzDsuvhoFpK0++O9LtP3FWkwYo7EAxp6w0cftAg/8ntU1E5Wg56Ry0b6ti/YGP6g0jlg=="
-  "resolved" "https://registry.npmjs.org/@firebase/auth-types/-/auth-types-0.10.2.tgz"
-  "version" "0.10.2"
+"@firebase/auth-types@0.10.3":
+  "integrity" "sha512-zExrThRqyqGUbXOFrH/sowuh2rRtfKHp9SBVY2vOqKWdCX1Ztn682n9WLtlUDsiYVIbBcwautYWk2HyCGFv0OA=="
+  "resolved" "https://registry.npmjs.org/@firebase/auth-types/-/auth-types-0.10.3.tgz"
+  "version" "0.10.3"
 
-"@firebase/auth@0.16.4":
-  "integrity" "sha512-zgHPK6/uL6+nAyG9zqammHTF1MQpAN7z/jVRLYkDZS4l81H08b2SzApLbRfW/fmy665xqb5MK7sVH0V1wsiCNw=="
-  "resolved" "https://registry.npmjs.org/@firebase/auth/-/auth-0.16.4.tgz"
-  "version" "0.16.4"
+"@firebase/auth@0.16.5":
+  "integrity" "sha512-Cgs/TlVot2QkbJyEphvKmu+2qxYlNN+Q2+29aqZwryrnn1eLwlC7nT89K6O91/744HJRtiThm02bMj2Wh61E3Q=="
+  "resolved" "https://registry.npmjs.org/@firebase/auth/-/auth-0.16.5.tgz"
+  "version" "0.16.5"
   dependencies:
-    "@firebase/auth-types" "0.10.2"
+    "@firebase/auth-types" "0.10.3"
 
 "@firebase/component@0.4.1":
   "integrity" "sha512-f0IbIsoe33QzOj554rmDL04PyeZX/nNZYOAwlTzKmHq/JoFN6YoySi+0ZLyCtFrnRgw6zNnR/POXKOdfljWqZA=="
@@ -1298,12 +1298,12 @@
   dependencies:
     "@firebase/app-types" "0.6.2"
 
-"@firebase/database@0.9.10":
-  "integrity" "sha512-QvKhWpsBK4T1L4iGOpTBRvw4s2nqEtD6qja+L116BejFFJZik+U+cVe3xLKoeyGy2YtbcS28ly0h285pmnYwRw=="
-  "resolved" "https://registry.npmjs.org/@firebase/database/-/database-0.9.10.tgz"
-  "version" "0.9.10"
+"@firebase/database@0.9.11":
+  "integrity" "sha512-f1+39Q1Zxnnu7sswz5oOZUC3CTMEEQR6hFxmE+ZJiw5+/Uy/wK11DS/KofSj0VCe0cPhPHxNzmLjUU5/5yu9Kw=="
+  "resolved" "https://registry.npmjs.org/@firebase/database/-/database-0.9.11.tgz"
+  "version" "0.9.11"
   dependencies:
-    "@firebase/auth-interop-types" "0.1.5"
+    "@firebase/auth-interop-types" "0.1.6"
     "@firebase/component" "0.4.1"
     "@firebase/database-types" "0.7.2"
     "@firebase/logger" "0.2.6"
@@ -1316,10 +1316,10 @@
   "resolved" "https://registry.npmjs.org/@firebase/firestore-types/-/firestore-types-2.2.0.tgz"
   "version" "2.2.0"
 
-"@firebase/firestore@2.2.4":
-  "integrity" "sha512-0B4WNVYDusxURRclHHjw/OBLad7gerr25QGljQ0kkpeFEd6bYyoTUeGtP6YlYYog8KhxsR9R5f0NacuzQPS4OA=="
-  "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-2.2.4.tgz"
-  "version" "2.2.4"
+"@firebase/firestore@2.2.5":
+  "integrity" "sha512-Ucg3cy79u4KPlPs5//c5Af92OrZJigSUem2JxWKHlGSgjl71CR6Pa9WMkv6ot5qNJcxwx4FdDtqrtIpKA/xPDw=="
+  "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-2.2.5.tgz"
+  "version" "2.2.5"
   dependencies:
     "@firebase/component" "0.4.1"
     "@firebase/firestore-types" "2.2.0"
@@ -1428,22 +1428,22 @@
     "@firebase/util" "1.0.0"
     "tslib" "^2.1.0"
 
-"@firebase/storage-types@0.4.0":
-  "integrity" "sha512-2xgiLGfDv6Fz5qRrsO47/7PfbV9P+5tEuvEktJYTNxrgTxGPj3sMb7ZkycIb4JE98fAbmGEeMQaRSorqR5bEIQ=="
-  "resolved" "https://registry.npmjs.org/@firebase/storage-types/-/storage-types-0.4.0.tgz"
-  "version" "0.4.0"
+"@firebase/storage-types@0.4.1":
+  "integrity" "sha512-IM4cRzAnQ6QZoaxVZ5MatBzqXVcp47hOlE28jd9xXw1M9V7gfjhmW0PALGFQx58tPVmuUwIKyoEbHZjV4qRJwQ=="
+  "resolved" "https://registry.npmjs.org/@firebase/storage-types/-/storage-types-0.4.1.tgz"
+  "version" "0.4.1"
 
-"@firebase/storage@0.5.0":
-  "integrity" "sha512-nwIDikLEVzamuheZSRQbUbmMDITkPclCIokHR+4YbZsNNf7ukVN6PB8V/C8KMTjpDjSn9BOZbd9jF2U1VIgYqQ=="
-  "resolved" "https://registry.npmjs.org/@firebase/storage/-/storage-0.5.0.tgz"
-  "version" "0.5.0"
+"@firebase/storage@0.5.1":
+  "integrity" "sha512-cDlq2ibKlQo1RVRKeUtzpnvbEAKebxg/Yd5OTJGoPGwoWLeZ6FZhhRP/dI2ZBj2BetkqTdvlDGtxamOkMbHeeQ=="
+  "resolved" "https://registry.npmjs.org/@firebase/storage/-/storage-0.5.1.tgz"
+  "version" "0.5.1"
   dependencies:
     "@firebase/component" "0.4.1"
-    "@firebase/storage-types" "0.4.0"
+    "@firebase/storage-types" "0.4.1"
     "@firebase/util" "1.0.0"
     "tslib" "^2.1.0"
 
-"@firebase/util@0.x", "@firebase/util@1.0.0", "@firebase/util@1.x":
+"@firebase/util@1.0.0", "@firebase/util@1.x":
   "integrity" "sha512-KIEyuyrYKKtit+lAl66c2GVvooM1Pb+Yw/9yuSga1HKYMxNZwSsIMXU8X97sLZf7WJaanV1XNJEMkZTw3xKEoA=="
   "resolved" "https://registry.npmjs.org/@firebase/util/-/util-1.0.0.tgz"
   "version" "1.0.0"
@@ -5516,24 +5516,24 @@
     "locate-path" "^5.0.0"
     "path-exists" "^4.0.0"
 
-"firebase@^8.4.1":
-  "integrity" "sha512-PMDt9iU8ry5P7PSrGQ+72O1gkfa5rNAeybMZhP22nKOh40sVozSkcKGZAFumXog7tjlslHJhUEZgfZbKCNkC8Q=="
-  "resolved" "https://registry.npmjs.org/firebase/-/firebase-8.4.1.tgz"
-  "version" "8.4.1"
+"firebase@^8.4.2":
+  "integrity" "sha512-PUzobCZ2z6nEvb3IRxz9L1H/q7e7LaKhx6vEUYhKTIK7WMYg+iiUE67IY4Lvh5/IWugclAH8SX5ny8azSy2hTw=="
+  "resolved" "https://registry.npmjs.org/firebase/-/firebase-8.4.2.tgz"
+  "version" "8.4.2"
   dependencies:
     "@firebase/analytics" "0.6.9"
     "@firebase/app" "0.6.20"
     "@firebase/app-types" "0.6.2"
-    "@firebase/auth" "0.16.4"
-    "@firebase/database" "0.9.10"
-    "@firebase/firestore" "2.2.4"
+    "@firebase/auth" "0.16.5"
+    "@firebase/database" "0.9.11"
+    "@firebase/firestore" "2.2.5"
     "@firebase/functions" "0.6.7"
     "@firebase/installations" "0.4.25"
     "@firebase/messaging" "0.7.9"
     "@firebase/performance" "0.4.11"
     "@firebase/polyfill" "0.3.36"
     "@firebase/remote-config" "0.1.36"
-    "@firebase/storage" "0.5.0"
+    "@firebase/storage" "0.5.1"
     "@firebase/util" "1.0.0"
 
 "flat-cache@^3.0.4":
