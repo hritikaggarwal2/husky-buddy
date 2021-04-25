@@ -19,13 +19,19 @@ class CreateGroup extends Component {
     }
 
     recordData = (gN, gS, tAS, tAE) => {
-        this.setState ({
-            open: false,
-            groupName: gN,
-            groupSize: gS,
-            timeAvailS: tAS,
-            timeAvailE: tAE
-        });
+        if (gN === null) {
+            this.setState({
+                open: false
+            });
+        } else {
+            this.setState({
+                open: false,
+                groupName: gN,
+                groupSize: gS,
+                timeAvailS: tAS,
+                timeAvailE: tAE
+            });
+        }
     }
 
     render() {
@@ -33,8 +39,8 @@ class CreateGroup extends Component {
         if (this.state.open)
             popUp = <PopUpForm onChange={this.recordData} maxGroupSize={MAX_GROUP_SIZE}/>
         return (
-            <div className="App">
-                <button onClick={this.setOpen}>Create Group</button>
+            <div>
+                <button className="createGroupButton" onClick={this.setOpen}>Create Group</button>
                 {popUp}
             </div>
         );

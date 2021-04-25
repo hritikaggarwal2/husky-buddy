@@ -17,6 +17,10 @@ class PopUpForm extends Component {
         }
     }
 
+    closeForm = () => {
+        this.props.onChange();
+    }
+
     recordData = () => {
         // ***** VALIDATE INPUT ***** ADD LATER
 
@@ -88,7 +92,7 @@ class PopUpForm extends Component {
         return (
             <div className="form">
                 <div className="form_content">
-                    <span className="close" onClick={this.recordData}>&times;</span>
+                    <span className="close" onClick={this.closeForm}>&times;</span>
                     <ValueInputer title={'Class Name'} type={'string'} onChange={this.recordClassName} />
                     <ValueInputer title={'Topics of Interest'} type={'string'} onChange={this.recordTopics} />
                     <ValueInputer title={'Group Size'} min={0} max={this.props.maxGroupSize} type={'number'} onChange={this.recordGroupSize} />
@@ -96,6 +100,7 @@ class PopUpForm extends Component {
                         <input className= "checkbox" type="checkbox" checked={this.state.meetInPerson} onClick={this.recordMeetInPerson}/>
                     </label>
                     {daysCheckboxes}
+                    <button className="formButton" onClick={this.recordData}>Create</button>
                 </div>
             </div>
         );

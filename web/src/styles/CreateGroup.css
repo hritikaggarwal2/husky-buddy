@@ -28,3 +28,27 @@
 
 .checkbox {
 }
+
+.createGroupButton {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    background-color: deepskyblue;
+    height: 5%;
+    border-color: darkblue;
+}
+
+.createGroupButton:hover {
+    background-color: dodgerblue;
+    box-shadow: 0 2px 2px 0 darkgray;
+}
+
+.formButton {
+    background-color: deepskyblue;
+    border-color: darkblue;
+}
+
+.formButton:hover {
+    background-color: dodgerblue;
+    box-shadow: 0 2px 2px 0 darkgray;
+}
