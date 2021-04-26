@@ -7,17 +7,16 @@
 }
 
 .form_content {
-    background-color: gainsboro;
+    background-color: white;
     z-index: 2;
     position: absolute;
-    top: 30%;
-    bottom: 30%;
-    left: 30%;
-    right: 30%;
-    width: 50%;
+    top: 25%;
+    left: 25%;
+    right: 25%;
+    bottom: 25%;
     padding: 20px;
-    border-radius: 5px;
-    border: 3px solid lightslategray;
+    border-radius: 1px;
+    border: 2px solid lightslategray;
 }
 
 .valueInputer {
@@ -44,11 +43,31 @@
 }
 
 .formButton {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    height: 10%;
+    width: 15%;
     background-color: deepskyblue;
     border-color: darkblue;
 }
 
 .formButton:hover {
     background-color: dodgerblue;
+    box-shadow: 0 2px 2px 0 darkgray;
+}
+
+.formCloseButton {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    height: 7%;
+    width: 7%;
+    background-color: gainsboro;
+    border-color: lightslategray;
+}
+
+.formCloseButton:hover {
+    background-color: silver;
     box-shadow: 0 2px 2px 0 darkgray;
 }

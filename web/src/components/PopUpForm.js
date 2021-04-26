@@ -24,6 +24,11 @@ class PopUpForm extends Component {
 
     recordData = () => {
         // ***** VALIDATE INPUT ***** ADD LATER
+        if ((this.state.minGroupSize < 2) || (this.state.maxGroupSize > this.props.maxGroupSize)) {
+            alert("Please select a valid group size");
+            return;
+        }
+
 
         this.props.onChange(this.state.minGroupSize,
             this.state.maxGroupSize,
@@ -97,7 +102,7 @@ class PopUpForm extends Component {
         return (
             <div className="form">
                 <div className="form_content">
-                    <span className="close" onClick={this.closeForm}>&times;</span>
+                    <span className="formCloseButton" onClick={this.closeForm}>&times;</span>
                     <ValueInputer title={'Class Name'} type={'string'} onChange={this.recordClassName} />
                     <ValueInputer title={'Topics of Interest'} type={'string'} onChange={this.recordTopics} />
                     <ValueInputer title={'Min Group Size'} min={0} max={this.props.maxGroupSize} type={'number'} onChange={this.recordMinGroupSize} />
