@@ -18,7 +18,7 @@ class CreateGroup extends Component {
         });
     }
 
-    recordData = (gN, gS, tAS, tAE) => {
+    recordData = (gN, minGS, maxGS, tAS, tAE) => {
         if (gN === null) {
             this.setState({
                 open: false
@@ -27,7 +27,8 @@ class CreateGroup extends Component {
             this.setState({
                 open: false,
                 groupName: gN,
-                groupSize: gS,
+                minGroupSize: minGS,
+                maxGroupSize: maxGS,
                 timeAvailS: tAS,
                 timeAvailE: tAE
             });

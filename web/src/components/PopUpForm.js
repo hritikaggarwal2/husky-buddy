@@ -9,7 +9,8 @@ class PopUpForm extends Component {
     constructor() {
         super();
         this.state = {
-            groupSize : 0,
+            minGroupSize : 0,
+            maxGroupSize : 0,
             groupName : '',
             meetInPerson : true,
             availableDays : new Set(),
@@ -24,7 +25,8 @@ class PopUpForm extends Component {
     recordData = () => {
         // ***** VALIDATE INPUT ***** ADD LATER
 
-        this.props.onChange(this.state.groupSize,
+        this.props.onChange(this.state.minGroupSize,
+            this.state.maxGroupSize,
             this.state.groupName,
             this.state.meetInPerson,
             this.state.availableDays,
@@ -48,9 +50,15 @@ class PopUpForm extends Component {
         });
     }
 
-    recordGroupSize = (size) => {
+    recordMinGroupSize = (size) => {
         this.setState({
-            groupSize : size
+            minGroupSize : size
+        });
+    }
+
+    recordMaxGroupSize = (size) => {
+        this.setState({
+            maxGroupSize : size
         });
     }
 
@@ -72,9 +80,6 @@ class PopUpForm extends Component {
         });
     }
 
-
-
-
     render() {
         let daysCheckboxes = [];
         /*
@@ -95,7 +100,8 @@ class PopUpForm extends Component {
                     <span className="close" onClick={this.closeForm}>&times;</span>
                     <ValueInputer title={'Class Name'} type={'string'} onChange={this.recordClassName} />
                     <ValueInputer title={'Topics of Interest'} type={'string'} onChange={this.recordTopics} />
-                    <ValueInputer title={'Group Size'} min={0} max={this.props.maxGroupSize} type={'number'} onChange={this.recordGroupSize} />
+                    <ValueInputer title={'Min Group Size'} min={0} max={this.props.maxGroupSize} type={'number'} onChange={this.recordMinGroupSize} />
+                    <ValueInputer title={'Max Group Size'} min={0} max={this.props.maxGroupSize} type={'number'} onChange={this.recordMaxGroupSize} />
                     <label>Meet In Person
                         <input className= "checkbox" type="checkbox" checked={this.state.meetInPerson} onClick={this.recordMeetInPerson}/>
                     </label>
@@ -105,7 +111,6 @@ class PopUpForm extends Component {
             </div>
         );
     }
-
 }
 
 export default PopUpForm;

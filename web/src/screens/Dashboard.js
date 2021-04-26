@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import CreateGroup from "../components/CreateGroup";
-import "../styles/CreateGroup.css"
+import "../styles/CreateGroup.css";
+import "../components/MyGroupPanel";
+import MyGroupPanel from "../components/MyGroupPanel";
 
 class Dashboard extends Component {
 
@@ -8,6 +10,7 @@ class Dashboard extends Component {
         return (
             <div className="App">
                 <CreateGroup />
+                <MyGroupPanel groups={["Group1", "Group2"]}/>
             </div>
         );
     }

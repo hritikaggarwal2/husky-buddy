@@ -1,0 +1,7 @@
+.myGroupPanel {
+    position: fixed;
+    top: 7%;
+    left: 2%;
+    background-color: lightskyblue;
+    border-color: darkblue;
+}
