@@ -1,7 +1,6 @@
 // Add Imports
 
 /**
- * TODO @Thorne - Please add your code here.
  * Firebase user auth is super simple and can be easily implemented.
  * Google search "firebase auth" and you can find some easy ways to implement it.
  * A tricky thing here is to check if the user is a UW student or not. For this we can
@@ -12,22 +11,37 @@
  *    https://www.npmjs.com/package/saml2-js
  *    https://medium.com/@tfalvo/single-sign-on-sso-for-your-firebase-app-with-saml-f67c71e0b4d6
  */
+
+// XXX tgarvin: potential XSS problems w/ using a strategy this simple
+// but I don't think it's something to worry about a ton right now
+export function getToken() {
+  return sessionStorage.getItem('token');
+}
+
+export function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+
+/* User auth module */
 export default function Login() {
   return (
-    <div className="Login">
-      <header className="Login-header">
-        <p>
-          Edit <code>Login.js</code> and save to reload.
-        </p>
-        <a
-          className="Login-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="login">
+      <header className="login-header">
+        Login
       </header>
+      <form className="login-form">
+        <label>
+          <p>E-Mail</p>
+            <input type="text" />
+        </label>
+        <label>
+          <p>Password</p>
+          <input type="password"/>
+        </label>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   );
 }
