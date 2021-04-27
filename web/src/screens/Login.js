@@ -14,34 +14,29 @@ import firebase from "firebase/app";
  *    https://medium.com/@tfalvo/single-sign-on-sso-for-your-firebase-app-with-saml-f67c71e0b4d6
  */
 
-<<<<<<< HEAD
-=======
 // XXX tgarvin: potential XSS problems w/ using a strategy this simple
 // but I don't think it's something to worry about a ton right now
 export function getToken() {
-  return sessionStorage.getItem('token');
+  return sessionStorage.getItem("token");
 }
 
 export function setToken(userToken) {
-  sessionStorage.setItem('token', JSON.stringify(userToken));
+  sessionStorage.setItem("token", JSON.stringify(userToken));
 }
->>>>>>> first WIP commit (for git)
 
 /* User auth module */
 export default function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [lastError, setLastError] = useState("");
-  
+
   function validateInput() {
     if (email.length <= 0 || password.length <= 0) {
       return 0;
     } else {
-
       // courtesy email validation
       // eslint-disable-next-line
-      const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+      const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
       var matches = email.match(emailRegex);
       //console.log(matches);
       //console.log(matches !== null);
@@ -54,14 +49,19 @@ export default function Login() {
     console.log("submitted form: email: " + email + "; pw: " + password);
 
     console.log("attempting to talk to firebase");
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         console.log("login succeeded!");
         setLastError("");
-    }).catch((error) => {
-      console.log("Authentication error: " + error.code + ": " + error.message);
-      setLastError(error);
-    });
+      })
+      .catch((error) => {
+        console.log(
+          "Authentication error: " + error.code + ": " + error.message
+        );
+        setLastError(error);
+      });
   }
 
   function formatError(error) {
@@ -78,24 +78,27 @@ export default function Login() {
 
   return (
     <div className="login">
-      <header className="login-header">
-        Login
-      </header>
+      <header className="login-header">Login</header>
       <form className="login-form" onSubmit={handleSubmit}>
         <label>
           <p>E-Mail</p>
-          <input type="text" onChange={e => setEmail(e.target.value)}/>
+          <input type="text" onChange={(e) => setEmail(e.target.value)} />
         </label>
         <label>
           <p>Password</p>
-          <input type="password" onChange={e => setPassword(e.target.value)}/>
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </label>
         <div>
           <button type="submit" disabled={!validateInput()}>
             Submit
           </button>
         </div>
-        {lastError !== "" ? "</div>Error: " + formatError(lastError) + "</div>": ''}
+        {lastError !== ""
+          ? "</div>Error: " + formatError(lastError) + "</div>"
+          : ""}
         <a href="/newuser"> Create a new account </a>
       </form>
     </div>
