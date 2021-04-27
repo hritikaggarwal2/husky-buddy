@@ -18,8 +18,18 @@ export default function App() {
   }
 
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <div>
+      <h1> HuskyBuddy </h1>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+      <UserProvider>
+        <Routes />
+      </UserProvider>
+    </div>
   );
 }
