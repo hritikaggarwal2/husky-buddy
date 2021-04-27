@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useUser } from "../providers/UserProvider";
 
 // components
-import Logout from "../components/Logout"
+import Logout from "../components/Logout";
 
 // screens
 import Dashboard from "../screens/Dashboard";
