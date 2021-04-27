@@ -14,6 +14,18 @@ import firebase from "firebase/app";
  *    https://medium.com/@tfalvo/single-sign-on-sso-for-your-firebase-app-with-saml-f67c71e0b4d6
  */
 
+<<<<<<< HEAD
+=======
+// XXX tgarvin: potential XSS problems w/ using a strategy this simple
+// but I don't think it's something to worry about a ton right now
+export function getToken() {
+  return sessionStorage.getItem('token');
+}
+
+export function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+>>>>>>> first WIP commit (for git)
 
 /* User auth module */
 export default function Login() {
