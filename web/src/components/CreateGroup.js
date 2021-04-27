@@ -24,6 +24,9 @@ class CreateGroup extends Component {
                 open: false
             });
         } else {
+            // SEND DATA TO FIREBASE SERVER
+
+
             this.setState({
                 open: false,
                 groupName: gN,
