@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // user provider
 import { useUser } from "../providers/UserProvider";
 
+// components
+import Logout from "../components/Logout"
+
 // screens
 import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
@@ -47,7 +50,10 @@ export default function Routes() {
   return (
     <>
       {!load || (user != null && data === null) ? (
-        <Loading />
+        <>
+          <Loading />
+          <Logout />
+        </>
       ) : (
         <Router>
           <Switch>
