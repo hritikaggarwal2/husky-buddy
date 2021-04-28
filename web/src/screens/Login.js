@@ -45,8 +45,7 @@ export default function Login() {
     console.log("attempting to talk to firebase");
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        var user = userCredential.user;
-        console.log("succeeded!");
+        console.log("login succeeded!");
         setLastError("");
     }).catch((error) => {
       console.log("Authentication error: " + error.code + ": " + error.message);
