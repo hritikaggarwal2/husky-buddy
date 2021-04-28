@@ -10,6 +10,19 @@ the guidelines below to build and run the application - Husky Buddy.
 
 - Here, run the following command using the terminal `npm install`
 
+## Saving Code
+
+### Using VS Code
+
+- Download the Prettier Extension.
+
+- Go to `VS Code Settings` and search for `Format on Save` and enable it.
+
+### Using IntelliJ
+
+- Follow this
+  [link](https://www.jetbrains.com/help/idea/prettier.html#ws_prettier_reformat_code)
+
 ## Useful Scripts
 
 In the project directory, you can run:
