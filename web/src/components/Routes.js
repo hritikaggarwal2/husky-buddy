@@ -70,7 +70,7 @@ export default function Routes() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/newUser">
+            <Route path="/newuser">
               <NewUser />
             </Route>
           </Switch>

@@ -1,7 +1,6 @@
 // Add Imports
 import React, { useState } from "react";
 import firebase from "firebase/app";
-import "firebase/firestore";
 
 /**
  * Firebase user auth is super simple and can be easily implemented.
@@ -84,10 +83,8 @@ export default function Login() {
             Submit
           </button>
         </div>
-        <div>
-            {lastError !== "" ? 'Error: ' + formatError(lastError) : ''}
-        </div>
-        <a href="/NewUser"> Create a new Account </a>
+        {lastError !== "" ? "</div>Error: " + formatError(lastError) + "</div>": ''}
+        <a href="/newuser"> Create a new account </a>
       </form>
     </div>
   );
