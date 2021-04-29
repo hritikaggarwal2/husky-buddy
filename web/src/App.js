@@ -1,17 +1,28 @@
-import React, {Component} from 'react';
-import './App.css';
-import Dashboard from "./screens/Dashboard";
+import "./styles/common.scss";
 
-class App extends Component {
+// firebase stuff
+import firebase from "firebase/app";
+import firebaseConfig from "./config/Firebase";
 
-  render(){
+// providers
+import UserProvider from "./providers/UserProvider";
+
+// components
+import Routes from "./components/Routes";
+
+export default function App() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    } else {
+        firebase.app(); // if already initialized, use that one
+    }
+
     return (
-        <div className="App">
-          <Dashboard />
+        <div>
+            <h1> HuskyBuddy </h1>
+            <UserProvider>
+                <Routes />
+            </UserProvider>
         </div>
     );
-  }
-
 }
-
-export default App;
