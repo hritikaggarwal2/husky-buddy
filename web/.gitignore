@@ -11,6 +11,9 @@
 # production
 /build
 
+# VSC config
+.vscode/settings.json
+
 # configurations
 /src/config
 
