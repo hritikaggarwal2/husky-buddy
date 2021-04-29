@@ -1,6 +1,5 @@
 import React from "react";
 import firebase from "firebase/app";
-import "firebase/firestore";
 
 import { useUser } from "../providers/UserProvider";
 
@@ -20,7 +19,8 @@ export default function Logout() {
       firebase.auth().signOut().then((_) => {
         console.log("signout succeeded!");
       }).catch((error) => {
-        // XXX tgarvin: maybe surface this to the user somehow? idk doesn't really seem applicable
+        // XXX tgarvin: maybe surface this to the user somehow? not sure what errors this can throw
+        // TODO: resolve this in a better way
         console.log("Signout failure: " + error.code + ": " + error.message);
       });
     }
