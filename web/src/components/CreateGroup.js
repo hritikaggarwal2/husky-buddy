@@ -8,7 +8,7 @@ class CreateGroup extends Component {
     constructor() {
         super();
         this.state = {
-            open : false,       // If popup is open or not
+            open: false,       // If popup is open or not
         }
     }
 
