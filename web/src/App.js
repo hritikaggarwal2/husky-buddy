@@ -11,18 +11,15 @@ import UserProvider from "./providers/UserProvider";
 import Routes from "./components/Routes";
 
 export default function App() {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    } else {
-        firebase.app(); // if already initialized, use that one
-    }
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app(); // if already initialized, use that one
+  }
 
-    return (
-        <div>
-            <h1> HuskyBuddy </h1>
-            <UserProvider>
-                <Routes />
-            </UserProvider>
-        </div>
-    );
+  return (
+    <UserProvider>
+      <Routes />
+    </UserProvider>
+  );
 }
