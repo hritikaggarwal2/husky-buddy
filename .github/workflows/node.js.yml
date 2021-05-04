@@ -24,8 +24,8 @@ jobs:
     steps:
     - name: Create Firebase config
       run: |
-        touch web/src/config/Firebase.js
-        echo $FIREBASE_CONFIG > web/src/config/Firebase.js
+        mkdir web/src/config
+        echo $FIREBASE_CONFIG > web/src/config/FirebaseTemplate.js
       shell: bash
       env:
         FIREBASE_CONFIG : ${{secrets.FIREBASE_CONFIG}}
