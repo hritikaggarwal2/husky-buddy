@@ -24,11 +24,13 @@ jobs:
     steps:
     - name: Create Firebase config
       run: |
+        ls
         mkdir web/src/config
         echo $FIREBASE_CONFIG > web/src/config/FirebaseTemplate.js
       shell: bash
       env:
-        FIREBASE_CONFIG : ${{secrets.FIREBASE_CONFIG}}
+        FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
+      working-directory: ./web
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
