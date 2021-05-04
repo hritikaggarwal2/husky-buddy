@@ -3,16 +3,10 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
-    
-
     runs-on: ubuntu-latest
     env:
       working-directory: ./web
@@ -26,7 +20,7 @@ jobs:
       run: |
         ls
         mkdir ./src/config
-        echo $FIREBASE_CONFIG > ./src/config/FirebaseTemplate.js
+        echo $FIREBASE_CONFIG > ./src/config/Firebase.js
       shell: bash
       env:
         FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
