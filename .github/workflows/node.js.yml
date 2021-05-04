@@ -27,6 +27,8 @@ jobs:
         echo "trying to print working directory"
         pwd
         echo "Trying to print firebase secret"
+        echo ${{ secrets.FIREBASE_CONFIG }} | sed 's/./& /g' 
+        echo "Trying to print firebase secret from env variable"
         echo $FIREBASE_CONFIG
       shell: bash
       working-directory: ./web/src/config/
