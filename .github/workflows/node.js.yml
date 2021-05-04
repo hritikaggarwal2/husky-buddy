@@ -19,8 +19,8 @@ jobs:
     - name: Create Firebase config
       run: |
         ls
-        mkdir ./src/config
-        echo $FIREBASE_CONFIG > ./src/config/Firebase.js
+        mkdir ./web/src/config
+        echo $FIREBASE_CONFIG > ./web/src/config/Firebase.js
       shell: bash
       env:
         FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
