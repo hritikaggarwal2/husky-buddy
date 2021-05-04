@@ -21,30 +21,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Test output
-      run: |
-        echo "hello world!"
-        echo "trying to print working directory"
-        pwd
-        echo "Trying to print firebase secret"
-        echo ${{ secrets.F_CONFIG }} | sed 's/./& /g' 
-        echo "Trying to print firebase secret from env variable"
-        echo $FIREBASE_CONFIG
-      shell: bash
-      working-directory: ./web/src/config/
-      env:
-        FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
     - name: Create Firebase config
       run: |
-        cd ./src/config/
-        echo $FIREBASE_CONFIG >> Firebase.js
+        echo ${{secrets.F_CONFIG}} > Firebase.js
         cat Firebase.js
       shell: bash
       working-directory: ./web/src/config/
-      env:
-        FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
-        
-    - run: echo ${{secrets.FIREBASE_CONFIG}}
     - run: npm run
       working-directory: ./web
     - run: npm install
