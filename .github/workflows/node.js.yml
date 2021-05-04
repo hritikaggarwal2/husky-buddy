@@ -29,6 +29,8 @@ jobs:
       working-directory: ./web/src/config/
       env:
         FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
+        
+    - run: echo ${{secrets.FIREBASE_CONFIG}}
     - run: npm run
       working-directory: ./web
     - run: npm install
