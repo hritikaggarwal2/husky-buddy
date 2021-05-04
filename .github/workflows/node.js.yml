@@ -24,7 +24,7 @@ jobs:
     - name: Create Firebase config
       run: |
         echo $FIREBASE_CONFIG >> Firebase.js
-        cat ./src/config/Firebase.js
+        cat Firebase.js
       shell: bash
       working-directory: ./web/src/config/
       env:
