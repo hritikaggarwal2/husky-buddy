@@ -1,4 +1,3 @@
-import React from "react";
 import firebase from "firebase/app";
 
 import { useUser } from "../providers/UserProvider";
@@ -10,7 +9,7 @@ export default function Logout() {
     return user !== null;
   }
 
-  function handleSubmit(_event) {
+  function handleSubmit() {
     if (!enabled()) {
       return;
     }
@@ -30,9 +29,9 @@ export default function Logout() {
   }
 
   return (
-    <div classname="logout-button">
+    <div className="logout-button">
       <form className="logout-wrapper" onSubmit={handleSubmit}>
-        <button type="submit" disabled={!enabled()}>
+        <button type="submit" id="logout-button" disabled={!enabled()}>
           Logout
         </button>
       </form>
