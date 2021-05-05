@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import "../styles/MyGroupPanel.css";
 
+/**
+ * Function that displays a side panel with the
+ * links to the groups a user is a member of.
+ *
+ */
 export default function MyGroupPanel(props) {
     const [groups, setGroups] = useState(props.groups);
     let displayLinks = [];

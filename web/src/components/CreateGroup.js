@@ -39,7 +39,7 @@ export default function CreateGroup() {
     return (
         <div>
             <button className="createGroupButton" onClick={() => setOpen(true)}>Create Group</button>
-            {open ? <PopUpForm onChange={recordData} maxGroupSize={MAX_GROUP_SIZE}/> : null}
+            {open ? <PopUpForm onChange={recordData} maxGroupSize={MAX_GROUP_SIZE} action = "Create"/> : null}
         </div>
     );
 }

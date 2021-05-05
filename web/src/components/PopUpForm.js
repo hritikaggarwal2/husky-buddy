@@ -71,7 +71,7 @@ export default function PopUpForm(props) {
                     <input className="checkbox" type="checkbox" checked={meetInPerson}
                            onClick={() => setMeetInPerson(prevVal => !prevVal)}/>
                 </label>
-                <button className="formButton" onClick={recordData}>Create</button>
+                <button className="formButton" onClick={recordData}>{props.action}</button>
             </div>
         </div>
     );
