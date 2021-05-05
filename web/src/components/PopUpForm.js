@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import ValueInputer from "./ValueInputer";
 import '../styles/CreateGroup.css';
 
+/**
+ * Function that creates a popup form for a user to input
+ * information regarding preferences of a group to create
+ * or search for.
+ */
 export default function PopUpForm(props) {
     const [maxGroupSize, setMaxGroupSize] = useState(0);
     const [groupName, setGroupName] = useState("");

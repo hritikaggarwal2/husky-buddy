@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import '../styles/CreateGroup.css';
 
+/**
+ * Function that displays an input field based
+ * on parameters passed in to props.
+ */
 export default function ValueInputer(props) {
     const [displayValue, setDisplayValue] = useState("");
     

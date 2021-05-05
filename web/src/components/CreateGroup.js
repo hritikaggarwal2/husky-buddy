@@ -5,6 +5,12 @@ import "firebase/firestore";
 
 const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students in a group
 
+/**
+ * Function that creates a group based
+ * on set of preferences that a user
+ * inputs into a PopUpForm. Saves data
+ * in a database.
+ */
 export default function CreateGroup() {
     const [open, setOpen] = useState(false);
 
