@@ -6,6 +6,11 @@ import '../styles/CreateGroup.css';
  * Function that creates a popup form for a user to input
  * information regarding preferences of a group to create
  * or search for.
+ *
+ * @param props must contain:
+ *  onChange: function to call when popup form is submitted
+ *  maxGroupSize: constant for maximum group size
+ *  action: value to display on the submit button
  */
 export default function PopUpForm(props) {
     const [maxGroupSize, setMaxGroupSize] = useState(0);

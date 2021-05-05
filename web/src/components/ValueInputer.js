@@ -4,6 +4,10 @@ import '../styles/CreateGroup.css';
 /**
  * Function that displays an input field based
  * on parameters passed in to props.
+ *
+ * @param props must include:
+ *      onChange: function to call when value is inputted
+ *      type: the type of the input value
  */
 export default function ValueInputer(props) {
     const [displayValue, setDisplayValue] = useState("");
