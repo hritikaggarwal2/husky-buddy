@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ValueInputer from "./ValueInputer";
 import '../styles/CreateGroup.css';
+import { useUser } from "../providers/UserProvider";
 
 /**
  * Function that creates a popup form for a user to input
@@ -20,6 +21,7 @@ export default function PopUpForm(props) {
     const [classSection, setClassSection] = useState("");
     const [topics, setTopics] = useState(0);
     const [meetInPerson, setMeetInPerson] = useState(false);
+    const user = useUser.user;
 
     function closeForm() {
         props.onChange("", "", "", "", "", "");
@@ -46,7 +48,10 @@ export default function PopUpForm(props) {
             return;
         }
 
-        props.onChange(maxGroupSize, groupName, classPrefix, classNum, classSection, topics, meetInPerson);
+
+        //@TODO // Parse topics string into an array of topics and pass that array to props.onChange()
+
+        props.onChange(maxGroupSize, groupName, classPrefix, classNum, classSection, topics, meetInPerson, user);
     }
 
     function recordTopics(topicsIn) {

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PopUpForm from "./PopUpForm";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import { useUser } from "../providers/UserProvider";
 
 const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students in a group
 
@@ -13,11 +14,16 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
  */
 export default function CreateGroup() {
     const [open, setOpen] = useState(false);
+    //const user = useUser.user;
 
     const ref = firebase.firestore().collection("Groups");
 
     function recordData(maxGroupSize, groupName, classPrefix, 
-                        classNum, classSection, topics, meetInPerson) {
+                        classNum, classSection, topics, meetInPerson, user) {
+        if (user === undefined) {
+            user = "temp"
+        }
+
         if (groupName === "") {
             setOpen(false)
         } else {
@@ -29,9 +35,12 @@ export default function CreateGroup() {
                 group_name: groupName,
                 max_members: maxGroupSize,
                 meet: meetInPerson,
-                topic: topics
+                topic: topics,
+                members: [user],
+                owner: user,
             }).then(() => {/*Provide some feedback to user to show that group was cerated*/
             });
+
             setOpen(false);
         }
     }
