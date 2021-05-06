@@ -1,0 +1,46 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./web
+
+    strategy:
+      matrix:
+        node-version: [14.x, 15.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Create Firebase config
+        run: |
+          echo '${{secrets.F_CONFIG}}' > Firebase.js
+          cat Firebase.js
+        shell: bash
+        working-directory: ./web/src/config/
+
+      - run: npm install
+        working-directory: ./web
+
+      - run: CI=false npm run build --if-present
+        working-directory: ./web
+
+      - run: CI=false npm run test
+        working-directory: ./web
+
+      - name: Delete Firebase config
+        run: |
+          rm Firebase.js
+        shell: bash
+        working-directory: ./web/src/config/
