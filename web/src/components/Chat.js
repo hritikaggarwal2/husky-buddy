@@ -33,7 +33,6 @@ export default function Chat(props) {
                     tempMessages.push(message.data())
                 });
                 setMessages(tempMessages)});
-
         }, []);
 
 
@@ -62,8 +61,11 @@ export default function Chat(props) {
     // ADD MORE FUNCTIONALITY, I.e. display who sent it and time
     function displayMessage(message) {
         return(
-            <div className="singleMessage">
-                {message.content}
+            <div className="MessageContents">
+                <p> Message: {message.content} </p>
+                <p> Sent by: {message.owner} </p>
+                <p> Time sent: {message.time.toString()} </p>
+                <p> ... </p>
             </div>
         )
     }
