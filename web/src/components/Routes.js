@@ -8,6 +8,7 @@ import { useUser } from "../providers/UserProvider";
 import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
 import Loading from "../screens/Loading";
+import PanelView from "../screens/PanelView"
 
 // firebase
 import firebase from "firebase/app";
@@ -59,6 +60,10 @@ export default function Routes() {
             {/* To add your own screen follow the example below  */}
             <Route path="/template">
               {/* ADD your own screen component here */}
+            </Route>
+
+            <Route path="/panelview">
+              <PanelView />
             </Route>
             <Route path="/">
               <Login />
