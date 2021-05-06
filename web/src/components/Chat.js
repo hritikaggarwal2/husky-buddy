@@ -5,6 +5,8 @@ import "../components/MyGroupPanel";
 import MyGroupPanel from "../components/MyGroupPanel";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import ValueInputer from "./ValueInputer";
+import "../styles/Chat.css";
 
 /**
  *
@@ -15,48 +17,68 @@ import "firebase/firestore";
 export default function Chat(props) {
     // TODO: Update group ID to the actual one
     const [groupID, setGroupID] = useState("2jQWkuzyGzmzSQWpGOfC");
+    const [messages, setMessages] = useState([]);
+    const [outMessage, setOutMessage] = useState("");
+    //const user = useUser.user;
+    const user = "4zmEw8xE1ehszvmSV7Vz";
 
-    // Retrieves the chat from Firebase
-    function getChat() {
-        // this renders all the messages stored
-        // Might be rendering twice????
-        const chatRef = firebase.firestore()
-            .collection("Chats").doc(groupID).collection("chat")
-            .orderBy('time').onSnapshot((snapshot) => {
-                const messages = [];
-                snapshot.forEach( message => {
-                    messages.push(message.data())
+    useEffect(() =>{
+        // Store all chat messages and update if there
+        // is a new one coming in
+        const chatRef = firebase.firestore().collection("Chats").doc(groupID)
+                                .collection("chat").orderBy('time')
+                                .onSnapshot((snapshot) => {
+                const tempMessages = [];
+                snapshot.forEach( (message) => {
+                    tempMessages.push(message.data())
                 });
-                console.log(messages)});
-    }
+                setMessages(tempMessages)});
+
+        }, []);
 
 
     // Sends message to Firebase Database
-    /*function sendMessage() {
+    function sendMessage() {
+        // SEND MESSAGE TO FIREBASE SERVER
+        const chatRef = firebase.firestore().collection("Chats").doc(groupID)
+            .collection("chat");
+        let result = chatRef.add({
+            content: outMessage,
+            owner: user,
+            time: firebase.firestore.Timestamp.now()
+        }).then((docRef) => {
+            /*
+            // TODO: change "4zmEw8xE1ehszvmSV7Vz" to actual userID
+            refUsers.doc("4zmEw8xE1ehszvmSV7Vz").update({
+                groups: arrayUnion(docRef.id)
+            });
+             */
+            alert("Chat Sent!");
+        });
+        setOutMessage("");
+    }
 
-    }*/
-
-    function getMessage() {
-        // CODE BELOW is working copy from getChat() function
-        // this renders all the messages stored, BUT we need to render only new messages
-        /*const chatRef = firebase.firestore()
-            .collection("Chats").doc(groupID).collection("chat")
-            .orderBy('time', 'desc').onSnapshot(snapshot => {
-                const messages = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                });
-                snapshot.forEach((message) => {
-                    messages.push(message.data())
-                });
-                console.log(messages)});*/
-        return;
+    // Displays a single message to the chat window
+    // ADD MORE FUNCTIONALITY, I.e. display who sent it and time
+    function displayMessage(message) {
+        return(
+            <div className="singleMessage">
+                {message.content}
+            </div>
+        )
     }
 
     return (
-        <div className="Chat">
-            THIS IS A CHAT
-            {getChat()}
-            {getMessage()}
+        <div className="ChatWindow">
+            <div className="Chats">
+                {messages.map(displayMessage)}
+            </div>
+            <input className="MessageInputer"
+                   value={outMessage}
+                   onChange={(event) => setOutMessage(event.target.value)}
+                   type={'string'}
+            />
+            <button onClick={sendMessage}> Send Message</button>
         </div>
     );
 }
