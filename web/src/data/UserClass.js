@@ -6,7 +6,6 @@ export class UserClass {
     date_of_birth,
     personal_phone,
     join_date,
-    isVerified,
     image,
     major,
     about
@@ -17,7 +16,6 @@ export class UserClass {
     this.date_of_birth = date_of_birth;
     this.personal_phone = personal_phone;
     this.join_date = join_date;
-    this.isVerified = isVerified;
     this.image = image;
     this.major = major;
     this.about = about;
@@ -35,7 +33,6 @@ export let UserClassConverter = {
       personal_phone: UserClass.personal_phone,
       join_date: UserClass.join_date,
       status: UserClass.status,
-      isVerified: UserClass.isVerified,
       image: UserClass.image,
       major: UserClass.major,
       about: UserClass.about,
@@ -50,7 +47,6 @@ export let UserClassConverter = {
       data.date_of_birth,
       data.personal_phone,
       data.join_date,
-      data.isVerified,
       data.image,
       data.major,
       data.about
