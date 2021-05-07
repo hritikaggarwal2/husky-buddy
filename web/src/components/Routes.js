@@ -12,6 +12,7 @@ import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
 import NewUser from "../screens/NewUser";
 import Loading from "../screens/Loading";
+import Landing from "../screens/Landing";
 
 // firebase
 import firebase from "firebase/app";
@@ -72,6 +73,9 @@ export default function Routes() {
             </Route>
             <Route path="/newuser">
               <NewUser />
+            </Route>
+            <Route path="/">
+              <Landing />
             </Route>
           </Switch>
         </Router>
