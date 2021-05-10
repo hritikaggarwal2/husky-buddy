@@ -1,11 +1,13 @@
 // Add Imports
 import React, { useState } from "react";
 import firebase from "firebase/app";
+import { createHuskyUser } from "../providers/UserProvider";
 
 /* User creation module */
 export default function NewUser() {
   const [email, setEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [lastError, setLastError] = useState("");
@@ -13,12 +15,17 @@ export default function NewUser() {
   function validateInput() {
     if (email !== confirmEmail || password !== confirmPassword) {
       return 0;
-    } else if (email.length <= 0 || password.length <= 0) {
+    } else if (
+      email.length <= 0 ||
+      password.length <= 0 ||
+      displayName.length <= 0
+    ) {
       return 0;
     } else {
       // courtesy email validation
       // eslint-disable-next-line
-      const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+      const emailRegex =
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
       let matches = email.match(emailRegex);
 
       // check if the attempted registration uses a UW email
@@ -48,8 +55,9 @@ export default function NewUser() {
       .then((userCredential) => {
         let user = userCredential.user;
         console.log("succeeded!");
-        console.log("new user: " + user);
+        console.log("new firebase user: " + user);
         setLastError("");
+        createHuskyUser(user, displayName);
       })
       .catch((error) => {
         console.log(
@@ -87,6 +95,10 @@ export default function NewUser() {
             type="text"
             onChange={(e) => setConfirmEmail(e.target.value)}
           />
+        </label>
+        <label>
+          <p>Display Name</p>
+          <input type="text" onChange={(e) => setDisplayName(e.target.value)} />
         </label>
         <label>
           <p>Password</p>

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
-import { UserClassConverter } from "../data/UserClass";
+import { UserClass, UserClassConverter } from "../data/UserClass";
 
 const UserContext = createContext();
 
@@ -13,16 +13,53 @@ export function useUser() {
   return context;
 }
 
-async function getHuskyUserFromReactUser(reactUser) {
-  console.log("react user uid:" + reactUser.uid);
+export function createHuskyUser(firebaseUser, displayName) {
+  console.log("Creating husky user with UID " + firebaseUser.uid);
+  let uid = firebaseUser.uid;
+  let huskyUserRef = firebase.firestore().collection("Users").doc(uid);
+  let userRefResult = null;
+
+  const newUserObj = new UserClass(
+    displayName,
+    firebaseUser.email === null ? "" : firebaseUser.email,
+    "", // DOB
+    [], // groups
+    "", // phone
+    new Date(), // creation date
+    "Hello World!", // status
+    "", // image
+    "", // major
+    "", // about
+    "" // uwid
+  );
+
+  huskyUserRef
+    .set(UserClassConverter.toFirestore(newUserObj), { merge: true })
+    .then((result) => {
+      userRefResult = result;
+      console.log("created user successfully");
+    });
+}
+
+async function getHuskyUserFromFirebaseUser(firebaseUser) {
+  if (firebaseUser === null) {
+    return null;
+  }
+
+  console.log("react user uid:" + firebaseUser.uid);
 
   let huskyUserRef = firebase
     .firestore()
     .collection("Users")
-    .doc(reactUser.uid);
+    .doc(firebaseUser.uid);
 
-  const huskyUser = await huskyUserRef.get();
-  return huskyUser.data();
+  const huskyUserSnapshot = await huskyUserRef.get();
+  if (!huskyUserSnapshot.exists) {
+    console.log("Husky user does not exist, creating..");
+    await createHuskyUser(firebaseUser, firebaseUser.email);
+  }
+  console.log("data: " + huskyUserSnapshot.data());
+  return UserClassConverter.fromFirestore(huskyUserSnapshot, null);
 }
 
 export default function UserProvider(props) {
@@ -33,9 +70,9 @@ export default function UserProvider(props) {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((userAuth) => {
       setUser(userAuth);
-      getHuskyUserFromReactUser(userAuth).then((huskyUser) => {
+      getHuskyUserFromFirebaseUser(userAuth).then((huskyUser) => {
         setHuskyUser(huskyUser);
-        console.log("husky user:");
+        console.log("husky user: ");
         console.log(huskyUser);
       });
 
