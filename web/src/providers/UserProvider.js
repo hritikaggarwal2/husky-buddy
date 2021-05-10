@@ -38,6 +38,11 @@ export function createHuskyUser(firebaseUser, displayName) {
     .then((result) => {
       userRefResult = result;
       console.log("created user successfully");
+    })
+    .catch((error) => {
+      console.log("Error creating user: " + error.code + ": " + error.message);
+      alert("Error creating user! Please try again.");
+      setLastError(error);
     });
 }
 
