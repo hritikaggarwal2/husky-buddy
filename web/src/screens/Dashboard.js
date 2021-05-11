@@ -1,8 +1,10 @@
 // Add Imports
+
 import { useState, useRef } from "react";
 import CreateGroup from "../components/CreateGroupPopUp";
 import SearchGroup from "../components/SearchGroupPopUp";
 import SearchResults from "../components/SearchResultsPopUp";
+
 import "../styles/common.scss";
 import "../components/MyGroupPanel";
 import MyGroupPanel from "../components/MyGroupPanel";
@@ -55,6 +57,7 @@ export default function Dashboard() {
         />
       ) : null}
 
+
       {/* MAIN DASHBOARD VIEW */}
       <div className="dashboard container d-flex col justify-center align-center">
         <h1 className="title">HuskyBuddy.</h1>
@@ -67,6 +70,7 @@ export default function Dashboard() {
         <button className="btnPrimaryFill" onClick={() => setOpenSearch(true)}>
           Search Groups
         </button>
+
       </div>
     </>
   );

@@ -51,6 +51,7 @@ export default function CreateGroupPopUp(props) {
       return false;
     }
     return true;
+
   }
 
   // references to access GroupsCollection and UsersCollection
@@ -60,11 +61,14 @@ export default function CreateGroupPopUp(props) {
 
   function recordData() {
     // ***** CHECK IF INPUT IS VALID *****
+
     if (!checkInput()) {
+
       return;
     }
     
     // Create new group by sending new group to firebase.
+
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
     refGroups
@@ -90,7 +94,6 @@ export default function CreateGroupPopUp(props) {
     // TODO: FORMALLY CREATE A GROUP DOCUMENT
     // Right now, firebase automatically creates it for us,
     // I think we should do it explicitly, just for sanity.
-
 
     props.close();
   }
