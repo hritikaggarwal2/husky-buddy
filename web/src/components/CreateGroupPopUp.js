@@ -50,6 +50,7 @@ export default function CreateGroupPopUp(props) {
       alert("Enter a valid group size (must be greater than 1).");
       return false;
     }
+    return true;
   }
 
   // references to access GroupsCollection and UsersCollection
@@ -59,7 +60,7 @@ export default function CreateGroupPopUp(props) {
 
   function recordData() {
     // ***** CHECK IF INPUT IS VALID *****
-    if (!checkInput) {
+    if (!checkInput()) {
       return;
     }
     
