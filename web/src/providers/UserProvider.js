@@ -17,7 +17,6 @@ export function createHuskyUser(firebaseUser, displayName) {
   console.log("Creating husky user with UID " + firebaseUser.uid);
   let uid = firebaseUser.uid;
   let huskyUserRef = firebase.firestore().collection("Users").doc(uid);
-  let userRefResult = null;
 
   const newUserObj = new UserClass(
     displayName,
@@ -36,13 +35,11 @@ export function createHuskyUser(firebaseUser, displayName) {
   huskyUserRef
     .set(UserClassConverter.toFirestore(newUserObj), { merge: true })
     .then((result) => {
-      userRefResult = result;
       console.log("created user successfully");
     })
     .catch((error) => {
       console.log("Error creating user: " + error.code + ": " + error.message);
       alert("Error creating user! Please try again.");
-      setLastError(error);
     });
 }
 
