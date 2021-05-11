@@ -1,14 +1,17 @@
-# Husky Buddy Web Application
-
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app). Please follow
-the guidelines below to build and run the application - Husky Buddy.
+# Husky Buddy Web App
 
 ## Installing Dependencies
 
-- After cloning your repository, navigate to the `<cloned_folder>/web`.
+- After cloning your repository, navigate to the web subdirectory.
 
 - Here, run the following command using the terminal `npm install`
+
+## Other Dependencies
+
+- If not already present, create a `config` subdirectory of /web.
+- Copy your firebase configuration into a new file called Firebase.js.
+- Example: ![Firebase.js example](https://i.imgur.com/ol24SJt.png)
+
 
 ## Saving Code
 
