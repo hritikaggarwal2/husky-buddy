@@ -50,6 +50,8 @@ export default function CreateGroupPopUp(props) {
       alert("Enter a valid group size (must be greater than 1).");
       return false;
     }
+    return true;
+
   }
 
   // references to access GroupsCollection and UsersCollection
@@ -59,7 +61,9 @@ export default function CreateGroupPopUp(props) {
 
   function recordData() {
     // ***** CHECK IF INPUT IS VALID *****
-    if (!checkInput) {
+
+    if (!checkInput()) {
+
       return;
     }
     
@@ -67,8 +71,6 @@ export default function CreateGroupPopUp(props) {
 
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
-    // Code below threw error, I temporarily fixed it, but needs
-    // to be changed back to use with GroupClassConverter
     refGroups
       .withConverter(GroupClassConverter)
       .add(new GroupClass(
@@ -88,6 +90,10 @@ export default function CreateGroupPopUp(props) {
           groups: arrayUnion(docRef.id),
         });
       });
+    
+    // TODO: FORMALLY CREATE A GROUP DOCUMENT
+    // Right now, firebase automatically creates it for us,
+    // I think we should do it explicitly, just for sanity.
 
     props.close();
   }
