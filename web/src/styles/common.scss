@@ -1,40 +1,108 @@
-.App {
-  text-align: center;
+@import "_constants";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
+* {
+  transition: 0.2s ease all;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body,
+html {
+  font-family: "Roboto", sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  width: 85%;
+  margin: auto;
+}
+
+.lightText {
+  color: $font-light-color;
+}
+
+.primaryText {
+  color: $font-primary-color;
+}
+
+.d-flex {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+.justify-center {
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.justify-end {
+  justify-content: flex-end;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.align-center {
+  align-items: center;
+}
+
+.landingPg {
+  header {
+    margin: 20px 40px;
+
+    ul {
+      list-style: none;
+
+      li {
+        font-weight: 500;
+        font-size: 20px;
+        margin: 15px;
+        padding: 15px;
+        position: relative;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+
+      li:hover {
+        color: $font-primary-color;
+        border-radius: 10px;
+        border: 2px solid $font-primary-color;
+      }
+    }
   }
-  to {
-    transform: rotate(360deg);
+
+  & > div > div {
+    margin: 0 10%;
   }
+
+  h1 {
+    font-size: 3rem;
+    color: $font-primary-color;
+  }
+
+  p {
+    line-height: 1.7rem;
+    letter-spacing: 0.03rem;
+    margin-bottom: 2rem;
+  }
+
+  img {
+    max-width: 50%;
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+}
+
+.btnPrimaryFill {
+  background: $primary-color;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  line-height: 1.5rem;
+  padding: 12px 25px;
+  box-shadow: 0 4px 4px $gray-shadow;
+  font-weight: 600;
+  color: $font-white-color;
 }
 
 .myGroupPanel {
