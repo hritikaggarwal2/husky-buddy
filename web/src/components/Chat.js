@@ -69,11 +69,16 @@ export default function Chat(props) {
   // ADD MORE FUNCTIONALITY, I.e. display who sent it and time
   function displayMessage(message) {
     return (
-      <div className="MessageContents">
-        <p> Message: {message.content} </p>
-        <p> Sent by: {message.owner} </p>
-        <p> Time sent: {message.time.toString()} </p>
-        <p> ... </p>
+      <div className="Messages">
+        <div className="MessageOwner">
+          <p>Sent by: {message.owner}</p>
+        </div>
+        <div className="MessageContent">
+          <p>{message.content}</p>
+        </div>
+        <div className="MessageTime">
+          <p> Time sent: {message.time.toString()} </p>
+        </div>
       </div>
     );
   }
@@ -87,7 +92,7 @@ export default function Chat(props) {
         onChange={(event) => setOutMessage(event.target.value)}
         type={"string"}
       />
-      <button onClick={sendMessage}> Send Message</button>
+      <button className="SendButton" onClick={sendMessage}> Send Message</button>
     </div>
   );
 }

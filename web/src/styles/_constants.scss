@@ -18,3 +18,18 @@ $font-color: #444444;
 // Font Sizes
 
 // Paddings / Margins
+@mixin InputBox {
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+// message alignments
+@mixin message() {
+  max-width: 60%;
+  margin-left: auto;
+  margin-right: 0;
+  letter-spacing: 0.5px;
+  text-align: right;
+  clear: both;
+}
