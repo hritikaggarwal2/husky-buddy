@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import "../styles/common.scss";
-import useUser from "../providers/UserProvider";
+import { GroupClassConverter } from "../data/GroupClass";
+import { useUser } from "../providers/UserProvider";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import PanelView from "../screens/PanelView";
-import GetUserGroups from "./GetUserGroups";
 
 /**
  * Function that displays a side panel with the
@@ -12,33 +12,61 @@ import GetUserGroups from "./GetUserGroups";
  *
  */
 export default function MyGroupPanel() {
-    const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const huskyUserId = useUser().firebaseUser.uid;
 
-    // Retrieve the values of the groups
-    useEffect(() => {
-        // EDIT THIS SECTION, to store temp user value
-        let user = "4zmEw8xE1ehszvmSV7Vz";
+  // Retrieve the values of the groups
+  useEffect(() => {
+    const refUsers = firebase.firestore().collection("Users");
+    const refGroups = firebase.firestore().collection("Groups");
 
-        const refUsers = firebase.firestore().collection("Users");
+    refUsers
+      .doc(huskyUserId)
+      .get()
+      .then((snapshot) => {
+        //console.log(snapshot.data());
+        let groupIds = snapshot.get("groups");
+        //refGroups
+        //  .where("doc", "in", groupIds)
+        //  .get()
+        //  .then((snapshot) => {
+        //    console.log("group snapshot data: ");
+        //    console.log(snapshot.data);
+        //    //setGroups(snapshot.data());
+        //  });
 
-        const groupsRef = refUsers.doc(user).get().then(
-            (snapshot) => {
-                setGroups(snapshot.get("groups"))});
-        //setGroups(GetUserGroups());
+        groupIds.forEach((groupId) => {
+          //console.log(doc.id, " => ", doc.data());
+          refGroups
+            .doc(groupId)
+            .withConverter(GroupClassConverter)
+            .get()
+            .then((snapshot) => {
+              // XXX: this is not a good solution
+              //groups.push(snapshot.data());
+              console.log("got group:");
+              console.log(snapshot.data());
+              setGroups((groups) => [...groups, snapshot.data()]);
+            });
+        });
+      });
+  }, []);
 
-    }, []);
-
-    // Display all values of a group
-    let displayList = [];
-    for (let i = 0; i < groups.length; i++) {
-        let groupName = groups[i];
-        // TODO: FIX "/panelview" to actually point to a group's chat
-        displayList.push(<li><a href={"/panelview"}>{groups[i]}</a></li>);
-    }
-
-    return (
-        <div className= "myGroupPanel">MY GROUPS
-            {displayList}
-        </div>
+  // Display all values of a group
+  let displayList = [];
+  for (let i = 0; i < groups.length; i++) {
+    // TODO: FIX "/panelview" to actually point to a group's chat
+    displayList.push(
+      <li>
+        <a href={"/panelview"}>{groups[i].group_name}</a>
+      </li>
     );
+  }
+
+  return (
+    <div className="myGroupPanel">
+      MY GROUPS
+      {displayList}
+    </div>
+  );
 }

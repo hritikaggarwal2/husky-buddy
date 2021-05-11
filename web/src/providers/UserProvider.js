@@ -65,13 +65,13 @@ async function getHuskyUserFromFirebaseUser(firebaseUser) {
 }
 
 export default function UserProvider(props) {
-  const [user, setUser] = useState(firebase.auth().currentUser);
+  const [firebaseUser, setFirebaseUser] = useState(firebase.auth().currentUser);
   const [huskyUser, setHuskyUser] = React.useState();
   const [load, setLoad] = React.useState(false);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((userAuth) => {
-      setUser(userAuth);
+      setFirebaseUser(userAuth);
       getHuskyUserFromFirebaseUser(userAuth).then((huskyUser) => {
         setHuskyUser(huskyUser);
         console.log("husky user: ");
@@ -88,7 +88,7 @@ export default function UserProvider(props) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, load, huskyUser }}>
+    <UserContext.Provider value={{ firebaseUser, load, huskyUser }}>
       {props.children}
     </UserContext.Provider>
   );

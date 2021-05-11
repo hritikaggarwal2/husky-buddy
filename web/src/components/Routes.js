@@ -23,38 +23,24 @@ import "firebase/firestore";
 import { UserClassConverter } from "../data/UserClass";
 
 export default function Routes() {
-  const user = useUser().user;
+  const firebaseUser = useUser().firebaseUser;
   const load = useUser().load;
 
   const db = firebase.firestore();
-  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (user !== null) {
-      console.log(user.email);
-
-      //   db.collection("users")
-      //     .doc(user.uid)
-      //     .withConverter(UserClassConverter)
-      //     .onSnapshot(
-      //       (snapshot) => {
-      //         setData(snapshot.data());
-      //       },
-      //       (error) => {
-      //         console.log("Error getting document:", error);
-      //       }
-      //     );
+    if (firebaseUser !== null) {
+      console.log(firebaseUser.email);
     }
 
     return () => {};
-  }, [user]);
+  }, [firebaseUser]);
 
   return (
     <>
-      {!load || (user != null && data === null) ? (
+      {!load || firebaseUser == null ? (
         <>
           <Loading />
-          <Logout />
         </>
       ) : (
         <Router>
@@ -75,11 +61,14 @@ export default function Routes() {
             <Route path="/newuser">
               <NewUser />
             </Route>
-            <Route path="/">
-              <Landing />
-            </Route>
             <Route path="/panelview">
               <PanelView />
+            </Route>
+            <Route path="/logout">
+              <Logout />
+            </Route>
+            <Route path="/">
+              <Landing />
             </Route>
           </Switch>
         </Router>

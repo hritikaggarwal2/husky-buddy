@@ -21,10 +21,9 @@ export default function PopUpForm(props) {
   const [classSection, setClassSection] = useState("");
   const [topics, setTopics] = useState(0);
   const [meetInPerson, setMeetInPerson] = useState(false);
-  const user = useUser.user;
 
   function closeForm() {
-    props.onChange("", "", "", "", "", "");
+    props.onChange("", "", "", "", "", "", "");
   }
 
   function recordData() {
@@ -57,8 +56,7 @@ export default function PopUpForm(props) {
       classNum,
       classSection,
       topics,
-      meetInPerson,
-      user
+      meetInPerson
     );
   }
 

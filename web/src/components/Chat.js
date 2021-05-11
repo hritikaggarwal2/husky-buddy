@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CreateGroup from "../components/CreateGroup";
 import "../styles/common.scss";
 import "../components/MyGroupPanel";
+import { useUser } from "../providers/UserProvider";
 import MyGroupPanel from "../components/MyGroupPanel";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -20,7 +21,9 @@ export default function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
   //const user = useUser.user;
-  const user = "4zmEw8xE1ehszvmSV7Vz";
+  //const user = "4zmEw8xE1ehszvmSV7Vz";
+  const huskyUser = useUser().huskyUser;
+  const huskyUserId = useUser().firebaseUser.uid;
 
   useEffect(() => {
     // Store all chat messages and update if there
@@ -50,7 +53,8 @@ export default function Chat(props) {
     let result = chatRef
       .add({
         content: outMessage,
-        owner: user,
+        owner: huskyUser.display_name,
+        ownerId: huskyUserId,
         time: firebase.firestore.Timestamp.now(),
       })
       .then((docRef) => {
