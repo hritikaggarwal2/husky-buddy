@@ -1,20 +1,16 @@
 // Add Imports
+import React from 'react';
+import CreateGroup from "../components/CreateGroup";
+import "../styles/common.scss";
+import "../components/MyGroupPanel";
+import MyGroupPanel from "../components/MyGroupPanel";
 
 export default function Dashboard() {
   return (
     <div className="Dashboard">
       <header className="Dashboard-header">
-        <p>
-          Edit <code>Dashboard.js</code> and save to reload.
-        </p>
-        <a
-          className="Dashboard-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <CreateGroup />
+          <MyGroupPanel groups={["Group1", "Group2"]}/>
       </header>
     </div>
   );
