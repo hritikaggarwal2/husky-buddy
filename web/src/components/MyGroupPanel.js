@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "../styles/common.scss";
-import { GroupClassConverter } from "../data/GroupClass";
+import { useState, useEffect } from "react";
+
 import { useUser } from "../providers/UserProvider";
+
 import firebase from "firebase/app";
 import "firebase/firestore";
-import PanelView from "../screens/PanelView";
+
+import GroupBox from "./GroupBox";
+
+import { useHistory } from "react-router-dom";
 
 /**
  * Function that displays a side panel with the
@@ -13,60 +16,54 @@ import PanelView from "../screens/PanelView";
  */
 export default function MyGroupPanel() {
   const [groups, setGroups] = useState([]);
-  const huskyUserId = useUser().firebaseUser.uid;
+  const user = useUser().user;
+
+  const history = useHistory();
 
   // Retrieve the values of the groups
   useEffect(() => {
-    const refUsers = firebase.firestore().collection("Users");
-    const refGroups = firebase.firestore().collection("Groups");
+    const unsubscribe = firebase
+      .firestore()
+      .collection("Groups")
+      .where("members", "array-contains", user.uid)
+      .onSnapshot(
+        {
+          // Listen for document metadata changes
+          includeMetadataChanges: true,
+        },
+        (snapshot) => {
+          let allGroups = [];
+          snapshot.docs.forEach((doc) => {
+            allGroups.push({ ...doc.data(), id: doc.id });
+          });
+          setGroups(allGroups);
+        }
+      );
 
-    refUsers
-      .doc(huskyUserId)
-      .get()
-      .then((snapshot) => {
-        //console.log(snapshot.data());
-        let groupIds = snapshot.get("groups");
-        //refGroups
-        //  .where("doc", "in", groupIds)
-        //  .get()
-        //  .then((snapshot) => {
-        //    console.log("group snapshot data: ");
-        //    console.log(snapshot.data);
-        //    //setGroups(snapshot.data());
-        //  });
+    return () => {
+      unsubscribe();
+    };
+  }, [user]);
 
-        groupIds.forEach((groupId) => {
-          //console.log(doc.id, " => ", doc.data());
-          refGroups
-            .doc(groupId)
-            .withConverter(GroupClassConverter)
-            .get()
-            .then((snapshot) => {
-              // XXX: this is not a good solution
-              //groups.push(snapshot.data());
-              console.log("got group:");
-              console.log(snapshot.data());
-              setGroups((groups) => [...groups, snapshot.data()]);
-            });
-        });
-      });
-  }, []);
-
-  // Display all values of a group
-  let displayList = [];
-  for (let i = 0; i < groups.length; i++) {
-    // TODO: FIX "/panelview" to actually point to a group's chat
-    displayList.push(
-      <li>
-        <a href={"/panelview"}>{groups[i].group_name}</a>
-      </li>
-    );
+  function goToChat(groupInfo) {
+    history.push({
+      pathname: "/panelview",
+      state: { group: groupInfo },
+    });
   }
 
   return (
-    <div className="myGroupPanel">
-      MY GROUPS
-      {displayList}
+    <div className="myGroupPanel container">
+      <h2>MY GROUPS</h2>
+      <div className="d-flex row justify-center align-center">
+        {groups.map((group) => (
+          <GroupBox
+            key={group.id}
+            onClick={() => goToChat(group)}
+            group={group}
+          />
+        ))}
+      </div>
     </div>
   );
 }

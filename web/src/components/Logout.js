@@ -3,10 +3,10 @@ import firebase from "firebase/app";
 import { useUser } from "../providers/UserProvider";
 
 export default function Logout() {
-  const firebaseUser = useUser().firebaseUser;
+  const user = useUser().user;
 
   function enabled() {
-    return firebaseUser !== null;
+    return user !== null;
   }
 
   function handleSubmit() {

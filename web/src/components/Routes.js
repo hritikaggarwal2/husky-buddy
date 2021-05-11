@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // user provider
@@ -10,56 +9,40 @@ import Logout from "../components/Logout";
 // screens
 import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
-import NewUser from "../screens/NewUser";
+import SignUp from "../screens/SignUp";
 import Loading from "../screens/Loading";
 import Landing from "../screens/Landing";
 import PanelView from "../screens/PanelView";
 
-// firebase
-import firebase from "firebase/app";
-import "firebase/firestore";
-
-// class for data processing
-import { UserClassConverter } from "../data/UserClass";
-
 export default function Routes() {
-  const firebaseUser = useUser().firebaseUser;
-  const load = useUser().load;
-
-  const db = firebase.firestore();
-
-  useEffect(() => {
-    if (firebaseUser !== null) {
-      console.log(firebaseUser.email);
-    }
-
-    return () => {};
-  }, [firebaseUser]);
+  const user = useUser().user;
+  const isLoading = useUser().load;
 
   return (
     <>
-      {!load || firebaseUser == null ? (
+      {isLoading ? (
         <>
           <Loading />
         </>
-      ) : (
+      ) : user === null ? (
         <Router>
           <Switch>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/search">
-              <Dashboard />
-            </Route>
-            {/* To add your own screen follow the example below  */}
-            <Route path="/template">
-              {/* ADD your own screen component here */}
-            </Route>
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/newuser">
-              <NewUser />
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="/">
+              <Landing />
+            </Route>
+          </Switch>
+        </Router>
+      ) : (
+        <Router>
+          <Switch>
+            <Route path="/search">
+              <Dashboard />
             </Route>
             <Route path="/panelview">
               <PanelView />
@@ -68,7 +51,7 @@ export default function Routes() {
               <Logout />
             </Route>
             <Route path="/">
-              <Landing />
+              <Dashboard />
             </Route>
           </Switch>
         </Router>

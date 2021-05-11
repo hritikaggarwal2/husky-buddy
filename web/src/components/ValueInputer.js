@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import '../styles/common.scss';
+import React, { useState } from "react";
+import "../styles/common.scss";
 
 /**
  * Function that displays an input field based
@@ -10,27 +10,23 @@ import '../styles/common.scss';
  *      type: the type of the input value
  */
 export default function ValueInputer(props) {
-    const [displayValue, setDisplayValue] = useState("");
-    
-    function onInputChange(event) {
-        let input = event.target.value;
-        setDisplayValue(input);
-        
-        props.onChange(input);
-    }
+  const [displayValue, setDisplayValue] = useState("");
 
-    return (
-            <div >
-                <label>
-                    {props.title + " "}
-                    <input className="valueInputer"
-                           value={displayValue}
-                           onChange={onInputChange}
-                           type={props.type}
-                           min={props.min}
-                           max={props.max}
-                    />
-                </label>
-            </div>
-        );
+  function onInputChange(event) {
+    let input = event.target.value;
+    setDisplayValue(input);
+    props.onChange(input);
+  }
+
+  return (
+    <div className="inputField d-flex row justify-between align-center">
+      <label>{props.title}</label>
+      <input
+        className="inputComponent"
+        {...props}
+        value={displayValue}
+        onChange={onInputChange}
+      />
+    </div>
+  );
 }
