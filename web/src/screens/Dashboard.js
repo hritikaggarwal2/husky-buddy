@@ -47,14 +47,13 @@ export default function Dashboard() {
           displayGroups={displayGroups}
         />
       ) : null}
-      {openResults
-        ? /*<SearchResults
+      {openResults ? (
+        <SearchResults
           open={openSearch}
           close={() => setOpenResults(false)}
           groupsToDisplay={searchResultsRef}
-        />*/
-          null
-        : null}
+        />
+      ) : null}
 
       {/* MAIN DASHBOARD VIEW */}
       <div className="dashboard container d-flex col justify-center align-center">

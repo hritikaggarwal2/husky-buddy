@@ -21,11 +21,8 @@ import GroupBox from "./GroupBox";
 export default function SearchResultsPopUp(props) {
   const userId = useUser().user.uwid;
 
-  function joinGroup(groupInfo) {
-    /*history.push({
-      pathname: "/panelview",
-      state: { group: groupInfo },
-    });*/
+  function joinGroup(groupDoc) {
+    console.log("tried to join group: ", groupDoc.id);
   }
 
   return (
@@ -37,11 +34,11 @@ export default function SearchResultsPopUp(props) {
       >
         <h2>Click on Group to Join</h2>
         <div className="d-flex row justify-center align-center">
-          {props.groups.current.map((group) => (
+          {props.groupsToDisplay.current.map((group) => (
             <GroupBox
               key={group.id}
               onClick={() => joinGroup(group)}
-              group={group}
+              group={group.data()}
             />
           ))}
         </div>
