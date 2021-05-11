@@ -61,29 +61,54 @@ export default function Chat(props) {
           firebase.firestore.Timestamp.now()
         )
       );
-      
+
     setOutMessage("");
   }
 
   return (
     <div className="chatWindow">
-      <div className="chats">
+      <div className="chatMsgArea">
         {messages.map((message) => (
           <div className="MessageContents" key={message.id}>
-            <p> Message: {message.content} </p>
-            <p> Sent by: {message.owner} </p>
-            <p> Time sent: {message.time.toString()} </p>
-            <p> ... </p>
+            <span className="messageContent"> {message.content} </span>
+            <span className="messageSender">
+              {" "}
+              {message.owner} at {formatDate(message.time.toDate())}{" "}
+            </span>
+            <br></br>
           </div>
         ))}
       </div>
-      <input
-        className="messageInputer"
-        value={outMessage}
-        onChange={(event) => setOutMessage(event.target.value)}
-        type="text"
-      />
+      <br></br>
+      <div class="row">
+        <input
+          className="messageInputer"
+          value={outMessage}
+          onChange={(event) => setOutMessage(event.target.value)}
+          type="text"
+        />
+      </div>
       <button onClick={sendMessage}>Send Message</button>
     </div>
   );
+
+  // stack overflow fn
+  function formatDate(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+    return (
+      strTime +
+      " " +
+      date.getMonth() +
+      "/" +
+      date.getDate() +
+      "/" +
+      date.getFullYear()
+    );
+  }
 }

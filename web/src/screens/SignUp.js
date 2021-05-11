@@ -140,7 +140,7 @@ export default function SignUp() {
           Sign Up
         </button>
         <Link className="btnEmptyHover" to="/login">
-          Already have an account?
+          Already have an account? Log in
         </Link>
       </form>
     </div>

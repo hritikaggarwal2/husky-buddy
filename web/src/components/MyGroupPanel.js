@@ -54,7 +54,7 @@ export default function MyGroupPanel() {
 
   return (
     <div className="myGroupPanel container">
-      <h2>MY GROUPS</h2>
+      <h2 className="d-flex row justify-center align-center">MY GROUPS</h2>
       <div className="d-flex row justify-center align-center">
         {groups.map((group) => (
           <GroupBox

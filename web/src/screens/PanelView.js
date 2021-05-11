@@ -4,6 +4,8 @@ import "../components/MyGroupPanel";
 import Chat from "../components/Chat";
 import { useUser } from "../providers/UserProvider";
 import { useLocation, useHistory } from "react-router-dom";
+import LogOut from "../components/Logout";
+import { Link } from "react-router-dom";
 
 /**
  *
@@ -28,9 +30,15 @@ export default function PanelView(props) {
     <>
       {/* MAIN DASHBOARD VIEW */}
       <div className="panelView container d-flex col justify-center align-center">
-        <h1 className="title">HuskyBuddy.</h1>
+        <Link to="/dashboard">
+          <h1 className="title">HuskyBuddy</h1>
+        </Link>
         <h2>Welcome, {user.display_name}</h2>
         <Chat groupID={location.state.group} />
+      </div>
+      <div className="logoutHolder">
+        Log out
+        <LogOut />
       </div>
     </>
   );
