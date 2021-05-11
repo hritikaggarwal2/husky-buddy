@@ -23,6 +23,27 @@ export default function SearchResultsPopUp(props) {
 
   function joinGroup(groupDoc) {
     console.log("tried to join group: ", groupDoc.id);
+    const refGroups = firebase.firestore().collection("Groups");
+    const refUsers = firebase.firestore().collection("Users");
+
+    // Add group ID under user
+    const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+
+    refGroups.doc(groupDoc.id)
+      .update(
+        {
+        members: arrayUnion(userId)
+        }
+      );
+
+    refUsers.doc(userId)
+    .update(
+      {
+      groups: arrayUnion(groupDoc.id)
+      }
+    );
+
+    alert("Joined Group!!!");
   }
 
   return (
