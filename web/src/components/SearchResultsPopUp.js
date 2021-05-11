@@ -12,7 +12,7 @@ import GroupBox from "./GroupBox";
  * Function that displays all groups based
  * on user search preferences. Also allows user to join a group
  * from the list of groups.
- * 
+ *
  * @param props - Must include:
  *                  - Function to open results
  *                  - Function to close results
@@ -20,7 +20,6 @@ import GroupBox from "./GroupBox";
  */
 export default function SearchResultsPopUp(props) {
   const userId = useUser().user.uwid;
-
 
   function joinGroup(groupInfo) {
     /*history.push({
@@ -36,16 +35,16 @@ export default function SearchResultsPopUp(props) {
         btnText="Close"
         close={() => props.close()}
       >
-      <h2>Click on Group to Join</h2>
-      <div className="d-flex row justify-center align-center">
-        {props.groups.map((group) => (
-          <GroupBox
-            key={group.id}
-            onClick={() => joinGroup(group)}
-            group={group}
-          />
-        ))}
-      </div>
+        <h2>Click on Group to Join</h2>
+        <div className="d-flex row justify-center align-center">
+          {props.groups.current.map((group) => (
+            <GroupBox
+              key={group.id}
+              onClick={() => joinGroup(group)}
+              group={group}
+            />
+          ))}
+        </div>
       </PopUpForm>
     </>
   );

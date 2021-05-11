@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import PopUpForm from "./PopUpForm";
 import ValueInputer from "./ValueInputer";
 
@@ -71,6 +71,8 @@ export default function SearchGroups(props) {
     setIsSending(true);
 
     console.log("Class prefix Is: ", classPrefixRef.current);
+    console.log("Class number Is: ", classNumRef.current);
+    console.log("Max class size Is: ", groupSizeRef.current);
 
     // ***** CHECK IF INPUT IS VALID *****
     if (!checkInput()) {
@@ -95,8 +97,8 @@ export default function SearchGroups(props) {
         });
 
         // groups will store a doc which has .id and .data()...
-        //console.log("TEMP GROUPS");
-        //console.log(tempGroups);
+        console.log("TEMP GROUPS");
+        console.log(tempGroups);
 
         setGroups(tempGroups);
         props.close();
@@ -107,103 +109,6 @@ export default function SearchGroups(props) {
     setIsSending(false);
   }, [isSending]); // update the callback if the state changes
 
-  /*useEffect(() => {
-
-        console.log(" IM IN USEEFFECT");
-        if (searching) {
-        // ***** CHECK IF INPUT IS VALID *****
-            if (!checkInput()) {
-                return;
-            }
-
-            refGroups
-                .where('class_prefix', '==', classPrefix)
-                // TODO: Add more filtering parameters, when I tried it didn't want to work
-                //.where('max_members', '<=', parseInt(maxGroupSize))
-                //.where('meet', '==', meetInPerson)
-                .get()
-                .then((querySnapshot) => {
-                    let tempGroups = [];
-                    querySnapshot.forEach((doc) => {
-                        //console.log("I WAS here");
-                        //console.log(doc.id, " => ", doc.data());
-                        tempGroups.push(doc);
-                    });
-
-                    // groups will store a doc which has .id and .data()...
-                    //console.log("TEMP GROUPS");
-                    //console.log(tempGroups);
-
-                    setGroups(tempGroups);
-                });
-            
-            // TODO: We need to display the groups somewhere here*/
-
-  /*
-            props.close();
-            console.log("Groups is empty, why????" + groups.length);
-            groups.forEach((doc) => {
-                console.log("ID's ARE:");
-                console.log(doc.id);
-            });
-            props.displayGroups(groups);
-        }
-        return;
-    }, []);
-
-    */
-
-  /*
-    function searchGroups() {
-        // ***** CHECK IF INPUT IS VALID *****
-        if (!checkInput()) {
-            return;
-        }
-
-        refGroups
-            .where('class_prefix', '==', classPrefix)
-            // TODO: Add more filtering parameters, when I tried it didn't want to work
-            //.where('max_members', '<=', parseInt(maxGroupSize))
-            //.where('meet', '==', meetInPerson)
-            .get()
-            .then((querySnapshot) => {
-                let tempGroups = [];
-                querySnapshot.forEach((doc) => {
-                    //console.log("I WAS here");
-                    //console.log(doc.id, " => ", doc.data());
-                    tempGroups.push(doc);
-                });
-
-                // groups will store a doc which has .id and .data()...
-                //console.log("TEMP GROUPS");
-                //console.log(tempGroups);
-
-                setGroups(tempGroups);
-                props.close();
-                props.displayGroups(tempGroups);
-            });
-        
-        // TODO: We need to display the groups somewhere here*/
-  /*props.close();
-        console.log("Groups is empty, why????" + groups.length);
-        groups.forEach((doc) => {
-            console.log("ID's ARE:");
-            console.log(doc.id);
-        });
-        props.displayGroups(groups);*/
-  //    return;
-  //}
-
-  // Ommited functionality
-  /*function recordTopics(topicsIn) {
-        let topicsWanted = [];
-        if (topicsIn !== null) {
-          topicsWanted = topicsIn.split(" ");
-        }
-    
-        setTopics(topicsWanted);
-      }*/
-
   // ***** VALIDATE INPUT *****
   function checkInput() {
     // Ommited parameters
@@ -212,17 +117,34 @@ export default function SearchGroups(props) {
         return false;
         }*/
 
-    if (classPrefix == null || classPrefix.trim() === "") {
+    //console.log("CHECK INPUT");
+    //console.log("Class prefix Is: ", classPrefixRef.current);
+    //console.log("Class number Is: ", classNumRef.current);
+    //console.log("Max class size Is: ", groupSizeRef.current);
+
+    if (
+      classPrefixRef.current == null ||
+      classPrefixRef.current.trim() === ""
+    ) {
       alert("Enter a valid class prefix (Example: CSE, ENGL, MATH, etc).");
       return false;
     }
 
-    if (classNum <= 99 || classNum > 1000) {
+    console.log(classNumRef.current);
+    console.log(parseInt(classNumRef.current));
+
+    if (
+      parseInt(classNumRef.current) <= 99 ||
+      parseInt(classNumRef.current) > 1000
+    ) {
       alert("Enter a valid class number (between 0 and 1000)");
       return false;
     }
 
-    if (maxGroupSize <= 1) {
+    console.log(groupSizeRef.current);
+    console.log(parseInt(groupSizeRef.current));
+
+    if (parseInt(groupSizeRef.current) <= 1) {
       alert("Enter a valid group size (must be greater than 1).");
       return false;
     }
@@ -231,26 +153,6 @@ export default function SearchGroups(props) {
   }
 
   return (
-    /*Values ommited:
-        <ValueInputer
-              title="Group Name"
-              type="text"
-              onChange={(input) => setGroupName(input)}
-            />
-
-            <ValueInputer
-              title="Topics of Interest (Optional)"
-              type="text"
-              onChange={recordTopics}
-            />
-
-            <ValueInputer
-              title="Class Section (Optional)"
-              type="text"
-              onChange={(input) => setClassSection(input)}
-            />
-            
-             */
     <>
       <PopUpForm
         onSubmit={sendRequest}
@@ -260,10 +162,7 @@ export default function SearchGroups(props) {
         <ValueInputer
           title="Class Prefix"
           type="text"
-          onChange={(input) => {
-            setClassPrefix(input);
-            console.log("UPDATING PREFIX");
-          }}
+          onChange={(input) => updateClassPrefix(input)}
         />
         <ValueInputer
           title="Class Number"
@@ -271,7 +170,7 @@ export default function SearchGroups(props) {
           min={100}
           pattern="[0-9]*"
           max={999}
-          onChange={(input) => setClassNum(input)}
+          onChange={(input) => updateClassNum(input)}
         />
         <ValueInputer
           title="Max Group Size"
@@ -279,7 +178,7 @@ export default function SearchGroups(props) {
           pattern="[0-9]*"
           max={MAX_GROUP_SIZE}
           type="number"
-          onChange={(input) => setMaxGroupSize(input)}
+          onChange={(input) => updateGroupSize(input)}
         />
 
         <div className="inputField d-flex row justify-between align-center">
@@ -288,7 +187,7 @@ export default function SearchGroups(props) {
             className="inputComponent"
             type="checkbox"
             defaultChecked={meetInPerson}
-            onChange={() => setMeetInPerson((prevVal) => !prevVal)}
+            onChange={() => updateMeetInPerson((prevVal) => !prevVal)}
           />
         </div>
       </PopUpForm>

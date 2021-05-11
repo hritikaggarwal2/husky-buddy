@@ -1,5 +1,5 @@
 // Add Imports
-import { useState } from "react";
+import { useState, useRef } from "react";
 import CreateGroup from "../components/CreateGroupPopUp";
 import SearchGroup from "../components/SearchGroupPopUp";
 import SearchResults from "../components/SearchResultsPopUp";
@@ -13,32 +13,48 @@ export default function Dashboard() {
   const [openSearch, setOpenSearch] = useState(false);
   const [openResults, setOpenResults] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const searchResultsRef = useRef(searchResults);
   const user = useUser().user;
 
+  function updateSearchResults(newState) {
+    searchResultsRef.current = newState;
+    setSearchResults(newState);
+  }
+
   function displayGroups(groups) {
-    setSearchResults(groups);
-    //setOpenResults(true);
-    
-    
-    console.log("The GROupS ARE");
-    searchResults.forEach((doc) => {
-        console.log("ID's ARE:");
-        console.log(doc.id);
+    console.log("groups passed to displaygroups: ");
+    updateSearchResults(groups);
+    searchResultsRef.current.forEach((doc) => {
+      console.log("ID's ARE:");
+      console.log(doc.id);
     });
 
-    return (
-      <>
-        <SearchResults open={true} close={() => setOpenResults(false)} groupsToDisplay={groups}/>
-      </>
-    );
-    }
+    // show popup to user HERE
+
+    setOpenResults(true);
+  }
 
   return (
     <>
       {/* POP UP VIEW */}
-      {openCreate ? <CreateGroup open={openCreate} close={() => setOpenCreate(false)} /> : null}
-      {openSearch ? <SearchGroup open={openSearch} close={() => setOpenSearch(false)} displayGroups={displayGroups}/> : null}
-      {/*openResults ? <SearchResults open={openSearch} close={() => setOpenResults(false)} groupsToDisplay={searchResults}/> : null*/}
+      {openCreate ? (
+        <CreateGroup open={openCreate} close={() => setOpenCreate(false)} />
+      ) : null}
+      {openSearch ? (
+        <SearchGroup
+          open={openSearch}
+          close={() => setOpenSearch(false)}
+          displayGroups={displayGroups}
+        />
+      ) : null}
+      {openResults
+        ? /*<SearchResults
+          open={openSearch}
+          close={() => setOpenResults(false)}
+          groupsToDisplay={searchResultsRef}
+        />*/
+          null
+        : null}
 
       {/* MAIN DASHBOARD VIEW */}
       <div className="dashboard container d-flex col justify-center align-center">
@@ -48,7 +64,7 @@ export default function Dashboard() {
         <button className="btnPrimaryFill" onClick={() => setOpenCreate(true)}>
           Create Group
         </button>
-        <p>Blank line</p> 
+        <p>Blank line</p>
         <button className="btnPrimaryFill" onClick={() => setOpenSearch(true)}>
           Search Groups
         </button>
