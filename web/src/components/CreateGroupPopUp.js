@@ -64,11 +64,8 @@ export default function CreateGroupPopUp(props) {
     }
     
     // Create new group by sending new group to firebase.
-
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
-    // Code below threw error, I temporarily fixed it, but needs
-    // to be changed back to use with GroupClassConverter
     refGroups
       .withConverter(GroupClassConverter)
       .add(new GroupClass(
@@ -88,6 +85,11 @@ export default function CreateGroupPopUp(props) {
           groups: arrayUnion(docRef.id),
         });
       });
+    
+    // TODO: FORMALLY CREATE A GROUP DOCUMENT
+    // Right now, firebase automatically creates it for us,
+    // I think we should do it explicitly, just for sanity.
+
 
     props.close();
   }
