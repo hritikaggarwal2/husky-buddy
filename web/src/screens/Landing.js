@@ -26,7 +26,7 @@ export default function Landing(props) {
             aliquip ex ea commodo consequat.
           </p>
 
-          <Link to="/login">
+          <Link to="/newuser">
             <button className="btnPrimaryFill">Join the Community</button>
           </Link>
         </div>
