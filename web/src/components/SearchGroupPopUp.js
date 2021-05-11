@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PopUpForm from "./PopUpForm";
 import ValueInputer from "./ValueInputer";
 
@@ -23,10 +23,11 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
  export default function SearchGroups(props) {
     const userId = useUser().user.uwid;
     const [groups, setGroups] = useState([]);
+    const [searching, setSearching] = useState(false);
 
     // Input values for searching a group
     const [maxGroupSize, setMaxGroupSize] = useState(0);
-    const [classPrefix, setClassPrefix] = useState("");
+    const [classPrefix, setClassPrefix] = useState("HEY");
     const [classNum, setClassNum] = useState(0); 
     const [meetInPerson, setMeetInPerson] = useState(false);
 
@@ -37,7 +38,149 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
 
     const refGroups = firebase.firestore().collection("Groups");
 
-    // ***** VALIDATE INPUT *****
+    const [isSending, setIsSending] = useState(false)
+    const sendRequest = useCallback(async () => {
+        // don't send again while we are sending
+        if (isSending) return;
+
+        // update state
+        setIsSending(true);
+        
+        console.log("Class prefix Is: ", classPrefix);
+
+        // ***** CHECK IF INPUT IS VALID *****
+        if (!checkInput()) {
+            setIsSending(false);
+            return;
+        }
+
+        // send the actual request
+        //await API.sendRequest()
+        await refGroups
+            .where('class_prefix', '==', classPrefix)
+            // TODO: Add more filtering parameters, when I tried it didn't want to work
+            //.where('max_members', '<=', parseInt(maxGroupSize))
+            //.where('meet', '==', meetInPerson)
+            .get()
+            .then((querySnapshot) => {
+                let tempGroups = [];
+                querySnapshot.forEach((doc) => {
+                    //console.log("I WAS here");
+                    //console.log(doc.id, " => ", doc.data());
+                    tempGroups.push(doc);
+                });
+
+                // groups will store a doc which has .id and .data()...
+                //console.log("TEMP GROUPS");
+                //console.log(tempGroups);
+
+                setGroups(tempGroups);
+                props.close();
+                props.displayGroups(tempGroups);
+            });
+        
+        // once the request is sent, update state again
+        setIsSending(false);
+    }, [isSending]) // update the callback if the state changes
+    
+    /*useEffect(() => {
+
+        console.log(" IM IN USEEFFECT");
+        if (searching) {
+        // ***** CHECK IF INPUT IS VALID *****
+            if (!checkInput()) {
+                return;
+            }
+
+            refGroups
+                .where('class_prefix', '==', classPrefix)
+                // TODO: Add more filtering parameters, when I tried it didn't want to work
+                //.where('max_members', '<=', parseInt(maxGroupSize))
+                //.where('meet', '==', meetInPerson)
+                .get()
+                .then((querySnapshot) => {
+                    let tempGroups = [];
+                    querySnapshot.forEach((doc) => {
+                        //console.log("I WAS here");
+                        //console.log(doc.id, " => ", doc.data());
+                        tempGroups.push(doc);
+                    });
+
+                    // groups will store a doc which has .id and .data()...
+                    //console.log("TEMP GROUPS");
+                    //console.log(tempGroups);
+
+                    setGroups(tempGroups);
+                });
+            
+            // TODO: We need to display the groups somewhere here*/
+
+            /*
+            props.close();
+            console.log("Groups is empty, why????" + groups.length);
+            groups.forEach((doc) => {
+                console.log("ID's ARE:");
+                console.log(doc.id);
+            });
+            props.displayGroups(groups);
+        }
+        return;
+    }, []);
+
+    */
+
+    /*
+    function searchGroups() {
+        // ***** CHECK IF INPUT IS VALID *****
+        if (!checkInput()) {
+            return;
+        }
+
+        refGroups
+            .where('class_prefix', '==', classPrefix)
+            // TODO: Add more filtering parameters, when I tried it didn't want to work
+            //.where('max_members', '<=', parseInt(maxGroupSize))
+            //.where('meet', '==', meetInPerson)
+            .get()
+            .then((querySnapshot) => {
+                let tempGroups = [];
+                querySnapshot.forEach((doc) => {
+                    //console.log("I WAS here");
+                    //console.log(doc.id, " => ", doc.data());
+                    tempGroups.push(doc);
+                });
+
+                // groups will store a doc which has .id and .data()...
+                //console.log("TEMP GROUPS");
+                //console.log(tempGroups);
+
+                setGroups(tempGroups);
+                props.close();
+                props.displayGroups(tempGroups);
+            });
+        
+        // TODO: We need to display the groups somewhere here*/
+        /*props.close();
+        console.log("Groups is empty, why????" + groups.length);
+        groups.forEach((doc) => {
+            console.log("ID's ARE:");
+            console.log(doc.id);
+        });
+        props.displayGroups(groups);*/
+    //    return;
+    //} 
+
+    // Ommited functionality
+    /*function recordTopics(topicsIn) {
+        let topicsWanted = [];
+        if (topicsIn !== null) {
+          topicsWanted = topicsIn.split(" ");
+        }
+    
+        setTopics(topicsWanted);
+      }*/
+
+      // ***** VALIDATE INPUT *****
     function checkInput() {
         // Ommited parameters
         /*if (groupName == null || groupName.trim() === "") {
@@ -62,52 +205,8 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
 
         return true;
     }
+
     
-    function searchGroups() {
-        // ***** CHECK IF INPUT IS VALID *****
-        if (!checkInput()) {
-            return;
-        }
-
-        refGroups
-            .where('class_prefix', '==', classPrefix)
-            // TODO: Add more filtering parameters, when I tried it didn't want to work
-            //.where('max_members', '<=', parseInt(maxGroupSize))
-            //.where('meet', '==', meetInPerson)
-            .get()
-            .then((querySnapshot) => {
-                let tempGroups = [];
-                querySnapshot.forEach((doc) => {
-                    //console.log("I Ws here");
-                    //console.log(doc.id, " => ", doc.data());
-                    tempGroups.push(doc);
-                });
-
-                // groups will store a doc which has .id and .data()...
-                setGroups(tempGroups);
-            });
-        
-        // TODO: We need to display the groups somewhere here*/
-        props.close();
-        console.log("Groups is empty, why????" + groups.length);
-        groups.forEach((doc) => {
-            console.log("ID's ARE:");
-            console.log(doc.id);
-        });
-        props.displayGroups(groups);
-        return;
-    }
-
-    // Ommited functionality
-    /*function recordTopics(topicsIn) {
-        let topicsWanted = [];
-        if (topicsIn !== null) {
-          topicsWanted = topicsIn.split(" ");
-        }
-    
-        setTopics(topicsWanted);
-      }*/
-
     return (
         /*Values ommited:
         <ValueInputer
@@ -130,15 +229,16 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
             
              */
         <>
+        
           <PopUpForm
-            onSubmit={searchGroups}
+            onSubmit={sendRequest}
             btnText="Search"
             close={() => props.close()}
           >
             <ValueInputer
               title="Class Prefix"
               type="text"
-              onChange={(input) => setClassPrefix(input)}
+              onChange={(input) => {setClassPrefix(input); console.log("UPDATING PREFIX");}}
             />
             <ValueInputer
               title="Class Number"

@@ -16,16 +16,22 @@ export default function Dashboard() {
   const user = useUser().user;
 
   function displayGroups(groups) {
+    setSearchResults(groups);
     //setOpenResults(true);
-    //setSearchResults(groups);
-
+    
+    
     console.log("The GROupS ARE");
-        groups.forEach((doc) => {
-            console.log("ID's ARE:");
-            console.log(doc.id);
-        });
-      return;
-  }
+    searchResults.forEach((doc) => {
+        console.log("ID's ARE:");
+        console.log(doc.id);
+    });
+
+    return (
+      <>
+        <SearchResults open={true} close={() => setOpenResults(false)} groupsToDisplay={groups}/>
+      </>
+    );
+    }
 
   return (
     <>
