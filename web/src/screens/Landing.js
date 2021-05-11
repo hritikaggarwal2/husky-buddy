@@ -8,17 +8,17 @@ export default function Landing(props) {
     <div className="landingPg">
       <header>
         <ul className="d-flex justify-end align-center">
-          <li className="lightText">
-            <Link to="/">Support</Link>
-          </li>
-          <li className="primaryText">
-            <Link to="/login">Sign In</Link>
-          </li>
+          <Link to="/support">
+            <li className="lightText">Support</li>
+          </Link>
+          <Link to="/login">
+            <li className="primaryText">Sign In</li>
+          </Link>
         </ul>
       </header>
       <div className="container d-flex justify-center align-center">
         <div>
-          <h1>Husky Buddy.</h1>
+          <h1 className="title">Husky Buddy.</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -26,7 +26,7 @@ export default function Landing(props) {
             aliquip ex ea commodo consequat.
           </p>
 
-          <Link to="/newuser">
+          <Link to="/signup">
             <button className="btnPrimaryFill">Join the Community</button>
           </Link>
         </div>

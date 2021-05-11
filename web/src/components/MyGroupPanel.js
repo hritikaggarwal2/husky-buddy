@@ -1,10 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import "../styles/common.scss";
-import useUser from "../providers/UserProvider";
+import { useState, useEffect } from "react";
+
+import { useUser } from "../providers/UserProvider";
+
 import firebase from "firebase/app";
 import "firebase/firestore";
-import PanelView from "../screens/PanelView";
-import GetUserGroups from "./GetUserGroups";
+
+import GroupBox from "./GroupBox";
+
+import { useHistory } from "react-router-dom";
 
 /**
  * Function that displays a side panel with the
@@ -12,33 +15,55 @@ import GetUserGroups from "./GetUserGroups";
  *
  */
 export default function MyGroupPanel() {
-    const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const user = useUser().user;
 
-    // Retrieve the values of the groups
-    useEffect(() => {
-        // EDIT THIS SECTION, to store temp user value
-        let user = "4zmEw8xE1ehszvmSV7Vz";
+  const history = useHistory();
 
-        const refUsers = firebase.firestore().collection("Users");
+  // Retrieve the values of the groups
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection("Groups")
+      .where("members", "array-contains", user.uwid)
+      .onSnapshot(
+        {
+          // Listen for document metadata changes
+          includeMetadataChanges: true,
+        },
+        (snapshot) => {
+          let allGroups = [];
+          snapshot.docs.forEach((doc) => {
+            allGroups.push({ ...doc.data(), id: doc.id });
+          });
+          setGroups(allGroups);
+        }
+      );
 
-        const groupsRef = refUsers.doc(user).get().then(
-            (snapshot) => {
-                setGroups(snapshot.get("groups"))});
-        //setGroups(GetUserGroups());
+    return () => {
+      unsubscribe();
+    };
+  }, [user]);
 
-    }, []);
+  function goToChat(groupInfo) {
+    history.push({
+      pathname: "/panelview",
+      state: { group: groupInfo },
+    });
+  }
 
-    // Display all values of a group
-    let displayList = [];
-    for (let i = 0; i < groups.length; i++) {
-        let groupName = groups[i];
-        // TODO: FIX "/panelview" to actually point to a group's chat
-        displayList.push(<li><a href={"/panelview"}>{groups[i]}</a></li>);
-    }
-
-    return (
-        <div className= "myGroupPanel">MY GROUPS
-            {displayList}
-        </div>
-    );
+  return (
+    <div className="myGroupPanel container">
+      <h2>MY GROUPS</h2>
+      <div className="d-flex row justify-center align-center">
+        {groups.map((group) => (
+          <GroupBox
+            key={group.id}
+            onClick={() => goToChat(group)}
+            group={group}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

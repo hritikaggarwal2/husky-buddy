@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // user provider
@@ -10,76 +9,49 @@ import Logout from "../components/Logout";
 // screens
 import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
-import NewUser from "../screens/NewUser";
+import SignUp from "../screens/SignUp";
 import Loading from "../screens/Loading";
 import Landing from "../screens/Landing";
 import PanelView from "../screens/PanelView";
 
-// firebase
-import firebase from "firebase/app";
-import "firebase/firestore";
-
-// class for data processing
-import { UserClassConverter } from "../data/UserClass";
-
 export default function Routes() {
   const user = useUser().user;
-  const load = useUser().load;
-
-  const db = firebase.firestore();
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    if (user !== null) {
-      console.log(user.email);
-
-      //   db.collection("users")
-      //     .doc(user.uid)
-      //     .withConverter(UserClassConverter)
-      //     .onSnapshot(
-      //       (snapshot) => {
-      //         setData(snapshot.data());
-      //       },
-      //       (error) => {
-      //         console.log("Error getting document:", error);
-      //       }
-      //     );
-    }
-
-    return () => {};
-  }, [user]);
+  const isLoading = useUser().load;
 
   return (
     <>
-      {!load || (user != null && data === null) ? (
+      {isLoading ? (
         <>
           <Loading />
-          <Logout />
         </>
-      ) : (
+      ) : user === null ? (
         <Router>
           <Switch>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/search">
-              <Dashboard />
-            </Route>
-            {/* To add your own screen follow the example below  */}
-            <Route path="/template">
-              {/* ADD your own screen component here */}
-            </Route>
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/newuser">
-              <NewUser />
+            <Route path="/signup">
+              <SignUp />
             </Route>
             <Route path="/">
               <Landing />
             </Route>
+          </Switch>
+        </Router>
+      ) : (
+        <Router>
+          <Switch>
+            <Route path="/search">
+              <Dashboard />
+            </Route>
             <Route path="/panelview">
               <PanelView />
+            </Route>
+            <Route path="/logout">
+              <Logout />
+            </Route>
+            <Route path="/">
+              <Dashboard />
             </Route>
           </Switch>
         </Router>

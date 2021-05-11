@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { useUser } from "../providers/UserProvider";
 
 export default function Logout() {
-  const user = useUser.user;
+  const user = useUser().user;
 
   function enabled() {
     return user !== null;

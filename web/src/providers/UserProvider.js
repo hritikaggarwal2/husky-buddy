@@ -1,26 +1,57 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
+import { UserClassConverter } from "../data/UserClass";
 
-export const UserContext = createContext();
+const UserContext = createContext();
 
 export function useUser() {
-  return useContext(UserContext);
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error(`useUser must be used within a UserProvider`);
+  }
+  return context;
 }
 
 export default function UserProvider(props) {
-  const [user, setUser] = useState(firebase.auth().currentUser);
-  const [load, setLoad] = useState(false);
+  const [user, setUser] = useState();
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((userAuth) => {
-      setUser(userAuth);
-      setLoad(true);
+    let unsubscribeInner = null;
+    const unsubscribeOuter = firebase.auth().onAuthStateChanged((userAuth) => {
+      if (userAuth === null) {
+        setUser(null);
+        setLoad(false);
+        return;
+      }
+
+      unsubscribeInner = firebase
+        .firestore()
+        .collection("Users")
+        .doc(userAuth.uid)
+        .withConverter(UserClassConverter)
+        .onSnapshot(
+          {
+            // Listen for document metadata changes
+            includeMetadataChanges: true,
+          },
+          (snapshot) => {
+            let updateUser = snapshot.data();
+            updateUser.uwid = userAuth.uid;
+            setUser(updateUser);
+
+            setLoad(false);
+          }
+        );
     });
 
     return () => {
       console.log("terminating...");
-      unsubscribe();
+      unsubscribeOuter();
+      if (unsubscribeInner) {
+        unsubscribeInner();
+      }
     };
   }, []);
 
