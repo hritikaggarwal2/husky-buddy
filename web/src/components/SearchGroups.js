@@ -13,30 +13,84 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
 
  export default function SearchGroups() {
     const [open, setOpen] = useState(false);
-    const user = useUser.user;
+    const [groups, setGroups] = useState([]);
+    // TODO fix line below
+    //const huskyUserId = useUser().firebaseUser.uid;
+    const huskyUserId = "99X2knSJ95NyWV1dHIvIFyE9f602";
 
+    function searchGroups(maxGroupSize, groupName, classPrefix, 
+                        classNum, classSection, topics, meetInPerson, user) {
+        console.log("GROuP sieze" + maxGroupSize);
+        console.log("Meet" + meetInPerson);
+        console.log("class prefix " + classPrefix);
+
+        const refGroups = firebase.firestore().collection("Groups");
+        refGroups.where('class_prefix', '==', classPrefix)
+                .where('max_members', '<=', parseInt(maxGroupSize))
+                .where('meet', '==', false)
+            .get()
+            .then((querySnapshot) => {
+                let tempGroups = [];
+                querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log("I Ws here");
+                    console.log(doc.id, " => ", doc.data());
+                    tempGroups.push(doc);
+                });
+                setGroups(tempGroups); // TODO: FIX THIS LINE TO STORE GROUP INFO
+                
+            });
+        
+        // TODO: We need to display the groups somewhere here
+        return;
+    }
+
+    // NOTE: Maybe create a new component to display a popup window with all available groups
+    function displayGroups() {
+        console.log("The GROupS ARE");
+        console.log(groups);
+    }
+
+    return (
+        <div>
+            <button className="searchGroupButton" onClick={() => setOpen(true)}>Search</button>
+            {open ? <PopUpForm onChange={searchGroups} maxGroupSize={MAX_GROUP_SIZE} action = "Search"/> : null}
+        </div>
+    );
+ }
+
+ /****
+  * import React, {useState, useEffect} from 'react';
+import PopUpForm from "./PopUpForm";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { useUser } from "../providers/UserProvider";
+
+const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students in a group
+
+ export default function SearchGroups() {
+    const [open, setOpen] = useState(false);
     // references to access GroupsCollection and UsersCollection
     const refGroups = firebase.firestore().collection("Groups");
     const refUsers = firebase.firestore().collection("Users");
 
-    function recordData(maxGroupSize, groupName, classPrefix, 
+    function lookupGroups(maxGroupSize, groupName, classPrefix, 
                         classNum, classSection, topics, meetInPerson, user) {
         const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
-        if (user === undefined) {
-            user = "temp"
-        }
+        
 
         // Get snapshot with limited results
         // Firebase's queries are kinda limited so I have to do this for at least some of the fields
-        
-        const snapshot = await refGroups.where('max_members', '<=', 'maxGroupSize').get();
-
         if (classPrefix !== "") {
             snapshot = snapshot.where('class_prefix', "==", "classPrefix");
         } 
         if (meetInPerson) {
             snapshot = snapshot.where('meet', "==", true);
         }
+
+        const snapshot = await refGroups.where('max_members', '<=', 'maxGroupSize').get();
+
+        
         
         // TODO: groupname, topics
         var results = parseSnapshot(snapshot, groupName, classNum, classSection, topics, meetInPerson);
@@ -94,3 +148,4 @@ const MAX_GROUP_SIZE = 100;  // Hardcoded value for maximum number of students i
 }
 
 export default SearchGroup;
+******/
