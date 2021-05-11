@@ -18,7 +18,7 @@ const MAX_GROUP_SIZE = 100; // Hardcoded value for maximum number of students in
  * in a database.
  */
 export default function CreateGroupPopUp(props) {
-  const userId = useUser().user.uid;
+  const userId = useUser().user.uwid;
 
   // Input values for creating group
   const [maxGroupSize, setMaxGroupSize] = useState(0);
@@ -26,7 +26,7 @@ export default function CreateGroupPopUp(props) {
   const [classPrefix, setClassPrefix] = useState("");
   const [classNum, setClassNum] = useState(0);
   const [classSection, setClassSection] = useState("");
-  const [topics, setTopics] = useState(0);
+  const [topics, setTopics] = useState([]);
   const [meetInPerson, setMeetInPerson] = useState(false);
 
   // ***** VALIDATE INPUT *****
@@ -62,16 +62,16 @@ export default function CreateGroupPopUp(props) {
     if (!checkInput) {
       return;
     }
-
-    //@TODO // Parse topics string into an array of topics and pass that array to props.onChange()
+    
     // Create new group by sending new group to firebase.
 
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
+    // Code below threw error, I temporarily fixed it, but needs
+    // to be changed back to use with GroupClassConverter
     refGroups
       .withConverter(GroupClassConverter)
-      .add(
-        new GroupClass(
+      .add(new GroupClass(
           classNum,
           classPrefix,
           classSection,

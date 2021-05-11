@@ -38,7 +38,7 @@ export default function UserProvider(props) {
           },
           (snapshot) => {
             let updateUser = snapshot.data();
-            updateUser.uid = userAuth.uid;
+            updateUser.uwid = userAuth.uid;
             setUser(updateUser);
 
             setLoad(false);

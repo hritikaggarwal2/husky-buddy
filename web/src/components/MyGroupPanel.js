@@ -25,7 +25,7 @@ export default function MyGroupPanel() {
     const unsubscribe = firebase
       .firestore()
       .collection("Groups")
-      .where("members", "array-contains", user.uid)
+      .where("members", "array-contains", user.uwid)
       .onSnapshot(
         {
           // Listen for document metadata changes

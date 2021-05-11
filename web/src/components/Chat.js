@@ -57,11 +57,13 @@ export default function Chat(props) {
         new ChatClass(
           outMessage,
           user.display_name,
-          user.uid,
+          user.uwid,
           firebase.firestore.Timestamp.now()
         )
-      )
-      .then((docRef) => {
+      );
+      // NOT SURE WHY THE CODE BELOW IS COMMENTED OUT
+      // DO WE NEED IT?
+      /*.then((docRef) => {
         /*
             // TODO: change "4zmEw8xE1ehszvmSV7Vz" to actual userID
             refUsers.doc("4zmEw8xE1ehszvmSV7Vz").update({
@@ -69,7 +71,7 @@ export default function Chat(props) {
             });
              */
         // alert("Chat Sent!");
-      });
+      //});
     setOutMessage("");
   }
 
