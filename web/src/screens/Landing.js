@@ -25,7 +25,10 @@ export default function Landing(props) {
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat.
           </p>
-          <button className="btnPrimaryFill">Join the Community</button>
+
+          <Link to="/login">
+            <button className="btnPrimaryFill">Join the Community</button>
+          </Link>
         </div>
         <img src={LandingImg} alt="Making Notes Landing Page" />
       </div>
