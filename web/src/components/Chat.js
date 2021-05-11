@@ -61,17 +61,7 @@ export default function Chat(props) {
           firebase.firestore.Timestamp.now()
         )
       );
-      // NOT SURE WHY THE CODE BELOW IS COMMENTED OUT
-      // DO WE NEED IT?
-      /*.then((docRef) => {
-        /*
-            // TODO: change "4zmEw8xE1ehszvmSV7Vz" to actual userID
-            refUsers.doc("4zmEw8xE1ehszvmSV7Vz").update({
-                groups: arrayUnion(docRef.id)
-            });
-             */
-        // alert("Chat Sent!");
-      //});
+      
     setOutMessage("");
   }
 
