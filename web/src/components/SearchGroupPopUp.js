@@ -25,8 +25,6 @@ export default function SearchGroups(props) {
   const [groups, setGroups] = useState([]);
   const [searching, setSearching] = useState(false);
 
-
-
   // Input values for searching a group
   const [groupName, setGroupName] = useState("");
   const groupNameRef = useRef(groupName);
@@ -82,9 +80,6 @@ export default function SearchGroups(props) {
     setMeetInPerson(newState);
   }
 
-
-
-
   const refGroups = firebase.firestore().collection("Groups");
 
   const [isSending, setIsSending] = useState(false);
@@ -102,63 +97,39 @@ export default function SearchGroups(props) {
     }
 
     // send the actual request
-    await refGroups
-      .get()
-      .then((querySnapshot) => {
-        let tempGroups = [];
-        let searchnamelc = groupNameRef.current.toLowerCase();
-        querySnapshot.forEach((doc) => {
-          // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
-          // so the filtering work has to be done here. It's messy but it seems to work
-          if (classPrefixRef.current != null && classPrefixRef.current !== "" && !doc.get("class_prefix").toLowerCase().includes(classPrefixRef.current.toLowerCase())) {
+    await refGroups.get().then((querySnapshot) => {
+      let tempGroups = [];
+      let searchnamelc = groupNameRef.current.toLowerCase();
+      querySnapshot.forEach((doc) => {
+        //console.log("I WAS here");
+        //console.log(doc.id, " => ", doc.data());
+        // Firebase queries are fairly limited (you can only do one == check per query, for example)
+        // so part of the work has to be done here
+        if (
+          doc.get("class_num") !== classNumRef.current ||
+          parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)
+        ) {
+          return;
+        } else if (meetInPersonRef.current && !doc.get("meet")) {
+          return;
+        } else if (
+          groupNameRef.current != null &&
+          groupNameRef.current !== ""
+        ) {
+          var docnamelc = doc.get("group_name").toLowerCase();
+          if (!docnamelc.includes(searchnamelc)) {
             return;
-          } else if (groupSizeRef.current !== "" && parseInt(groupSizeRef.current) > 0 && parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
-            return;
-          } else if (meetInPersonRef.current && !doc.get("meet")) {
-            return;
           }
-
-          if (classNumRef.current != null && classNumRef.current !== "" && parseInt(classNumRef.current) !== 0) {
-            let num = parseInt(doc.get("class_num"));
-            let search = parseInt(classNumRef.current);
-            if (search < 0 || (search > 0 && search < 10 && Math.floor(num / 100) !== search) ||
-              (search >= 10 && search < 100 && Math.floor(num / 10) !== search) || (search >= 100 && num !== search)) {
-              return;
-            }
-          }
-          if (groupNameRef.current != null && groupNameRef.current !== "") {
-            var docnamelc = doc.get("group_name").toLowerCase();
-            if (!docnamelc.includes(searchnamelc)) {
-              return;
-            }
-          }
-          if (classSectionRef.current != null && classSectionRef.current !== "") {
-            var query = classSectionRef.current.toUpperCase();
-            if (query !== doc.get("class_section").toUpperCase().substring(0, query.length)) {
-              return;
-            }
-          }
-          if (topicsRef.current != null && topicsRef.current !== "") {
-            // split both the user's query and the topics of the group into string arrays
-            let topicArray = topicsRef.current.split(" ");
-            let entryTopic = doc.get("topic");
-            // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
-            if (entryTopic == null || entryTopic === 0 || entryTopic.length === 0) {
-              return;
-            } else if (!parseTopic(topicArray, entryTopic)) {
-              return;
-            }
-          }
-          // This group meets all the conditions, push it to the results
-          tempGroups.push(doc);
-        });
-
-        // groups will store a doc which has .id and .data()...
-
-        setGroups(tempGroups);
-        props.close();
-        props.displayGroups(tempGroups);
+        }
+        tempGroups.push(doc);
       });
+
+      // groups will store a doc which has .id and .data()...
+
+      setGroups(tempGroups);
+      props.close();
+      props.displayGroups(tempGroups);
+    });
 
     // once the request is sent, update state again
     setIsSending(false);
@@ -175,7 +146,7 @@ export default function SearchGroups(props) {
           matches += 1;
           return;
         }
-      })
+      });
     });
     // If this group doesn't include all the user's topics, return false
     if (matches != topicQuery.length) {
@@ -194,7 +165,6 @@ export default function SearchGroups(props) {
         return false;
         }*/
 
-
     if (groupNameRef.current == null) {
       groupNameRef.current = "";
     }
@@ -207,7 +177,9 @@ export default function SearchGroups(props) {
       parseInt(classNumRef.current) < 0 ||
       parseInt(classNumRef.current) > 1000
     ) {
-      alert("Enter a valid class number (between 0 and 999). \n Use 0 if you wish to search all class numbers.");
+      alert(
+        "Enter a valid class number (between 0 and 999). \n Use 0 if you wish to search all class numbers."
+      );
       return false;
     }
 
