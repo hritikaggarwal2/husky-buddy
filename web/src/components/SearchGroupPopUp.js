@@ -25,7 +25,11 @@ export default function SearchGroups(props) {
   const [groups, setGroups] = useState([]);
   const [searching, setSearching] = useState(false);
 
+
+
   // Input values for searching a group
+  const [groupName, setGroupName] = useState("");
+  const groupNameRef = useRef(groupName);
   const [maxGroupSize, setMaxGroupSize] = useState(0);
   const groupSizeRef = useRef(maxGroupSize);
   const [classPrefix, setClassPrefix] = useState("HEY");
@@ -34,6 +38,15 @@ export default function SearchGroups(props) {
   const classNumRef = useRef(classNum);
   const [meetInPerson, setMeetInPerson] = useState(false);
   const meetInPersonRef = useRef(meetInPerson);
+
+  // Currently unimplemented values
+  //const [classSection, setClassSection] = useState("");
+  //const [topics, setTopics] = useState([]);
+
+  function updateGroupName(newState) {
+    groupNameRef.current = newState;
+    setGroupName(newState);
+  }
 
   function updateGroupSize(newState) {
     groupSizeRef.current = newState;
@@ -55,10 +68,7 @@ export default function SearchGroups(props) {
     setMeetInPerson(newState);
   }
 
-  // Ommited values from search function
-  //const [groupName, setGroupName] = useState("");
-  //const [classSection, setClassSection] = useState("");
-  //const [topics, setTopics] = useState([]);
+
 
   const refGroups = firebase.firestore().collection("Groups");
 
@@ -70,6 +80,7 @@ export default function SearchGroups(props) {
     // update state
     setIsSending(true);
 
+    console.log("Group name Is: ", groupNameRef.current);
     console.log("Class prefix Is: ", classPrefixRef.current);
     console.log("Class number Is: ", classNumRef.current);
     console.log("Max class size Is: ", groupSizeRef.current);
@@ -90,9 +101,22 @@ export default function SearchGroups(props) {
       .get()
       .then((querySnapshot) => {
         let tempGroups = [];
+        let searchnamelc = groupNameRef.current.toLowerCase();
         querySnapshot.forEach((doc) => {
           //console.log("I WAS here");
           //console.log(doc.id, " => ", doc.data());
+          // Firebase queries are fairly limited (you can only do one == check per query, for example)
+          // so part of the work has to be done here
+          if (doc.get("class_num") !== classNumRef.current || parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
+            return;
+          } else if (meetInPersonRef.current && !doc.get("meet")) {
+            return;
+          } else if (groupNameRef.current != null && groupNameRef.current !== "") {
+            var docnamelc = doc.get("group_name").toLowerCase();
+            if (!docnamelc.includes(searchnamelc)) {
+              return;
+            }
+          }
           tempGroups.push(doc);
         });
 
@@ -121,7 +145,9 @@ export default function SearchGroups(props) {
     //console.log("Class prefix Is: ", classPrefixRef.current);
     //console.log("Class number Is: ", classNumRef.current);
     //console.log("Max class size Is: ", groupSizeRef.current);
-
+    if (groupNameRef.current == null) {
+      groupNameRef.current = "";
+    }
     if (
       classPrefixRef.current == null ||
       classPrefixRef.current.trim() === ""
@@ -159,6 +185,11 @@ export default function SearchGroups(props) {
         btnText="Search"
         close={() => props.close()}
       >
+        <ValueInputer
+          title="Group Name"
+          type="text"
+          onChange={(input) => updateGroupName(input)}
+        />
         <ValueInputer
           title="Class Prefix"
           type="text"
