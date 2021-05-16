@@ -25,8 +25,6 @@ export default function SearchGroups(props) {
   const [groups, setGroups] = useState([]);
   const [searching, setSearching] = useState(false);
 
-
-
   // Input values for searching a group
   const [groupName, setGroupName] = useState("");
   const groupNameRef = useRef(groupName);
@@ -82,9 +80,6 @@ export default function SearchGroups(props) {
     setMeetInPerson(newState);
   }
 
-
-
-
   const refGroups = firebase.firestore().collection("Groups");
 
   const [isSending, setIsSending] = useState(false);
@@ -117,35 +112,24 @@ export default function SearchGroups(props) {
         querySnapshot.forEach((doc) => {
           //console.log("I WAS here");
           //console.log(doc.id, " => ", doc.data());
-          // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
-          // so part of the filtering work has to be done here. It's messy but it seems to work
-          if (doc.get("class_num") !== classNumRef.current || parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
+          // Firebase queries are fairly limited (you can only do one == check per query, for example)
+          // so part of the work has to be done here
+          if (
+            doc.get("class_num") !== classNumRef.current ||
+            parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)
+          ) {
             return;
           } else if (meetInPersonRef.current && !doc.get("meet")) {
             return;
-          } else if (groupNameRef.current != null && groupNameRef.current !== "") {
+          } else if (
+            groupNameRef.current != null &&
+            groupNameRef.current !== ""
+          ) {
             var docnamelc = doc.get("group_name").toLowerCase();
             if (!docnamelc.includes(searchnamelc)) {
               return;
             }
-          } else if (classSectionRef.current != null && classSectionRef.current !== "") {
-            var query = classSectionRef.current.toUpperCase();
-            if (query !== doc.get("class_section").toUpperCase().substring(0, query.length)) {
-              return;
-            }
-          } else if (topicsRef.current != null && topicsRef.current !== "") {
-            // split both the user's query and the topics of the group into string arrays
-            let topicArray = JSON.stringify(topicsRef.current).toLowerCase().split(" ");
-            let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
-            console.log("Topics: " + entryTopic);
-            // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
-            if (entryTopic === 0 || entryTopic.length === 0) {
-              return;
-            } else if (!parseTopic(topicArray, entryTopic)) {
-              return;
-            }
           }
-          // This group meets all the conditions, push it to the results
           tempGroups.push(doc);
         });
 
