@@ -36,6 +36,10 @@ export default function SearchGroups(props) {
   const classPrefixRef = useRef(classPrefix);
   const [classNum, setClassNum] = useState(0);
   const classNumRef = useRef(classNum);
+  const [classSection, setClassSection] = useState("");
+  const classSectionRef = useRef(classSection);
+  const [topics, setTopics] = useState("");
+  const topicsRef = useRef(topics);
   const [meetInPerson, setMeetInPerson] = useState(false);
   const meetInPersonRef = useRef(meetInPerson);
 
@@ -63,10 +67,21 @@ export default function SearchGroups(props) {
     setClassNum(newState);
   }
 
+  function updateClassSection(newState) {
+    classSectionRef.current = newState;
+    setClassSection(newState);
+  }
+
+  function updateTopics(newState) {
+    topicsRef.current = newState;
+    setTopics(newState);
+  }
+
   function updateMeetInPerson(newState) {
     meetInPersonRef.current = newState;
     setMeetInPerson(newState);
   }
+
 
 
 
@@ -95,9 +110,6 @@ export default function SearchGroups(props) {
     //await API.sendRequest()
     await refGroups
       .where("class_prefix", "==", classPrefixRef.current)
-      // TODO: Add more filtering parameters, when I tried it didn't want to work
-      //.where('max_members', '<=', parseInt(maxGroupSize))
-      //.where('meet', '==', meetInPerson)
       .get()
       .then((querySnapshot) => {
         let tempGroups = [];
@@ -105,8 +117,8 @@ export default function SearchGroups(props) {
         querySnapshot.forEach((doc) => {
           //console.log("I WAS here");
           //console.log(doc.id, " => ", doc.data());
-          // Firebase queries are fairly limited (you can only do one == check per query, for example)
-          // so part of the work has to be done here
+          // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
+          // so part of the filtering work has to be done here. It's messy but it seems to work
           if (doc.get("class_num") !== classNumRef.current || parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
             return;
           } else if (meetInPersonRef.current && !doc.get("meet")) {
@@ -114,6 +126,24 @@ export default function SearchGroups(props) {
           } else if (groupNameRef.current != null && groupNameRef.current !== "") {
             var docnamelc = doc.get("group_name").toLowerCase();
             if (!docnamelc.includes(searchnamelc)) {
+              return;
+            }
+          } else if (classSectionRef.current != null && classSectionRef.current !== "") {
+            var query = classSectionRef.current.toUpperCase();
+            if (query !== doc.get("class_section").toUpperCase().substring(0, query.length)) {
+              return;
+            }
+          } else if (topicsRef.current != null && topicsRef.current !== "") {
+            let topicArray = topicsRef.current.split(" ");
+            let groupTopics = [];
+            if (doc.get("topics") != null && doc.get("topics") !== []) {
+              groupTopics = doc.get("topics");
+              topicArray.forEach((term) => {
+                if (!groupTopics.includes(term)) {
+                  return;
+                }
+              });
+            } else {
               return;
             }
           }
@@ -167,6 +197,14 @@ export default function SearchGroups(props) {
       return false;
     }
 
+    if (classSectionRef.current == null) {
+      classSectionRef.current = "";
+    }
+
+    if (topicsRef.current == null) {
+      topicsRef.current = "";
+    }
+
     console.log(groupSizeRef.current);
     console.log(parseInt(groupSizeRef.current));
 
@@ -202,6 +240,16 @@ export default function SearchGroups(props) {
           pattern="[0-9]*"
           max={999}
           onChange={(input) => updateClassNum(input)}
+        />
+        <ValueInputer
+          title="Class Section"
+          type="text"
+          onChange={(input) => updateClassSection(input)}
+        />
+        <ValueInputer
+          title="Topics of Interest"
+          type="text"
+          onChange={(input) => updateTopics(input)}
         />
         <ValueInputer
           title="Max Group Size"
