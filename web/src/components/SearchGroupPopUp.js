@@ -97,28 +97,57 @@ export default function SearchGroups(props) {
     }
 
     // send the actual request
-    await refGroups.get().then((querySnapshot) => {
-      let tempGroups = [];
-      let searchnamelc = groupNameRef.current.toLowerCase();
-      querySnapshot.forEach((doc) => {
-        //console.log("I WAS here");
-        //console.log(doc.id, " => ", doc.data());
-        // Firebase queries are fairly limited (you can only do one == check per query, for example)
-        // so part of the work has to be done here
-        if (
-          doc.get("class_num") !== classNumRef.current ||
-          parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)
-        ) {
-          return;
-        } else if (meetInPersonRef.current && !doc.get("meet")) {
-          return;
-        } else if (
-          groupNameRef.current != null &&
-          groupNameRef.current !== ""
-        ) {
-          var docnamelc = doc.get("group_name").toLowerCase();
-          if (!docnamelc.includes(searchnamelc)) {
+    //await API.sendRequest()
+    await refGroups
+      .where("class_prefix", "==", classPrefixRef.current)
+      .get()
+      .then((querySnapshot) => {
+        let tempGroups = [];
+        let searchnamelc = groupNameRef.current.toLowerCase();
+        querySnapshot.forEach((doc) => {
+          //console.log("I WAS here");
+          //console.log(doc.id, " => ", doc.data());
+          // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
+          // so part of the filtering work has to be done here. It's messy but it seems to work
+          if (
+            doc.get("class_num") !== classNumRef.current ||
+            parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)
+          ) {
             return;
+          } else if (meetInPersonRef.current && !doc.get("meet")) {
+            return;
+          } else if (
+            groupNameRef.current != null &&
+            groupNameRef.current !== ""
+          ) {
+            var docnamelc = doc.get("group_name").toLowerCase();
+            if (!docnamelc.includes(searchnamelc)) {
+              return;
+            }
+          } else if (
+            classSectionRef.current != null &&
+            classSectionRef.current !== ""
+          ) {
+            var query = classSectionRef.current.toUpperCase();
+            if (
+              query !==
+              doc.get("class_section").toUpperCase().substring(0, query.length)
+            ) {
+              return;
+            }
+          } else if (topicsRef.current != null && topicsRef.current !== "") {
+            let topicArray = topicsRef.current.split(" ");
+            let groupTopics = [];
+            if (doc.get("topics") != null && doc.get("topics") !== []) {
+              groupTopics = doc.get("topics");
+              topicArray.forEach((term) => {
+                if (!groupTopics.includes(term)) {
+                  return;
+                }
+              });
+            } else {
+              return;
+            }
           }
         }
         tempGroups.push(doc);
