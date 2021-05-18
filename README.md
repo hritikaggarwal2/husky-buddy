@@ -1,5 +1,11 @@
 # Husky Buddy
 
+- [Project Brief](Project Brief)
+- [Project Goals](Project Goals)
+  - [Vision] Vision
+  - [4+ Major Features (MVP)] 4+ Major Features (MVP)
+- [Folder Structure] Folder Structure
+
 ## Project Brief
 
 A study group web app targeted specifically towards UW Seattle students who are
