@@ -2,18 +2,18 @@
 
 - [Husky Buddy User Guide](#husky-buddy-user-guide)
   - [Installing/Running the Software](#installingrunning-the-software)
-  - [Accounts](#accounts)
+  - [User Accounts](#user-accounts)
     - [Creating an Account](#creating-an-account)
     - [Logging In](#logging-in)
-    - [User Info & Preferences](#user-info-and-preferences)
+    - [User Info & Preferences](#user-info-&-preferences)
   - [Groups](#groups)
     - [Creating a Group](#creating-a-group)
     - [Searching & Joining Groups](#searching-and-joining-groups)
     - [Interacting With Groups](#interacting-with-groups)
-    - [Leaving & Closing Groups](#leaving-and-closing-groups)
-  - [Bugs & Issues](#bugs-and-issues)
-    - [Known Issues](#creating-a-group)
-    - [Report a Bug](#searching-and-joining-groups)
+    - [Leaving & Closing Groups](#leaving-&-closing-groups)
+  - [Bugs & Issues](#bugs-&-issues)
+    - [Known Issues](#known-issues)
+    - [Report a Bug](#report-a-bug)
 
 ## Installing/Running the Software
 
@@ -35,7 +35,7 @@ This web app is publically available at
 - On the app's front landing page, click "Sign In" in the upper right corner.
 - Enter your UW email address and password, and click the "Sign In" button.
 
-### Setting User Information & Preferences 
+### User Info & Preferences
 
 **(WORK IN PROGRESS)**
 
@@ -59,7 +59,7 @@ When you are done, click on the “Create” button at the bottom.
   - Meet in Person: Check this if you want your group to regularly meet at a specific time.
 - Afterwards, your group will appear on your dashboard under "MY GROUPS" (**WORK IN PROGRESS**) and on the sidebar.
 
-### Searching For and Joining Groups
+### Searching and Joining Groups
 
 - Click the "Search Groups" button on the dashboard.
 - Set the criteria you would like to use in your search in the pop-up.
