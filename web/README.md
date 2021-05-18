@@ -6,6 +6,7 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 
 - [Husky Buddy Developer Guide](#husky-buddy-developer-guide)
   - [Table of Contents](#table-of-contents)
+  - [Folder Structure](#folder-structure)
   - [Setting Up the Environment](#setting-up-the-environment)
     - [Git](#git)
       - [Installing Git](#installing-git)
@@ -22,6 +23,21 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   - [Testing the Project](#testing-the-project)
   - [Building the Project (for exportation)](#building-the-project-for-exportation)
 
+## Folder Structure
+
+    .
+    ├── public              # public files for building final app.
+    └── src                 # development source.
+      ├── assets            # image, video, logo, and other assets.
+      ├── components        # individual components (no screens here)
+      ├── config            # secret config files (not visible on repo)
+      ├── data              # data classes for talking to firebase
+      ├── providers         # context providers (pass data across components)
+      ├── screens           # different full screens with their own routes
+      └── styles            # CSS styles
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Setting Up the Environment
 
 ### Git
@@ -35,11 +51,15 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   installed from
   [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
+**[⬆ back to top](#table-of-contents)**
+
 #### Configuring Git
 
 - Once you have successfully installed `Git`, you will need to configure it.
 - You can do this by following along
   [this guide](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)
+
+**[⬆ back to top](#table-of-contents)**
 
 ### VS Code
 
@@ -50,9 +70,13 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 - Download the latest version of VS Code from
   [here](https://code.visualstudio.com/download).
 
+**[⬆ back to top](#table-of-contents)**
+
 #### Enabling VS Code Settings
 
 - Go to `VS Code Settings` and search for `Format on Save` and enable it.
+
+**[⬆ back to top](#table-of-contents)**
 
 #### Installing Extensions
 
@@ -62,6 +86,8 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   [link](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   and add it from there.
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Cloning the Repository
 
 - The source code for our application is available at
@@ -69,6 +95,8 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 
 - Clone this repository from Github using the following command \
   `git clone https://github.com/hritikaggarwal2/husky-buddy`
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Adding Private Config Files
 
@@ -99,10 +127,19 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   [Link](https://console.firebase.google.com/u/0/project/study-buddy-uw/settings/general/web:NDRlNDQzNTQtNzY4NS00MmYwLWI1NmUtOGFjMjdiNmM1YzQz)
   -> `SDK setup and configuration` -> `Config`
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Installing Node Dependencies
 
 - Navigate to the `<root>/web` subdirectory.
 - Run the following command using the terminal (at this location): `npm install`
+
+> Note:
+>
+> - You must complete everything before this point to have successfully setup
+>   the project.
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Running the Project Locally (in Development Mode)
 
@@ -115,11 +152,15 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 > - The page will reload if you make edits.\
 > - You will also see any lint errors in the console.
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Testing the Project
 
 - Navigate to the `<root>/web` subdirectory.
 - Run the following command using the terminal (at this location): `npm test`
 - Follow allong the interactive terminal window to run the desired tests.
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Building the Project (for exportation)
 
@@ -134,3 +175,5 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 > - Always make sure to run all [tests](#testing-the-project) in the project
 >   before running this command
 > - Do not try to change the code inside build folder manually!
+
+**[⬆ back to top](#table-of-contents)**
