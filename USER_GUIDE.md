@@ -21,6 +21,8 @@
 This web app is publically available at
 [https://study-buddy-uw.web.app/](https://study-buddy-uw.web.app/)
 
+**[⬆ back to top](#table-of-contents)**
+
 ## User Accounts
 
 ### Creating an Account
@@ -46,6 +48,8 @@ This web app is publically available at
 - Click on the user icon on the dashboard or "Preferences" on the sidebar.
 - Enter your information and group preferences in the pop-up.
 - When you are done, click on the "Save" button at the bototm.
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Groups
 
@@ -97,6 +101,8 @@ This web app is publically available at
 - If you are the group's creator, leaving a group will close the group for
   everyone.
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Bugs & Issues
 
 ### Known Issues
@@ -108,3 +114,5 @@ This web app is publically available at
 
 - To report a bug, please fill out this form:
   [https://forms.gle/34v4Z3xVjE2WhNzQ8](https://forms.gle/34v4Z3xVjE2WhNzQ8)
+
+**[⬆ back to top](#table-of-contents)**

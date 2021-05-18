@@ -2,17 +2,15 @@
 
 ## Table of Contents
 
-- [Husky Buddy](#husky-buddy)
-  - [Table of Contents](#table-of-contents)
-  - [Project Brief](#project-brief)
-  - [Project Goals](#project-goals)
-    - [Vision](#vision)
-    - [4+ Major Features (MVP)](#4-major-features-mvp)
-    - [2+ Stretch Goals](#2-stretch-goals)
-  - [Getting Started with the Project](#getting-started-with-the-project)
-    - [Folder Structure](#folder-structure)
-    - [Guides](#guides)
-    - [Current (Operational) Use Cases](#current-operational-use-cases)
+- [Project Brief](#project-brief)
+- [Project Goals](#project-goals)
+  - [Vision](#vision)
+  - [4+ Major Features (MVP)](#4-major-features-mvp)
+  - [2+ Stretch Goals](#2-stretch-goals)
+- [Getting Started with the Project](#getting-started-with-the-project)
+  - [Folder Structure](#folder-structure)
+  - [Guides](#guides)
+  - [Current (Operational) Use Cases](#current-operational-use-cases)
 
 ## Project Brief
 
@@ -33,8 +31,6 @@ perform similarly, we want to make Husky Buddy shine among the competition by
 not only including features that make it easier for users to form their perfect
 study groups, but by also abolishing the negatives included in our competitors.
 
-**[⬆ back to top](#table-of-contents)**
-
 ### 4+ Major Features (MVP)
 
 - User account creation and login facilities of some kind.
@@ -43,8 +39,6 @@ study groups, but by also abolishing the negatives included in our competitors.
   - Others can join groups based on these preferences.
   - “Classes” and other activities are user defined in the MVP.
 - Users can search other groups using their preferences.
-
-**[⬆ back to top](#table-of-contents)**
 
 ### 2+ Stretch Goals
 
@@ -74,14 +68,10 @@ study groups, but by also abolishing the negatives included in our competitors.
         ├── screens           # different full screens with their own routes
         └── styles            # CSS styles
 
-**[⬆ back to top](#table-of-contents)**
-
 ### Guides
 
 - [User Guide](USER_GUIDE.md)
 - [Developer Guide](./web/README.md)
-
-**[⬆ back to top](#table-of-contents)**
 
 ### Current (Operational) Use Cases
 
