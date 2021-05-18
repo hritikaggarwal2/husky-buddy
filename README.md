@@ -62,3 +62,9 @@ started/running :
 
 - Change directories to the `web` folder.
 - Follow along the `README.md` file there.
+
+### Current Use Cases Operational
+
+- User creation and login
+- Group creation and search
+- Group chat

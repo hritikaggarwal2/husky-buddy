@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import CreateGroup from "../components/CreateGroup";
-import "../styles/CreateGroup.css";
+import "../styles/common.scss";
 import "../components/MyGroupPanel";
-import MyGroupPanel from "../components/MyGroupPanel";
+import { useUser } from "../providers/UserProvider";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import ValueInputer from "./ValueInputer";
-import "../styles/Chat.css";
 
+import { ChatClass, ChatClassConverter } from "../data/ChatClass";
 /**
  *
  * @param props must contain
@@ -16,83 +14,114 @@ import "../styles/Chat.css";
  */
 export default function Chat(props) {
   // TODO: Update group ID to the actual one
-  const [groupID, setGroupID] = useState("2jQWkuzyGzmzSQWpGOfC");
   const [messages, setMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
-  //const user = useUser.user;
-  const user = "4zmEw8xE1ehszvmSV7Vz";
+
+  const user = useUser().user;
 
   useEffect(() => {
     // Store all chat messages and update if there
     // is a new one coming in
-    const chatRef = firebase
+    const unsubscribeChat = firebase
       .firestore()
-      .collection("Chats")
-      .doc(groupID)
-      .collection("chat")
+      .collection(`Chats/${props.groupID.id}/chat`)
+      .withConverter(ChatClassConverter)
       .orderBy("time")
-      .onSnapshot((snapshot) => {
-        const tempMessages = [];
-        snapshot.forEach((message) => {
-          tempMessages.push(message.data());
-        });
-        setMessages(tempMessages);
-      });
-  }, []);
+      .onSnapshot(
+        {
+          // Listen for document metadata changes
+          includeMetadataChanges: true,
+        },
+        (snapshot) => {
+          const tempMessages = [];
+          snapshot.forEach((message) => {
+            tempMessages.push({ ...message.data(), id: message.id });
+          });
+          setMessages(tempMessages);
+        }
+      );
+
+    return () => {
+      unsubscribeChat();
+    };
+  }, [props.groupID]);
 
   // Sends message to Firebase Database
   function sendMessage() {
-    const chatRef = firebase
+    firebase
       .firestore()
-      .collection("Chats")
-      .doc(groupID)
-      .collection("chat");
-    let result = chatRef
-      .add({
-        content: outMessage,
-        owner: user,
-        time: firebase.firestore.Timestamp.now(),
-      })
-      .then((docRef) => {
-        /*
-            // TODO: change "4zmEw8xE1ehszvmSV7Vz" to actual userID
-            refUsers.doc("4zmEw8xE1ehszvmSV7Vz").update({
-                groups: arrayUnion(docRef.id)
-            });
-             */
-        alert("Chat Sent!");
-      });
+      .collection(`Chats/${props.groupID.id}/chat`)
+      .withConverter(ChatClassConverter)
+      .add(
+        new ChatClass(
+          outMessage,
+          user.display_name,
+          user.uwid,
+          firebase.firestore.Timestamp.now()
+        )
+      );
+
     setOutMessage("");
   }
 
-  // Displays a single message to the chat window
-  // ADD MORE FUNCTIONALITY, I.e. display who sent it and time
-  function displayMessage(message) {
-    return (
-      <div className="Messages">
-        <div className="MessageOwner">
-          <p>Sent by: {message.owner}</p>
-        </div>
-        <div className="MessageContent">
-          <p>{message.content}</p>
-        </div>
-        <div className="MessageTime">
-          <p> Time sent: {message.time.toString()} </p>
-        </div>
-      </div>
-    );
+  // Checks if message was sent by current user or another one
+  // returns a different class name depending on which one.
+  function messageSide(message) {
+    if (message.owner == user.owner) {
+
+    } else {
+
+    }
   }
 
   return (
-    <div className="ChatWindow">
-      <div className="Chats">{messages.map(displayMessage)}</div>
-      <input
-        className="MessageInputer"
-        value={outMessage}
-        onChange={(event) => setOutMessage(event.target.value)}
-        type={"string"}
-      />
-      <button className="SendButton" onClick={sendMessage}> Send Message</button>
+    <div className="chatWindow">
+      <div className="chatMsgArea">
+        {messages.map((message) => (
+          <div className="MessageContents" key={message.id}>
+            <div className="messageOwner">
+              {message.owner}
+            </div>
+            <div className="messageContent">
+              <p>{message.content}</p>
+            </div>
+            <div className="messageTime">
+              {formatDate(message.time.toDate())}
+            </div>
+            <br></br>
+          </div>
+        ))}
+      </div>
+      <br></br>
+      <div class="row">
+        <input
+          className="messageInputer"
+          value={outMessage}
+          onChange={(event) => setOutMessage(event.target.value)}
+          type="text"
+        />
+        <button className="sendButton" onClick={sendMessage}>Send Message</button>
+      </div>
     </div>
   );
+
+  // stack overflow fn
+  function formatDate(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
+    return (
+      strTime +
+      " " +
+      date.getMonth() +
+      "/" +
+      date.getDate() +
+      "/" +
+      date.getFullYear()
+    );
+  }
 }
