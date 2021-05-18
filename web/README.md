@@ -22,6 +22,7 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   - [Running the Project Locally (in Development Mode)](#running-the-project-locally-in-development-mode)
   - [Testing the Project](#testing-the-project)
   - [Building the Project (for exportation)](#building-the-project-for-exportation)
+  - [Deploying to Hosting](#deploying-to-hosting)
 
 ## Folder Structure
 
@@ -51,8 +52,6 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   installed from
   [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-**[⬆ back to top](#table-of-contents)**
-
 #### Configuring Git
 
 - Once you have successfully installed `Git`, you will need to configure it.
@@ -70,13 +69,9 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 - Download the latest version of VS Code from
   [here](https://code.visualstudio.com/download).
 
-**[⬆ back to top](#table-of-contents)**
-
 #### Enabling VS Code Settings
 
 - Go to `VS Code Settings` and search for `Format on Save` and enable it.
-
-**[⬆ back to top](#table-of-contents)**
 
 #### Installing Extensions
 
@@ -175,5 +170,20 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 > - Always make sure to run all [tests](#testing-the-project) in the project
 >   before running this command
 > - Do not try to change the code inside build folder manually!
+
+**[⬆ back to top](#table-of-contents)**
+
+## Deploying to Hosting
+
+- Once you have created a [build](#building-the-project-for-exportation), you
+  are ready to deploy it to the Firebase hosting.
+- Navigate to the `<root>/web` subdirectory.
+- As an initial setup:
+  - Run `npm install firebase-tools`.
+  - Then run `firebase login`.
+    > Note: if you get some error try - `firebase logout && firebase login`.
+- Run the following command using the terminal: `firebase deploy`.
+- This will deploy your web app at
+  [https://study-buddy-uw.web.app/](https://study-buddy-uw.web.app/)
 
 **[⬆ back to top](#table-of-contents)**
