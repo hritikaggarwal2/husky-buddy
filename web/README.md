@@ -1,58 +1,136 @@
-# Husky Buddy Web App
+# Husky Buddy Developer Guide
 
-## Installing Dependencies
+This is a guide that allows developers to easily setup the project, ...[TODO]
 
-- After cloning your repository, navigate to the web subdirectory.
+## Table of Contents
 
-- Here, run the following command using the terminal `npm install`
+- [Husky Buddy Developer Guide](#husky-buddy-developer-guide)
+  - [Table of Contents](#table-of-contents)
+  - [Setting Up the Environment](#setting-up-the-environment)
+    - [Git](#git)
+      - [Installing Git](#installing-git)
+      - [Configuring Git](#configuring-git)
+    - [VS Code](#vs-code)
+      - [Downloading and Installing](#downloading-and-installing)
+      - [Enabling VS Code Settings](#enabling-vs-code-settings)
+      - [Installing Extensions](#installing-extensions)
+  - [Cloning the Repository](#cloning-the-repository)
+  - [Adding Private Config Files](#adding-private-config-files)
+    - [Firebase Configuration](#firebase-configuration)
+  - [Installing Node Dependencies](#installing-node-dependencies)
+  - [Running the Project Locally (in Development Mode)](#running-the-project-locally-in-development-mode)
+  - [Testing the Project](#testing-the-project)
+  - [Building the Project (for exportation)](#building-the-project-for-exportation)
 
-## Other Dependencies
+## Setting Up the Environment
 
-- If not already present, create a `config` subdirectory of /web.
-- Copy your firebase configuration into a new file called Firebase.js.
-- Example: ![Firebase.js example](https://i.imgur.com/ol24SJt.png)
+### Git
 
+#### Installing Git
 
-## Saving Code
+- All our code is maintained on [GitHub](https://github.com/) and is publically
+  available at
+  [Husky Buddy Repository](https://github.com/hritikaggarwal2/husky-buddy)
+- In order to intereact with this repository, we require `Git` which can be
+  installed from
+  [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-### Using VS Code
+#### Configuring Git
 
-- Download the Prettier Extension.
+- Once you have successfully installed `Git`, you will need to configure it.
+- You can do this by following along
+  [this guide](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)
+
+### VS Code
+
+#### Downloading and Installing
+
+- Our support team knows and understand VS Code the best, and thus we prefer to
+  use it over other code editors.
+- Download the latest version of VS Code from
+  [here](https://code.visualstudio.com/download).
+
+#### Enabling VS Code Settings
 
 - Go to `VS Code Settings` and search for `Format on Save` and enable it.
 
-### Using IntelliJ
+#### Installing Extensions
 
-- Follow this
-  [link](https://www.jetbrains.com/help/idea/prettier.html#ws_prettier_reformat_code)
+- Inside your `VS Code`, go to the extensions tab.
+- Here search for the extension - `Prettier`.
+- If you can't find it, then follow along this
+  [link](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+  and add it from there.
 
-## Useful Scripts
+## Cloning the Repository
 
-In the project directory, you can run:
+- The source code for our application is available at
+  `https://github.com/hritikaggarwal2/husky-buddy`
 
-### `npm start`
+- Clone this repository from Github using the following command \
+  `git clone https://github.com/hritikaggarwal2/husky-buddy`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Adding Private Config Files
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Once you have clones the repository, you MUST create some configuration files.
+- To create these files, navigate to `<root>/web/src/config/`.
 
-### `npm test`
+### Firebase Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+- Once you are insde the above folder, create a new file `Firebase.js`
+- Now inside this file you will paste the configuration as shown below:
 
-### `npm build`
+  ```javascript
+  const firebaseConfig = {
+    apiKey: "GOES HERE",
+    authDomain: "GOES HERE",
+    databaseURL: "GOES HERE",
+    projectId: "GOES HERE",
+    storageBucket: "GOES HERE",
+    messagingSenderId: "GOES HERE",
+    appId: "GOES HERE",
+    measurementId: "GOES HERE",
+  };
+  export default firebaseConfig;
+  ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best
-performance.
+- If you don't already have this information, you can either reach out to your
+  team mates or find it at:
+  [Link](https://console.firebase.google.com/u/0/project/study-buddy-uw/settings/general/web:NDRlNDQzNTQtNzY4NS00MmYwLWI1NmUtOGFjMjdiNmM1YzQz)
+  -> `SDK setup and configuration` -> `Config`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installing Node Dependencies
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+- Navigate to the `<root>/web` subdirectory.
+- Run the following command using the terminal (at this location): `npm install`
+
+## Running the Project Locally (in Development Mode)
+
+- Navigate to the `<root>/web` subdirectory.
+- Run the following command using the terminal (at this location): `npm start`
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+> Note:
+>
+> - The page will reload if you make edits.\
+> - You will also see any lint errors in the console.
+
+## Testing the Project
+
+- Navigate to the `<root>/web` subdirectory.
+- Run the following command using the terminal (at this location): `npm test`
+- Follow allong the interactive terminal window to run the desired tests.
+
+## Building the Project (for exportation)
+
+- Navigate to the `<root>/web` subdirectory.
+- Run the following command using the terminal (at this location):
+  `npm run build`
+- Now, a new folder gets created at `<root>/web/build`. This folder will be used
+  to deploy to public servers (discussed separately)
+
+> Note:
+>
+> - Always make sure to run all [tests](#testing-the-project) in the project
+>   before running this command
+> - Do not try to change the code inside build folder manually!
