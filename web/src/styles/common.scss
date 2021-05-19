@@ -294,14 +294,53 @@ button {
   margin: 5px;
 }
 
-.messageContent {
-  text-align: left;
+.messageInputer {
+  @include InputBox();
+  background-color: white;
+  width: 75%;
+}
+
+.sendButton {
+  @include InputBox();
+  width: 25%;
+}
+
+.ownMessageContent {
+  @include message();
+  @include ownMessage();
+  @include messageContent();
+  float: right;
+}
+
+.ownMessageOwner {
+  @include message();
+  @include ownMessage();
+  @include messageNameFontSize();
+}
+
+.ownMessageTime {
+  @include message();
+  @include ownMessage();
+  @include messageTimeFontSize();
+}
+
+.otherMessageContent {
+  @include message();
+  @include otherMessage();
+  @include messageContent();
   float: left;
 }
 
-.messageSender {
-  text-align: right;
-  float: right;
+.otherMessageOwner {
+  @include message();
+  @include otherMessage();
+  @include messageNameFontSize();
+}
+
+.otherMessageTime {
+  @include message();
+  @include otherMessage();
+  @include messageTimeFontSize();
 }
 
 .logoutHolder {
