@@ -314,27 +314,42 @@ button {
 //  float: left;
 //}
 
-.messageContent {
+.ownMessageContent {
   @include message();
-  background-color: #c1b5d9;
-  border-radius: 10px;
+  @include ownMessage();
+  @include messageContent();
   float: right;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  p {
-    margin: 10px;
-  }
 }
 
-.messageOwner {
+.ownMessageOwner {
   @include message();
-  font-size: 14px;
+  @include ownMessage();
+  @include messageNameFontSize();
 }
 
-.messageTime {
+.ownMessageTime {
   @include message();
-  font-size: 10px;
+  @include ownMessage();
+  @include messageTimeFontSize();
+}
+
+.otherMessageContent {
+  @include message();
+  @include otherMessage();
+  @include messageContent();
+  float: left;
+}
+
+.otherMessageOwner {
+  @include message();
+  @include otherMessage();
+  @include messageNameFontSize();
+}
+
+.otherMessageTime {
+  @include message();
+  @include otherMessage();
+  @include messageTimeFontSize();
 }
 
 .logoutHolder {

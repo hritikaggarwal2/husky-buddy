@@ -24,6 +24,14 @@ $primary-color: #4b2e83;
 
 $gray-shadow: #c4c4c4;
 
+@mixin messageNameFontSize {
+  font-size: 14px;
+}
+
+@mixin messageTimeFontSize {
+  font-size: 10px;
+}
+
 // Paddings / Margins
 @mixin InputBox {
   padding: 6px 10px;
@@ -34,9 +42,29 @@ $gray-shadow: #c4c4c4;
 // message alignments
 @mixin message() {
   max-width: 60%;
+  letter-spacing: 0.5px;
+  clear: both;
+}
+
+@mixin ownMessage() {
   margin-left: auto;
   margin-right: 0;
-  letter-spacing: 0.5px;
   text-align: right;
-  clear: both;
+}
+
+@mixin otherMessage() {
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
+
+@mixin messageContent() {
+  background-color: #c1b5d9;
+  border-radius: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  p {
+    margin: 10px;
+  }
 }

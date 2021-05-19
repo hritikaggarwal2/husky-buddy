@@ -66,26 +66,22 @@ export default function Chat(props) {
 
   // Checks if message was sent by current user or another one
   // returns a different class name depending on which one.
-  function messageSide(message) {
-    if (message.owner == user.owner) {
-
-    } else {
-
-    }
+  function isOwnMessage(message) {
+    return message.ownerId == user.uwid;
   }
 
   return (
     <div className="chatWindow">
       <div className="chatMsgArea">
         {messages.map((message) => (
-          <div className="MessageContents" key={message.id}>
-            <div className="messageOwner">
+          <div className="messageContents" key={message.id}>
+            <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
               {message.owner}
             </div>
-            <div className="messageContent">
+            <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
               <p>{message.content}</p>
             </div>
-            <div className="messageTime">
+            <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
               {formatDate(message.time.toDate())}
             </div>
             <br></br>
