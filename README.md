@@ -1,10 +1,24 @@
 # Husky Buddy
 
+## Table of Contents
+
+- [Project Brief](#project-brief)
+- [Project Goals](#project-goals)
+  - [Vision](#vision)
+  - [4+ Major Features (MVP)](#4-major-features-mvp)
+  - [2+ Stretch Goals](#2-stretch-goals)
+- [Getting Started with the Project](#getting-started-with-the-project)
+  - [Folder Structure](#folder-structure)
+  - [Guides](#guides)
+  - [Current (Operational) Use Cases](#current-operational-use-cases)
+
 ## Project Brief
 
 A study group web app targeted specifically towards UW Seattle students who are
 looking to partner with other students for various classes. Use this app to find
 yourself the perfect study group for each class.
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Project Goals
 
@@ -33,10 +47,16 @@ study groups, but by also abolishing the negatives included in our competitors.
 - Automated/Semi-automated scraping of UW website and time schedule to determine
   some classes the product should offer as presets/defaults.
 
-## Folder Structure
+**[⬆ back to top](#table-of-contents)**
+
+## Getting Started with the Project
+
+### Folder Structure
 
     .
-    ├── status-reports        # weekly status reports.
+    ├── .github/workflows     # stores config files for Github Actions to automatically run.
+    ├── .vscode               # stores VS Code config files for project consistency.
+    ├── status-reports        # weekly reports of progress maintained during development.
     ├── web                   # React.js web app for development.
       ├── public              # public files for building final app.
       └── src                 # development source.
@@ -48,23 +68,15 @@ study groups, but by also abolishing the negatives included in our competitors.
         ├── screens           # different full screens with their own routes
         └── styles            # CSS styles
 
-## Getting Started with the Project
+### Guides
 
-Follow the instructions below in order to install the project and get it
-started/running :
+- [User Guide](USER_GUIDE.md)
+- [Developer Guide](./web/README.md)
 
-### Cloning the Repository
-
-- Clone this repository from Github using the following command \
-  `git clone https://github.com/hritikaggarwal2/husky-buddy`
-
-### Instruction to Building & Running the App
-
-- Change directories to the `web` folder.
-- Follow along the `README.md` file there.
-
-### Current Use Cases Operational
+### Current (Operational) Use Cases
 
 - User creation and login
 - Group creation and search
 - Group chat
+
+**[⬆ back to top](#table-of-contents)**
