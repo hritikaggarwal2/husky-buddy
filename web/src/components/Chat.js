@@ -4,7 +4,6 @@ import "../components/MyGroupPanel";
 import { useUser } from "../providers/UserProvider";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import "../styles/common.scss";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
 /**
@@ -65,16 +64,26 @@ export default function Chat(props) {
     setOutMessage("");
   }
 
+  // Checks if message was sent by current user or another one.
+  // Returns a true if it is from the logged-in user, false otherwise.
+  function isOwnMessage(message) {
+    return message.ownerId == user.uwid;
+  }
+
   return (
     <div className="chatWindow">
       <div className="chatMsgArea">
         {messages.map((message) => (
-          <div className="MessageContents" key={message.id}>
-            <span className="messageContent"> {message.content} </span>
-            <span className="messageSender">
-              {" "}
-              {message.owner} at {formatDate(message.time.toDate())}{" "}
-            </span>
+          <div className="messageContents" key={message.id}>
+            <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
+              {message.owner}
+            </div>
+            <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
+              <p>{message.content}</p>
+            </div>
+            <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
+              {formatDate(message.time.toDate())}
+            </div>
             <br></br>
           </div>
         ))}
@@ -87,8 +96,8 @@ export default function Chat(props) {
           onChange={(event) => setOutMessage(event.target.value)}
           type="text"
         />
+        <button className="sendButton" onClick={sendMessage}>Send Message</button>
       </div>
-      <button onClick={sendMessage}>Send Message</button>
     </div>
   );
 
