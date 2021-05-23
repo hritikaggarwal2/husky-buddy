@@ -134,19 +134,18 @@ export default function SearchGroups(props) {
               return;
             }
           } else if (topicsRef.current != null && topicsRef.current !== "") {
-            let topicArray = topicsRef.current.split(" ");
-            let groupTopics = [];
-            if (doc.get("topics") != null && doc.get("topics") !== []) {
-              groupTopics = doc.get("topics");
-              topicArray.forEach((term) => {
-                if (!groupTopics.includes(term)) {
-                  return;
-                }
-              });
-            } else {
+            // split both the user's query and the topics of the group into string arrays
+            let topicArray = JSON.stringify(topicsRef.current).toLowerCase().split(" ");
+            let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
+            console.log("Topics: " + entryTopic);
+            // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
+            if (entryTopic === 0 || entryTopic.length === 0) {
+              return;
+            } else if (!parseTopic(topicArray, entryTopic)) {
               return;
             }
           }
+          // This group meets all the conditions, push it to the results
           tempGroups.push(doc);
         });
 
@@ -162,6 +161,28 @@ export default function SearchGroups(props) {
     // once the request is sent, update state again
     setIsSending(false);
   }, [isSending]); // update the callback if the state changes
+
+  // Helper function for determining if queries match topics
+  function parseTopic(topicQuery, resultTopics) {
+    let noMatch = false;
+    // For every topic the user inputs...
+    topicQuery.every((term) => {
+      console.log("Term: " + term);
+      // If this group doesn't include that topic, set the bool that says this isn't a match
+      if (!resultTopics.includes(term)) {
+        console.log("Nomatch on" + term);
+        noMatch = true;
+        return false;
+      }
+    });
+    // If this group doesn't include all the user's topics, return false
+    if (noMatch) {
+      return false;
+      // Otherwise, return true
+    } else {
+      return true;
+    }
+  }
 
   // ***** VALIDATE INPUT *****
   function checkInput() {
