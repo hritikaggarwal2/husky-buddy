@@ -136,29 +136,31 @@ export default function SearchGroups(props) {
               return;
             }
           } else if (topicsRef.current != null && topicsRef.current !== "") {
-            let topicArray = topicsRef.current.split(" ");
-            let groupTopics = [];
-            if (doc.get("topics") != null && doc.get("topics") !== []) {
-              groupTopics = doc.get("topics");
-              topicArray.forEach((term) => {
-                if (!groupTopics.includes(term)) {
-                  return;
-                }
-              });
-            } else {
+            // split both the user's query and the topics of the group into string arrays
+            let topicArray = JSON.stringify(topicsRef.current)
+              .toLowerCase()
+              .split(" ");
+            let entryTopic = JSON.stringify(doc.get("topic"))
+              .toLowerCase()
+              .split(",");
+            console.log("Topics: " + entryTopic);
+            // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
+            if (entryTopic === 0 || entryTopic.length === 0) {
+              return;
+            } else if (!parseTopic(topicArray, entryTopic)) {
               return;
             }
           }
-        }
-        tempGroups.push(doc);
+          // This group meets all the conditions, push it to the results
+          tempGroups.push(doc);
+        });
+
+        // groups will store a doc which has .id and .data()...
+
+        setGroups(tempGroups);
+        props.close();
+        props.displayGroups(tempGroups);
       });
-
-      // groups will store a doc which has .id and .data()...
-
-      setGroups(tempGroups);
-      props.close();
-      props.displayGroups(tempGroups);
-    });
 
     // once the request is sent, update state again
     setIsSending(false);
