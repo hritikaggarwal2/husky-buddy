@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import "../styles/common.scss";
 import "../components/MyGroupPanel";
 import { useUser } from "../providers/UserProvider";
@@ -6,6 +7,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
+import MyGroupSidePanel from "../components/MyGroupSidePanel";
 /**
  *
  * @param props must contain
@@ -71,32 +73,38 @@ export default function Chat(props) {
   }
 
   return (
-    <div className="chatWindow">
-      <div className="chatMsgArea">
-        {messages.map((message) => (
-          <div className="messageContents" key={message.id}>
-            <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
-              {message.owner}
+    <div className="chatScreen">
+      <Link to="/dashboard" className="backBtn">Back</Link>
+      <div className="sideBar">
+          <MyGroupSidePanel/>
+        </div>
+      <div className="chatWindow">
+        <div className="chatMsgArea">
+          {messages.map((message) => (
+            <div className="messageContents" key={message.id}>
+              <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
+                {message.owner}
+              </div>
+              <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
+                <p>{message.content}</p>
+              </div>
+              <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
+                {formatDate(message.time.toDate())}
+              </div>
+              <br></br>
             </div>
-            <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
-              <p>{message.content}</p>
-            </div>
-            <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
-              {formatDate(message.time.toDate())}
-            </div>
-            <br></br>
-          </div>
-        ))}
-      </div>
-      <br></br>
-      <div class="row">
-        <input
-          className="messageInputer"
-          value={outMessage}
-          onChange={(event) => setOutMessage(event.target.value)}
-          type="text"
-        />
-        <button className="sendButton" onClick={sendMessage}>Send Message</button>
+          ))}
+        </div>
+        <br></br>
+        <div class="row">
+          <input
+            className="messageInputer"
+            value={outMessage}
+            onChange={(event) => setOutMessage(event.target.value)}
+            type="text"
+          />
+          <button className="sendButton" onClick={sendMessage}>Send Message</button>
+        </div>
       </div>
     </div>
   );
