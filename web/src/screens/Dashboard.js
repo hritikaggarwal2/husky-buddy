@@ -67,14 +67,11 @@ export default function Dashboard() {
         </Link>
         <h2>Welcome, {user.display_name}</h2>
         <MyGroupPanel groups={["Group1", "Group2"]} />
-        <button className="btnPrimaryFill" onClick={() => setOpenCreate(true)}>
-          Create Group
-        </button>
-        <p>Blank line</p>
-        <button className="btnPrimaryFill" onClick={() => setOpenSearch(true)}>
-          Search Groups
-        </button>
-
+        <div className="btnBox">
+          <button id="dashboardGroupBtn" className="btnPrimaryFill" onClick={() => setOpenCreate(true)}>Create Group</button>
+          <p></p>
+          <button id="dashboardGroupBtn" className="btnPrimaryFill" onClick={() => setOpenSearch(true)}>Search Groups</button>
+        </div>
       </div>
       <div className="justify-center align-center">
         Log out
