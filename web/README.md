@@ -16,6 +16,13 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 - [Cloning the Repository](#cloning-the-repository)
 - [Adding Private Config Files](#adding-private-config-files)
   - [Firebase Configuration](#firebase-configuration)
+    - [Using Project Config File](#using-project-config-file)
+    - [Creating & Using your own Firebase Project](#creating--using-your-own-firebase-project)
+      - [Creating a Firebase Project](#creating-a-firebase-project)
+      - [Adding a Web app to your Project](#adding-a-web-app-to-your-project)
+      - [Adding Authentication](#adding-authentication)
+      - [Adding Firestore Database](#adding-firestore-database)
+      - [Copying Credentials](#copying-credentials)
 - [Installing Node Dependencies](#installing-node-dependencies)
 - [Running the Project Locally (in Development Mode)](#running-the-project-locally-in-development-mode)
 - [Testing the Project](#testing-the-project)
@@ -105,20 +112,62 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   const firebaseConfig = {
     apiKey: "GOES HERE",
     authDomain: "GOES HERE",
-    databaseURL: "GOES HERE",
+    databaseURL: "GOES HERE", // if available
     projectId: "GOES HERE",
     storageBucket: "GOES HERE",
     messagingSenderId: "GOES HERE",
     appId: "GOES HERE",
-    measurementId: "GOES HERE",
+    measurementId: "GOES HERE", // if available
   };
   export default firebaseConfig;
   ```
+
+#### Using Project Config File
 
 - If you don't already have this information, you can either reach out to your
   team mates or find it at:
   [Link](https://console.firebase.google.com/u/0/project/study-buddy-uw/settings/general/web:NDRlNDQzNTQtNzY4NS00MmYwLWI1NmUtOGFjMjdiNmM1YzQz)
   -> `SDK setup and configuration` -> `Config`
+
+#### Creating & Using your own Firebase Project
+
+##### Creating a Firebase Project
+
+- Navigate to
+  [https://console.firebase.google.com/u/0/](https://console.firebase.google.com/u/0/).
+  Note - you might need to Sign In to Google to continue.
+- Click on `Add Project`
+- Enter a Project Name (anything should work).
+- Disable `Google Analytics for this project`.
+- Click `Create Project`.
+- Once your project is setup, click `Continue`.
+
+##### Adding a Web app to your Project
+
+- Navigate to your newly created firebase `Project Overview`.
+- Under `Get started by adding Firebase to your app` click on `</>` OR `web`.
+- Now add a `Nickname` to your app (anything should work).
+
+##### Adding Authentication
+
+- Navigate to the `Authentication` tab from the left, and click
+  `Add Authentication`.
+- Under `Sign-in method`, enable `Email/Password`.
+
+##### Adding Firestore Database
+
+- Navigate to the `Firestore Database` tab from the left, and click
+  `Create Database`.
+- Choose the `Start in test mode` option and hit the `Next` button.
+- Continue through the setup and don't change anything.
+
+##### Copying Credentials
+
+- Navigate to the `Project Settings` available from the `Settings icon` next to
+  `Project Overview`.
+- Scroll down to find `SDK setup and configuration` -> `Config` file.
+- Use these configurations for the `firebaseConfig` credentials that are
+  required in the [above step](#firebase-configuration).
 
 **[⬆ back to top](#table-of-contents)**
 
