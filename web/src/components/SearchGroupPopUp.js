@@ -142,8 +142,11 @@ export default function SearchGroups(props) {
             }
           } else if (topicsRef.current != null && topicsRef.current !== "") {
             // split both the user's query and the topics of the group into string arrays
-            let topicArray = JSON.stringify(topicsRef.current).toLowerCase().split(" ");
-            let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
+            let topicArray = topicsRef.current.split(" ");
+            // let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
+            // let entry = JSON.stringify(doc.get("topic"));
+            // let entryTopic = entry.substring(1, entry.length - 1).split(",");
+            let entryTopic = doc.get("topic");
             console.log("Topics: " + entryTopic);
             // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
             if (entryTopic === 0 || entryTopic.length === 0) {
@@ -171,19 +174,22 @@ export default function SearchGroups(props) {
 
   // Helper function for determining if queries match topics
   function parseTopic(topicQuery, resultTopics) {
-    let noMatch = false;
+    let matches = 0;
     // For every topic the user inputs...
-    topicQuery.every((term) => {
+    topicQuery.forEach((term) => {
       console.log("Term: " + term);
       // If this group doesn't include that topic, set the bool that says this isn't a match
-      if (!resultTopics.includes(term)) {
-        console.log("Nomatch on" + term);
-        noMatch = true;
-        return false;
-      }
+      resultTopics.forEach((topic) => {
+        console.log("Topic: " + topic);
+        if (term.toLowerCase() === topic.toLowerCase()) {
+          console.log("Match on " + topic);
+          matches += 1;
+          return;
+        }
+      })
     });
     // If this group doesn't include all the user's topics, return false
-    if (noMatch) {
+    if (matches != topicQuery.length) {
       return false;
       // Otherwise, return true
     } else {
