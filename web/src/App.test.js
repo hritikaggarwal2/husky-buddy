@@ -21,6 +21,10 @@ afterEach(() => {
   container = null;
 });
 
+afterAll(() => {
+  firebase.app().delete();
+});
+
 firebase.initializeApp(firebaseConfig);
 
 describe.only("Login Test", () => {
