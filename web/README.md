@@ -128,6 +128,8 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   team mates or find it at:
   [Link](https://console.firebase.google.com/u/0/project/study-buddy-uw/settings/general/web:NDRlNDQzNTQtNzY4NS00MmYwLWI1NmUtOGFjMjdiNmM1YzQz)
   -> `SDK setup and configuration` -> `Config`
+  
+ > Note: In case you are not a trusted developer (by our organization), you can [Create & Use your own Firebase Project](#creating--using-your-own-firebase-project).
 
 #### Creating & Using your own Firebase Project
 
