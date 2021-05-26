@@ -102,7 +102,7 @@ describe.only("End-to-End Test", () => {
     await page.type('input[placeholder="Max Group Size"', gS);
     await page.click('input[type="checkbox"');
     [button] = await page.$x("//button[contains(., 'Create')]");
-    //await button.click();
+    await button.click();
 
     // Check if group was created
     retVal = await page.$x("//div[contains(., '" + gN + "')]");
@@ -220,8 +220,57 @@ describe.only("End-to-End Test", () => {
     browser.close();
   }, 20000);
 
-  // Tests if search functionality works
-  it("Leave Group", async () => {}, 20000);
+  // Tests if a user can delete a group
+  it("Leave Group", async () => {
+    let retVal;
+    let button;
+    const browser = await puppeteer.launch({ headless: false, slowMo: 120 });
+    const page = await browser.newPage();
+    await page.goto("https://study-buddy-uw.web.app/login");
+
+    // Sign in
+    await page.waitForXPath(
+      "//*[@class='title' and contains(., 'Husky Buddy.')]"
+    );
+    await page.type('input[placeholder="Enter Email"', user);
+    await page.type('input[placeholder="Enter Password"', pass);
+    [button] = await page.$x("//button[contains(., 'Sign In')]");
+    await button.click();
+
+    // Click on group
+    await page.waitForXPath(
+      "//*[@class='groupBox' and contains(., '" + gN + "')]"
+    );
+    [button] = await page.$x(
+      "//div[@class='groupBox' and descendant::h3[contains(., '" + gN + "')]]"
+    );
+    await button.click();
+
+    // Check if navigated to chat screen
+    [button] = await page.$x(
+      "//*[@class='sendButton' and contains(., 'Send Message')]"
+    );
+    expect(button).not.toBe(undefined);
+
+    // Delete Group
+    await page.waitForXPath("//*[@class='dropdown']");
+    [button] = await page.$x("//*[@class='dropdown']");
+    expect(button).not.toBe(undefined);
+    button.click();
+    await page.waitForSelector(".sidenavBtn");
+    await page.click(".sidenavBtn");
+
+    /*await page.waitForXPath("//*[@class='sidenavBtn']");
+        [button] = await page.$x("//*[@class='sidenavBtn' and contains(., 'Delete Group')]");
+        expect(button).not.toBe(undefined);
+        button.click();*/
+
+    // Check if deleted group is no longer viewable
+    retVal = await page.$x("//div[contains(., '" + gN + "')]");
+    expect(retVal).toEqual([]);
+
+    browser.close();
+  }, 20000);
 
   // Tests if logout works
   it("Logout", async () => {
