@@ -180,8 +180,13 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 
 > Note:
 >
+> - Make sure to always run this command when you pull a new branch.
+> - Even after running this command, it is possible that there will be some
+>   missing packages in your repository. If this is the case, try to run this
+>   command once again and check to see if that fixes the issue.
 > - You must complete everything before this point to have successfully setup
 >   the project.
+>   
 
 **[⬆ back to top](#table-of-contents)**
 
