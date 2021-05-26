@@ -224,7 +224,7 @@ describe.only("End-to-End Test", () => {
   it("Leave Group", async () => {
     let retVal;
     let button;
-    const browser = await puppeteer.launch({ headless: false, slowMo: 120 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 120 });
     const page = await browser.newPage();
     await page.goto("https://study-buddy-uw.web.app/login");
 
