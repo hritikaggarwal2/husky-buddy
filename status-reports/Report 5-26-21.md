@@ -38,7 +38,8 @@
 
 #### Future Goals
 
-- Add further functionality and polish to search functionality and pre
+- Add further functionality and polish to search functionality and prepare
+  for final release.
 
 ### Hritik Aggarwal
 
