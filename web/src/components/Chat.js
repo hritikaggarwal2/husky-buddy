@@ -76,8 +76,8 @@ export default function Chat(props) {
     // Takes each individual message and wrapps it in a div
     // I need to bundle up any messages that are sequentially sent by same person
     // While messages.next is sent by same person, add the message to the same div.
-    let output = [];
-    output.push('<div className="chatMsgArea">');
+    let output = [<div/>];
+
     let i = 0;
     while (i < messages.length) {
       let ownerId = messages[i].ownerId;
@@ -86,36 +86,25 @@ export default function Chat(props) {
       let timeClassNameTag = isOwnMessage(messages[i]) ? "ownMessageTime" : "otherMessageTime";
 
       // Create new div for message, and create new div for owner name
-      output.push('<div className="messageContents" key=' + messages[i].id + '>');
-      output.push('<div className=' + ownerClassNameTag + '>' + messages[i].owner + '</div>');
+      let iOld = i;
+      let temp = [<div className={ownerClassNameTag}> {messages[i].owner} </div>]
+
       
       do {
         // bundle into one
-        output.push('<div className=' + messageClassNameTag + '><p>' + messages[i].content + '</p></div>');
-        output.push('<div className=' + timeClassNameTag + '>' + formatDate(messages[i].time.toDate()) + '</div>');
+        temp.push(<div className={messageClassNameTag}><p>{messages[i].content}'</p></div>);
+        temp.push(<div className={timeClassNameTag} >{formatDate(messages[i].time.toDate())}</div>);
         i++;
       } while (i < messages.length && (ownerId === messages[i].ownerId));
 
-      output.push('<br></br></div>');
+      output.push(<div className="messageContent" key={messages[iOld].id}>{temp}<br></br></div>);
     }
-    output.push('</div>');
 
-
-    let htmlOutput = [];
-    let parser = new DOMParser();
-
-    /*for (let j = 0; j < output.length; j++) {
-      htmlOutput.push(parser.parseFromString(output[i], 'text/html').body);
-      console.log('Output: ->>');
-      console.log(htmlOutput[j]);
-    }*/
-
-    //output.map((item) => htmlOutput.push(parser.parseFromString(item, "text/html").body));
-   //et doc = new DOMParser().parseFromString(output, "text/xml");
-   // output.map((item) => parser.parseFromString(item, "text/html").body) }
 
     return (
-      output.map((item) => parser.parseFromString(item, "text/html").body)
+      <div className="chatMsgArea">
+        {output}
+      </div>
     );
   }
 
@@ -130,7 +119,7 @@ export default function Chat(props) {
       <div className="chatWindow">
         {buildMessageDisplay()}
         <br></br>
-        <div class="row">
+        <div className="row">
           <input
             className="messageInputer"
             value={outMessage}
