@@ -72,29 +72,63 @@ export default function Chat(props) {
     return message.ownerId == user.uwid;
   }
 
+  function buildMessageDisplay() {
+    // Takes each individual message and wrapps it in a div
+    // I need to bundle up any messages that are sequentially sent by same person
+    // While messages.next is sent by same person, add the message to the same div.
+    let output = [];
+    output.push('<div className="chatMsgArea">');
+    let i = 0;
+    while (i < messages.length) {
+      let ownerId = messages[i].ownerId;
+      let ownerClassNameTag = isOwnMessage(messages[i]) ? "ownMessageOwner" : "otherMessageOwner";
+      let messageClassNameTag = isOwnMessage(messages[i]) ? "ownMessageContent" : "otherMessageContent";
+      let timeClassNameTag = isOwnMessage(messages[i]) ? "ownMessageTime" : "otherMessageTime";
+
+      // Create new div for message, and create new div for owner name
+      output.push('<div className="messageContents" key=' + messages[i].id + '>');
+      output.push('<div className=' + ownerClassNameTag + '>' + messages[i].owner + '</div>');
+      
+      do {
+        // bundle into one
+        output.push('<div className=' + messageClassNameTag + '><p>' + messages[i].content + '</p></div>');
+        output.push('<div className=' + timeClassNameTag + '>' + formatDate(messages[i].time.toDate()) + '</div>');
+        i++;
+      } while (i < messages.length && (ownerId === messages[i].ownerId));
+
+      output.push('<br></br></div>');
+    }
+    output.push('</div>');
+
+
+    let htmlOutput = [];
+    let parser = new DOMParser();
+
+    /*for (let j = 0; j < output.length; j++) {
+      htmlOutput.push(parser.parseFromString(output[i], 'text/html').body);
+      console.log('Output: ->>');
+      console.log(htmlOutput[j]);
+    }*/
+
+    //output.map((item) => htmlOutput.push(parser.parseFromString(item, "text/html").body));
+   //et doc = new DOMParser().parseFromString(output, "text/xml");
+   // output.map((item) => parser.parseFromString(item, "text/html").body) }
+
+    return (
+      output.map((item) => parser.parseFromString(item, "text/html").body)
+    );
+  }
+
+  
   return (
+    
     <div className="chatScreen">
       <Link to="/dashboard" className="backBtn">Back</Link>
-      <div className="sideBar">
+      {/*<div className="sideBar">
           <MyGroupSidePanel/>
-        </div>
+        </div>*/}
       <div className="chatWindow">
-        <div className="chatMsgArea">
-          {messages.map((message) => (
-            <div className="messageContents" key={message.id}>
-              <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
-                {message.owner}
-              </div>
-              <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
-                <p>{message.content}</p>
-              </div>
-              <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
-                {formatDate(message.time.toDate())}
-              </div>
-              <br></br>
-            </div>
-          ))}
-        </div>
+        {buildMessageDisplay()}
         <br></br>
         <div class="row">
           <input
