@@ -8,6 +8,8 @@ import "firebase/firestore";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
 import MyGroupSidePanel from "../components/MyGroupSidePanel";
+import Slideout from "../components/Slideout";
+
 /**
  *
  * @param props must contain
@@ -113,9 +115,14 @@ export default function Chat(props) {
     
     <div className="chatScreen">
       <Link to="/dashboard" className="backBtn">Back</Link>
+<<<<<<< HEAD
       {/*<div className="sideBar">
           <MyGroupSidePanel/>
         </div>*/}
+=======
+      <div className="sideBar"><MyGroupSidePanel/></div>
+      <Slideout firebase={firebase} groupID={props.groupID} user = {user} />
+>>>>>>> main
       <div className="chatWindow">
         {buildMessageDisplay()}
         <br></br>
