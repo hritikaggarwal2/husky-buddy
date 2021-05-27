@@ -103,15 +103,12 @@
 
 #### Last Week Goals
 
-- Make more comprehensive tests and eliminate warnings from tests (concurrent
-  act() calls warning, specifically).
 - Prototype done for user information fill-in page.
 
 #### Progress & Issues
 
-- Tests
-- Work on peer reviews
+- Did not make progress due to procastination and being too busy with other classes. Working on catching up.
 
 #### Future Goals
 
-- Add feature so user can create profile information
+- Get user profile page done for final submission
