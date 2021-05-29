@@ -154,4 +154,10 @@ export default function Chat(props) {
       date.getFullYear()
     );
   }
+
+  function sendOnEnter(e) {
+    if (e.charCode == 13) {
+      sendMessage();
+    }
+  }
 }

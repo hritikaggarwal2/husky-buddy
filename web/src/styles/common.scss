@@ -396,6 +396,7 @@ button {
   @include message();
   font-size: 10px;
   text-align: center;
+  min-width: 100%;
 }
 
 .logoutHolder {
