@@ -109,7 +109,6 @@ export default function SearchGroups(props) {
     // send the actual request
     //await API.sendRequest()
     await refGroups
-      .where("class_prefix", "==", classPrefixRef.current)
       .get()
       .then((querySnapshot) => {
         let tempGroups = [];
@@ -119,21 +118,34 @@ export default function SearchGroups(props) {
           //console.log(doc.id, " => ", doc.data());
           // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
           // so part of the filtering work has to be done here. It's messy but it seems to work
-          if (doc.get("class_num") !== classNumRef.current || parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
+          if (classPrefixRef.current != null && classPrefixRef.current !== "" && (doc.get("class_prefix").toLowerCase() !== classPrefixRef.current.toLowerCase())) {
+            return;
+          } else if (parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
             return;
           } else if (meetInPersonRef.current && !doc.get("meet")) {
             return;
-          } else if (groupNameRef.current != null && groupNameRef.current !== "") {
+          }
+
+          if (classNumRef.current != null && classNumRef.current !== "" && parseInt(classNumRef.current) !== 0) {
+            let num = parseInt(doc.get("class_num"));
+            let search = parseInt(classNumRef.current);
+            if (search < 0 || (search < 10 && (num / 100) !== search) || (search < 100 && (num / 10) !== search) || (search >= 100 && num !== search)) {
+              return;
+            }
+          }
+          if (groupNameRef.current != null && groupNameRef.current !== "") {
             var docnamelc = doc.get("group_name").toLowerCase();
             if (!docnamelc.includes(searchnamelc)) {
               return;
             }
-          } else if (classSectionRef.current != null && classSectionRef.current !== "") {
+          }
+          if (classSectionRef.current != null && classSectionRef.current !== "") {
             var query = classSectionRef.current.toUpperCase();
             if (query !== doc.get("class_section").toUpperCase().substring(0, query.length)) {
               return;
             }
-          } else if (topicsRef.current != null && topicsRef.current !== "") {
+          }
+          if (topicsRef.current != null && topicsRef.current !== "") {
             // split both the user's query and the topics of the group into string arrays
             let topicArray = topicsRef.current.split(" ");
             // let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
@@ -217,10 +229,10 @@ export default function SearchGroups(props) {
     console.log(parseInt(classNumRef.current));
 
     if (
-      parseInt(classNumRef.current) <= 99 ||
+      parseInt(classNumRef.current) < 0 ||
       parseInt(classNumRef.current) > 1000
     ) {
-      alert("Enter a valid class number (between 0 and 1000)");
+      alert("Enter a valid class number (between 0 and 999)");
       return false;
     }
 
@@ -263,7 +275,7 @@ export default function SearchGroups(props) {
         <ValueInputer
           title="Class Number"
           type="number"
-          min={100}
+          min={0}
           pattern="[0-9]*"
           max={999}
           onChange={(input) => updateClassNum(input)}
