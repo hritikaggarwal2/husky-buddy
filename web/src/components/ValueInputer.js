@@ -20,8 +20,8 @@ export default function ValueInputer(props) {
 
   return (
     <div className="inputField d-flex row justify-between align-center">
-      <label>{props.title}</label>
       <input
+        placeholder={props.title}
         className="inputComponent"
         {...props}
         value={displayValue}

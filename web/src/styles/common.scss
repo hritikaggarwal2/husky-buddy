@@ -101,6 +101,23 @@ button {
   }
 }
 
+.btnBox {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
+
+.backBtn {
+  @extend .btnPrimaryFill;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
+
+#dashboardGroupBtn.btnPrimaryFill {
+  margin-top: 5%;
+}
+
 .btnEmptyHover {
   padding: 10px;
   font-weight: 500;
@@ -235,6 +252,7 @@ button {
 .popUpOverlay {
   background: rgba($color: #000000, $alpha: 0.4);
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
 
@@ -279,6 +297,96 @@ button {
   margin: 25px;
 }
 
+.sidepanel {
+  height: 100%;
+  width: 20%;
+  position: absolute;
+  z-index: 1;
+  top: 15%;
+  left: 0;
+  background-color: $font-primary-color;
+  overflow-x: hidden;
+  padding-top: 5%;
+  transition: 0.5s;
+}
+
+.listItem {
+  position: relative;
+  width: 70%;
+  float: left;
+  background: #e8e8e8;
+  padding: 15%;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 12%;
+  margin-left: 15%;
+}
+
+.groupWrap {
+  width: 75%;
+  column-count: 1;
+}
+
+.dropdown {
+  position: fixed;
+  top: 5%;
+  right: 2%;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+
+.dropdownLine {
+  width: 20px;
+  height: 3px;
+  background-color: black;
+  margin: 3px;
+}
+
+#dropdownBtn {
+  position: absolute;
+  border-color: grey;
+  border-width: 0.5px;
+  margin: 5px;
+  padding: 8px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 15%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: rgb(53, 53, 53);
+  overflow-x: hidden;
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav .sidenavBtn {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #bdbdbd;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav .sidenavBtn:hover {
+  color: #cf9a9a;
+}
+
+.sidenav .closebtn {
+  top: 0;
+  color: #818181;
+  font-size: 36px;
+  margin-left: 80%;
+}
+
+.sidenav .closebtn:hover {
+  color: #ffffff;
+}
+
 .chatWindow {
   background: #e8e8e8;
   padding: 30px;
@@ -294,14 +402,53 @@ button {
   margin: 5px;
 }
 
-.messageContent {
-  text-align: left;
+.messageInputer {
+  @include InputBox();
+  background-color: white;
+  width: 75%;
+}
+
+.sendButton {
+  @include InputBox();
+  width: 25%;
+}
+
+.ownMessageContent {
+  @include message();
+  @include ownMessage();
+  @include messageContent();
+  float: right;
+}
+
+.ownMessageOwner {
+  @include message();
+  @include ownMessage();
+  @include messageNameFontSize();
+}
+
+.ownMessageTime {
+  @include message();
+  @include ownMessage();
+  @include messageTimeFontSize();
+}
+
+.otherMessageContent {
+  @include message();
+  @include otherMessage();
+  @include messageContent();
   float: left;
 }
 
-.messageSender {
-  text-align: right;
-  float: right;
+.otherMessageOwner {
+  @include message();
+  @include otherMessage();
+  @include messageNameFontSize();
+}
+
+.otherMessageTime {
+  @include message();
+  @include otherMessage();
+  @include messageTimeFontSize();
 }
 
 .logoutHolder {

@@ -1,3 +1,14 @@
 {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "prettier.trailingComma": "es5",
+    "prettier.tabWidth": 2,
+    "prettier.semi": true,
+    "prettier.singleQuote": false,
+    "prettier.arrowParens": "always",
+    "prettier.bracketSpacing": true,
+    "prettier.enable": true,
+    "prettier.useTabs": false,
+    "prettier.printWidth": 80,
+    "prettier.proseWrap": "always",
+    "prettier.useEditorConfig": false
 }

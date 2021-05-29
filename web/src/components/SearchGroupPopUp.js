@@ -109,6 +109,10 @@ export default function SearchGroups(props) {
     // send the actual request
     //await API.sendRequest()
     await refGroups
+<<<<<<< HEAD
+=======
+      .where("class_prefix", "==", classPrefixRef.current)
+>>>>>>> upstream/main
       .get()
       .then((querySnapshot) => {
         let tempGroups = [];
@@ -179,6 +183,7 @@ export default function SearchGroups(props) {
 
   // Helper function for determining if queries match topics
   function parseTopic(topicQuery, resultTopics) {
+<<<<<<< HEAD
     let matches = 0;
     // For every topic the user inputs...
     topicQuery.forEach((term) => {
@@ -195,6 +200,21 @@ export default function SearchGroups(props) {
     });
     // If this group doesn't include all the user's topics, return false
     if (matches != topicQuery.length) {
+=======
+    let noMatch = false;
+    // For every topic the user inputs...
+    topicQuery.every((term) => {
+      console.log("Term: " + term);
+      // If this group doesn't include that topic, set the bool that says this isn't a match
+      if (!resultTopics.includes(term)) {
+        console.log("Nomatch on" + term);
+        noMatch = true;
+        return false;
+      }
+    });
+    // If this group doesn't include all the user's topics, return false
+    if (noMatch) {
+>>>>>>> upstream/main
       return false;
       // Otherwise, return true
     } else {
