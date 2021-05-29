@@ -5,10 +5,12 @@ import "../components/MyGroupPanel";
 import { useUser } from "../providers/UserProvider";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/storage";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
 import MyGroupSidePanel from "../components/MyGroupSidePanel";
 import Slideout from "../components/Slideout";
+import AddFile from "../components/AddFile";
 
 /**
  *
@@ -20,6 +22,7 @@ export default function Chat(props) {
   // TODO: Update group ID to the actual one
   const [messages, setMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
+  const [outFileLink, setOutFileLink] = useState("");
 
   const user = useUser().user;
 
@@ -50,21 +53,28 @@ export default function Chat(props) {
     };
   }, [props.groupID]);
 
+  // Need to display a progress bar to tell user when file is ready to send
+  function appendFile(fileLink, fileName) {
+    setOutFileLink("<a href=" + fileLink + ">" + fileName + "</a>");
+  }
+
   // Sends message to Firebase Database
-  function sendMessage() {
+  function sendMessage(outMessage) {
+    let newOutMessage = outMessage.concat(outFileLink);
     firebase
       .firestore()
       .collection(`Chats/${props.groupID.id}/chat`)
       .withConverter(ChatClassConverter)
       .add(
         new ChatClass(
-          outMessage,
+          newOutMessage,
           user.display_name,
           user.uwid,
           firebase.firestore.Timestamp.now()
         )
       );
-
+    
+    setOutFileLink("");
     setOutMessage("");
   }
 
@@ -94,7 +104,15 @@ export default function Chat(props) {
       
       do {
         // bundle into one
-        temp.push(<div className={messageClassNameTag}><p>{messages[i].content}'</p></div>);
+
+        let messageContents = messages[i].content;
+        if (messageContents.startsWith('<a href=') && messageContents.endsWith('</a>')) {
+          let link = messageContents.substring(messageContents.indexOf("=") + 1, messageContents.indexOf(">"));
+          let name = messageContents.substring(messageContents.indexOf(">") + 1, messageContents.lastIndexOf("<"));
+          temp.push(<a href={link}>{name}</a>);
+        } else
+          temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
+
         temp.push(<div className={timeClassNameTag} >{formatDate(messages[i].time.toDate())}</div>);
         i++;
       } while (i < messages.length && (ownerId === messages[i].ownerId));
@@ -112,17 +130,10 @@ export default function Chat(props) {
 
   
   return (
-    
     <div className="chatScreen">
       <Link to="/dashboard" className="backBtn">Back</Link>
-<<<<<<< HEAD
-      {/*<div className="sideBar">
-          <MyGroupSidePanel/>
-        </div>*/}
-=======
       <div className="sideBar"><MyGroupSidePanel/></div>
       <Slideout firebase={firebase} groupID={props.groupID} user = {user} />
->>>>>>> main
       <div className="chatWindow">
         {buildMessageDisplay()}
         <br></br>
@@ -133,7 +144,8 @@ export default function Chat(props) {
             onChange={(event) => setOutMessage(event.target.value)}
             type="text"
           />
-          <button className="sendButton" onClick={sendMessage}>Send Message</button>
+          <AddFile firebase={firebase} onChange={appendFile} user={user}/>
+          <button className="sendButton" onClick={() => sendMessage(outMessage)}>Send Message</button>
         </div>
       </div>
     </div>
