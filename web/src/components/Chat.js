@@ -72,6 +72,12 @@ export default function Chat(props) {
     return message.ownerId == user.uwid;
   }
 
+  function closeTime(oldMessage, newMessage) {
+    var oldTime = oldMessage.toDate().getHours() * 60 + oldMessage.toDate().getMinutes();
+    var newTime = newMessage.toDate().getHours() * 60 + newMessage.toDate().getMinutes();
+    return Math.abs(oldTime - newTime) < 10; 
+  }
+
   function buildMessageDisplay() {
     // Takes each individual message and wrapps it in a div
     // I need to bundle up any messages that are sequentially sent by same person
@@ -83,19 +89,17 @@ export default function Chat(props) {
       let ownerId = messages[i].ownerId;
       let ownerClassNameTag = isOwnMessage(messages[i]) ? "ownMessageOwner" : "otherMessageOwner";
       let messageClassNameTag = isOwnMessage(messages[i]) ? "ownMessageContent" : "otherMessageContent";
-      let timeClassNameTag = isOwnMessage(messages[i]) ? "ownMessageTime" : "otherMessageTime";
 
       // Create new div for message, and create new div for owner name
       let iOld = i;
-      let temp = [<div className={ownerClassNameTag}> {messages[i].owner} </div>]
+      let temp = [<div className="messageTime"> {formatDate(messages[i].time.toDate())} </div>];
+      temp.push(<div className={ownerClassNameTag}> {messages[i].owner} </div>);
 
-      
       do {
-        // bundle into one
-        temp.push(<div className={messageClassNameTag}><p>{messages[i].content}'</p></div>);
-        temp.push(<div className={timeClassNameTag} >{formatDate(messages[i].time.toDate())}</div>);
+        // bundle into one 
+        temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
         i++;
-      } while (i < messages.length && (ownerId === messages[i].ownerId));
+      } while (i < messages.length && (ownerId === messages[i].ownerId) && closeTime(messages[iOld].time, messages[i].time));
 
       output.push(<div className="messageContent" key={messages[iOld].id}>{temp}<br></br></div>);
     }
@@ -110,12 +114,11 @@ export default function Chat(props) {
 
   
   return (
-    
     <div className="chatScreen">
       <Link to="/dashboard" className="backBtn">Back</Link>
-      {/*<div className="sideBar">
+      <div className="sideBar">
           <MyGroupSidePanel/>
-        </div>*/}
+      </div>
       <div className="chatWindow">
         {buildMessageDisplay()}
         <br></br>

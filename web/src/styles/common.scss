@@ -329,12 +329,23 @@ button {
   column-count: 1;
 }
 
+.chatScreen {
+  height: 100%;
+  width: 70%;
+}
+
 .chatWindow {
   background: #e8e8e8;
   padding: 30px;
   border-radius: 5px;
   margin: 20px;
-  min-width: 60%;
+  height: 100%;
+  width: 100%;
+}
+
+.chatMsgArea {
+  display: block;
+  overflow: hidden;
 }
 
 .chats {
@@ -368,12 +379,6 @@ button {
   @include messageNameFontSize();
 }
 
-.ownMessageTime {
-  @include message();
-  @include ownMessage();
-  @include messageTimeFontSize();
-}
-
 .otherMessageContent {
   @include message();
   @include otherMessage();
@@ -387,10 +392,10 @@ button {
   @include messageNameFontSize();
 }
 
-.otherMessageTime {
+.messageTime {
   @include message();
-  @include otherMessage();
-  @include messageTimeFontSize();
+  font-size: 10px;
+  text-align: center;
 }
 
 .logoutHolder {
