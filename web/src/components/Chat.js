@@ -23,6 +23,7 @@ export default function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
   const [outFileLink, setOutFileLink] = useState("");
+  const [sent, setSent] = useState(true);
 
   const user = useUser().user;
 
@@ -55,6 +56,7 @@ export default function Chat(props) {
 
   // Need to display a progress bar to tell user when file is ready to send
   function appendFile(fileLink, fileName) {
+    setSent(false);
     setOutFileLink("<a href=" + fileLink + ">" + fileName + "</a>");
   }
 
@@ -76,6 +78,7 @@ export default function Chat(props) {
     
     setOutFileLink("");
     setOutMessage("");
+    setSent(true);
   }
 
   // Checks if message was sent by current user or another one.
@@ -144,7 +147,7 @@ export default function Chat(props) {
             onChange={(event) => setOutMessage(event.target.value)}
             type="text"
           />
-          <AddFile firebase={firebase} onChange={appendFile} user={user}/>
+          <AddFile firebase={firebase} onChange={appendFile} user={user} sentLink={sent}/>
           <button className="sendButton" onClick={() => sendMessage(outMessage)}>Send Message</button>
         </div>
       </div>
