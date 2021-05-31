@@ -1,18 +1,19 @@
-import "../styles/common.scss";
-import LandingImg from "../assets/landing.png";
-
+// Node modules
 import { Link } from "react-router-dom";
+
+// Assets
+import LandingImg from "../assets/landing.png";
 
 export default function Landing(props) {
   return (
-    <div className="landingPg">
+    <div className="landingPg landingTest">
       <header>
         <ul className="d-flex justify-end align-center">
-          <Link to="/support">
-            <li className="lightText">Support</li>
+          <Link className="supportTest" to="/support">
+            <li className="support lightText">Support</li>
           </Link>
-          <Link to="/login">
-            <li className="primaryText">Sign In</li>
+          <Link className="loginTest" to="/login">
+            <li className="signIn primaryText">Sign In</li>
           </Link>
         </ul>
       </header>
@@ -26,7 +27,7 @@ export default function Landing(props) {
             aliquip ex ea commodo consequat.
           </p>
 
-          <Link to="/signup">
+          <Link className="joinTest" to="/signup">
             <button className="btnPrimaryFill">Join the Community</button>
           </Link>
         </div>
