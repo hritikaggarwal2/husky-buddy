@@ -1,7 +1,9 @@
-// Add Imports
+// Node Modules
 import { useState } from "react";
-import firebase from "firebase/app";
 import { Link } from "react-router-dom";
+
+// Firebase
+import firebase from "firebase/app";
 
 /**
  * XXX Stretch Goal -
@@ -12,13 +14,12 @@ import { Link } from "react-router-dom";
 
 // XXX tgarvin: potential XSS problems w/ using a strategy this simple
 // but I don't think it's something to worry about a ton right now
-export function getToken() {
-  return sessionStorage.getItem("token");
-}
-
-export function setToken(userToken) {
-  sessionStorage.setItem("token", JSON.stringify(userToken));
-}
+// export function getToken() {
+//   return sessionStorage.getItem("token");
+// }
+// export function setToken(userToken) {
+//   sessionStorage.setItem("token", JSON.stringify(userToken));
+// }
 
 /* User auth module */
 export default function Login() {
@@ -72,19 +73,19 @@ export default function Login() {
   }
 
   return (
-    <div className="login container c-fluid d-flex justify-center align-center col">
+    <div className="login loginTest container c-fluid d-flex justify-center align-center col">
       <h1 className="title">Husky Buddy.</h1>
       <form onSubmit={handleSubmit}>
         <input
           required
-          className="inputComponent"
+          className="inputComponent emailTest"
           placeholder="Enter Email"
-          type="text"
+          type="email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           required
-          className="inputComponent"
+          className="inputComponent passTest"
           placeholder="Enter Password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
@@ -101,7 +102,7 @@ export default function Login() {
           Sign In
         </button>
 
-        <Link className="btnEmptyHover" to="/signup">
+        <Link className="btnEmptyHover signupTest" to="/signup">
           Create a new account
         </Link>
       </form>
