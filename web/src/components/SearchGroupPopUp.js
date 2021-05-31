@@ -95,11 +95,6 @@ export default function SearchGroups(props) {
     // update state
     setIsSending(true);
 
-    console.log("Group name Is: ", groupNameRef.current);
-    console.log("Class prefix Is: ", classPrefixRef.current);
-    console.log("Class number Is: ", classNumRef.current);
-    console.log("Max class size Is: ", groupSizeRef.current);
-
     // ***** CHECK IF INPUT IS VALID *****
     if (!checkInput()) {
       setIsSending(false);
@@ -107,25 +102,19 @@ export default function SearchGroups(props) {
     }
 
     // send the actual request
-    //await API.sendRequest()
     await refGroups
       .get()
       .then((querySnapshot) => {
         let tempGroups = [];
         let searchnamelc = groupNameRef.current.toLowerCase();
         querySnapshot.forEach((doc) => {
-          //console.log("I WAS here");
-          //console.log(doc.id, " => ", doc.data());
           // Firebase queries are fairly limited (you can only do == checks on one field per query, for example)
-          // so part of the filtering work has to be done here. It's messy but it seems to work
+          // so the filtering work has to be done here. It's messy but it seems to work
           if (classPrefixRef.current != null && classPrefixRef.current !== "" && !doc.get("class_prefix").toLowerCase().includes(classPrefixRef.current.toLowerCase())) {
-            console.log("Failed prefix match: searched for " + classPrefixRef.current + " result was " + doc.get("class_prefix"));
             return;
           } else if (groupSizeRef.current !== "" && parseInt(groupSizeRef.current) > 0 && parseInt(doc.get("max_members")) > parseInt(groupSizeRef.current)) {
-            console.log("Failed group size match: searched for max " + parseInt(groupSizeRef.current) + " result was " + parseInt(doc.get("max_members")));
             return;
           } else if (meetInPersonRef.current && !doc.get("meet")) {
-            console.log("Failed meet match: meet is " + meetInPersonRef.current + " result was " + doc.get("meet"));
             return;
           }
 
@@ -134,38 +123,29 @@ export default function SearchGroups(props) {
             let search = parseInt(classNumRef.current);
             if (search < 0 || (search > 0 && search < 10 && Math.floor(num / 100) !== search) ||
               (search >= 10 && search < 100 && Math.floor(num / 10) !== search) || (search >= 100 && num !== search)) {
-              console.log("Failed number match: searched for " + search + " result was " + num);
               return;
             }
           }
           if (groupNameRef.current != null && groupNameRef.current !== "") {
             var docnamelc = doc.get("group_name").toLowerCase();
             if (!docnamelc.includes(searchnamelc)) {
-              console.log("Failed name match");
               return;
             }
           }
           if (classSectionRef.current != null && classSectionRef.current !== "") {
             var query = classSectionRef.current.toUpperCase();
             if (query !== doc.get("class_section").toUpperCase().substring(0, query.length)) {
-              console.log("Failed section match");
               return;
             }
           }
           if (topicsRef.current != null && topicsRef.current !== "") {
             // split both the user's query and the topics of the group into string arrays
             let topicArray = topicsRef.current.split(" ");
-            // let entryTopic = JSON.stringify(doc.get("topic")).toLowerCase().split(",");
-            // let entry = JSON.stringify(doc.get("topic"));
-            // let entryTopic = entry.substring(1, entry.length - 1).split(",");
             let entryTopic = doc.get("topic");
-            console.log("Topics: " + entryTopic);
             // Checks if this group has topics; if they don't, we skip to the next entry, if they do we go in
             if (entryTopic == null || entryTopic === 0 || entryTopic.length === 0) {
-              console.log("Failed topic match (0 array)");
               return;
             } else if (!parseTopic(topicArray, entryTopic)) {
-              console.log("Failed topic match (no matches)");
               return;
             }
           }
@@ -174,8 +154,6 @@ export default function SearchGroups(props) {
         });
 
         // groups will store a doc which has .id and .data()...
-        console.log("TEMP GROUPS");
-        console.log(tempGroups);
 
         setGroups(tempGroups);
         props.close();
@@ -191,12 +169,9 @@ export default function SearchGroups(props) {
     let matches = 0;
     // For every topic the user inputs...
     topicQuery.forEach((term) => {
-      console.log("Term: " + term);
       // If this group doesn't include that topic, set the bool that says this isn't a match
       resultTopics.forEach((topic) => {
-        console.log("Topic: " + topic);
         if (term.toLowerCase() === topic.toLowerCase()) {
-          console.log("Match on " + topic);
           matches += 1;
           return;
         }
@@ -219,10 +194,6 @@ export default function SearchGroups(props) {
         return false;
         }*/
 
-    //console.log("CHECK INPUT");
-    //console.log("Class prefix Is: ", classPrefixRef.current);
-    //console.log("Class number Is: ", classNumRef.current);
-    //console.log("Max class size Is: ", groupSizeRef.current);
 
     if (groupNameRef.current == null) {
       groupNameRef.current = "";
@@ -230,9 +201,6 @@ export default function SearchGroups(props) {
     if (classPrefixRef.current == null) {
       classPrefixRef.current = "";
     }
-
-    console.log(classNumRef.current);
-    console.log(parseInt(classNumRef.current));
 
     if (
       classNumRef.current == null ||
@@ -250,9 +218,6 @@ export default function SearchGroups(props) {
     if (topicsRef.current == null) {
       topicsRef.current = "";
     }
-
-    console.log(groupSizeRef.current);
-    console.log(parseInt(groupSizeRef.current));
 
     if (groupSizeRef.current == null) {
       groupSizeRef.current = -1;
