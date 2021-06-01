@@ -24,10 +24,12 @@ export default function MyGroupPanel(props) {
     <div className="myGroupPanel wrap container d-flex row justify-around align-center">
       {props.groups
         .sort((a, b) => {
-          if (a[props.sort] === b[props.sort]) {
+          if (a[props.sort].toLowerCase() === b[props.sort].toLowerCase()) {
             return a.id > b.id ? 1 : -1;
           }
-          return a[props.sort] > b[props.sort] ? 1 : -1;
+          return a[props.sort].toLowerCase() > b[props.sort].toLowerCase()
+            ? 1
+            : -1;
         })
         .map((group) => (
           <GroupBox
