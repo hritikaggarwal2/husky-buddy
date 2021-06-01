@@ -13,6 +13,7 @@ import SignUp from "../screens/SignUp";
 import Loading from "../screens/Loading";
 import Landing from "../screens/Landing";
 import PanelView from "../screens/PanelView";
+import UserProfile from "../screens/UserProfile";
 
 export default function Routes() {
   const user = useUser().user;
@@ -41,6 +42,9 @@ export default function Routes() {
       ) : (
         <Router>
           <Switch>
+            <Route path="/userprofile">
+              <UserProfile />
+            </Route>
             <Route path="/search">
               <Dashboard />
             </Route>
