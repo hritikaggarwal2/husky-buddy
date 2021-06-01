@@ -1,5 +1,3 @@
-import puppeteer from 'puppeteer';
-
 // User info
 const welcomeMessage = 'Welcome, Tuesday User';
 const user = 'tuesdayuser@uw.edu';
@@ -16,11 +14,13 @@ const meet = true;
 const message = "Puppeteer Test message";
 
 describe.only('End-to-End Test', () => {
+    beforeAll(async () => {
+        await page.goto('http://localhost:3000/login')
+    });
+
     it('Landing-to-Login', async () => {
         let retVal;
-        const browser = await puppeteer.launch({headless: true});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/');
+        await page.goto('http://localhost:3000');
 
         // Click on Sign In button and check if we are on login screen
         await page.waitForXPath("//*[@class='landingPg']");
@@ -33,9 +33,6 @@ describe.only('End-to-End Test', () => {
 
     it('Login-to-Dashboard', async () => {
         let retVal;
-        const browser = await puppeteer.launch({headless: true});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in and check if we're at dashboard
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -57,9 +54,6 @@ describe.only('End-to-End Test', () => {
     it('Create Group', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true, slowMo: 25});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -98,9 +92,6 @@ describe.only('End-to-End Test', () => {
     it('Enter Chat', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -127,9 +118,6 @@ describe.only('End-to-End Test', () => {
     it('Send Chat', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true, slowMo: 25});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -159,9 +147,6 @@ describe.only('End-to-End Test', () => {
     it('Search Groups', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -185,9 +170,6 @@ describe.only('End-to-End Test', () => {
     it('Leave Group', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true, slowMo: 120});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
@@ -229,9 +211,6 @@ describe.only('End-to-End Test', () => {
     it('Logout', async () => {
         let retVal;
         let button;
-        const browser = await puppeteer.launch({headless: true});
-        const page = await browser.newPage();
-        await page.goto('https://study-buddy-uw.web.app/login');
 
         // Sign in and check if we're at dashboard
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
