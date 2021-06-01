@@ -29,19 +29,13 @@ export default function SearchResultsPopUp(props) {
     // Add group ID under user
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
-    refGroups.doc(groupDoc.id)
-      .update(
-        {
-        members: arrayUnion(userId)
-        }
-      );
+    refGroups.doc(groupDoc.id).update({
+      members: arrayUnion(userId),
+    });
 
-    refUsers.doc(userId)
-    .update(
-      {
-      groups: arrayUnion(groupDoc.id)
-      }
-    );
+    refUsers.doc(userId).update({
+      groups: arrayUnion(groupDoc.id),
+    });
 
     alert("Joined Group!!!");
   }
