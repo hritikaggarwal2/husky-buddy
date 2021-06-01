@@ -5,10 +5,12 @@ import "../components/MyGroupPanel";
 import { useUser } from "../providers/UserProvider";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/storage";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
 import MyGroupSidePanel from "../components/MyGroupSidePanel";
 import Slideout from "../components/Slideout";
+import AddFile from "../components/AddFile";
 
 /**
  *
@@ -20,6 +22,8 @@ export default function Chat(props) {
   // TODO: Update group ID to the actual one
   const [messages, setMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
+  const [outFileLink, setOutFileLink] = useState("");
+  const [sent, setSent] = useState(true);
 
   const user = useUser().user;
 
@@ -50,22 +54,31 @@ export default function Chat(props) {
     };
   }, [props.groupID]);
 
+  // Need to display a progress bar to tell user when file is ready to send
+  function appendFile(fileLink, fileName) {
+    setSent(false);
+    setOutFileLink("<a href=" + fileLink + ">" + fileName + "</a>");
+  }
+
   // Sends message to Firebase Database
-  function sendMessage() {
+  function sendMessage(outMessage) {
+    let newOutMessage = outMessage.concat(outFileLink);
     firebase
       .firestore()
       .collection(`Chats/${props.groupID.id}/chat`)
       .withConverter(ChatClassConverter)
       .add(
         new ChatClass(
-          outMessage,
+          newOutMessage,
           user.display_name,
           user.uwid,
           firebase.firestore.Timestamp.now()
         )
       );
-
+    
+    setOutFileLink("");
     setOutMessage("");
+    setSent(true);
   }
 
   // Checks if message was sent by current user or another one.
@@ -74,37 +87,80 @@ export default function Chat(props) {
     return message.ownerId == user.uwid;
   }
 
+  function closeTime(oldMessage, newMessage) {
+    var oldTime = oldMessage.toDate().getHours() * 60 + oldMessage.toDate().getMinutes();
+    var newTime = newMessage.toDate().getHours() * 60 + newMessage.toDate().getMinutes();
+    return Math.abs(oldTime - newTime) < 10; 
+  }
+
+  function buildMessageDisplay() {
+    // Takes each individual message and wrapps it in a div
+    // I need to bundle up any messages that are sequentially sent by same person
+    // While messages.next is sent by same person, add the message to the same div.
+    let output = [<div/>];
+
+    let i = 0;
+    while (i < messages.length) {
+      let ownerId = messages[i].ownerId;
+      let ownerClassNameTag = isOwnMessage(messages[i]) ? "ownMessageOwner" : "otherMessageOwner";
+      let messageClassNameTag = isOwnMessage(messages[i]) ? "ownMessageContent" : "otherMessageContent";
+
+      // Create new div for message, and create new div for owner name
+      let iOld = i;
+      let temp = [<div className="messageTime"> {formatDate(messages[i].time.toDate())} </div>];
+      temp.push(<div className={ownerClassNameTag}> {messages[i].owner} </div>);
+
+      do {
+        // bundle into one
+        // Parse out the links so users can click on them
+        let messageContents = messages[i].content;
+        if (messageContents.includes('<a href=') && messageContents.includes('</a>')) {
+          let startIndex = messageContents.indexOf('<a href=');
+          let tagLength = '<a href='.length;
+          let contents = messageContents.substring(0, startIndex);
+          let remainingContents = messageContents.substring(startIndex);
+          let link = remainingContents.substring(tagLength, remainingContents.indexOf(">"));
+          let name = remainingContents.substring(remainingContents.indexOf(">") + 1, remainingContents.lastIndexOf("<"));
+          if(contents.length > 0)
+            temp.push(<div className={messageClassNameTag}><p>{contents}</p></div>);
+
+          temp.push(<a className={messageClassNameTag + " linkTag"} href={link}><p>{name}</p></a>);
+        } else {
+
+          temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
+        }
+        
+        i++;
+      } while (i < messages.length && (ownerId === messages[i].ownerId) && closeTime(messages[iOld].time, messages[i].time));
+
+      output.push(<div className="messageContent" key={messages[iOld].id}>{temp}<br></br></div>);
+    }
+
+    return (
+      <div className="chatMsgArea">
+        {output}
+      </div>
+    );
+  }
+
+  
   return (
     <div className="chatScreen">
       <Link to="/dashboard" className="backBtn">Back</Link>
       <div className="sideBar"><MyGroupSidePanel/></div>
       <Slideout firebase={firebase} groupID={props.groupID} user = {user} />
       <div className="chatWindow">
-        <div className="chatMsgArea">
-          {messages.map((message) => (
-            <div className="messageContents" key={message.id}>
-              <div className={isOwnMessage(message) ? "ownMessageOwner" : "otherMessageOwner"}>
-                {message.owner}
-              </div>
-              <div className={isOwnMessage(message) ? "ownMessageContent" : "otherMessageContent"}>
-                <p>{message.content}</p>
-              </div>
-              <div className={isOwnMessage(message) ? "ownMessageTime" : "otherMessageTime"}>
-                {formatDate(message.time.toDate())}
-              </div>
-              <br></br>
-            </div>
-          ))}
-        </div>
+        {buildMessageDisplay()}
         <br></br>
-        <div class="row">
+        <div className="row">
           <input
             className="messageInputer"
             value={outMessage}
             onChange={(event) => setOutMessage(event.target.value)}
             type="text"
           />
-          <button className="sendButton" onClick={sendMessage}>Send Message</button>
+          <AddFile firebase={firebase} onChange={appendFile} user={user} sentLink={sent}/>
+          <button className="sendButton" onKeyPress={() => sendOnEnter()} onClick={() => sendMessage(outMessage)}>Send Message</button>
         </div>
       </div>
     </div>
@@ -128,5 +184,11 @@ export default function Chat(props) {
       "/" +
       date.getFullYear()
     );
+  }
+
+  function sendOnEnter(e) {
+    if (e.charCode == 13 /* enter */) {
+      sendMessage(outMessage);
+    }
   }
 }
