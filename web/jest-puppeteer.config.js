@@ -2,7 +2,7 @@ module.exports = {
     setupFilesAfterEnv: ['./jest.setup.js'],
     launch: {
       dumpio: true,
-      headless: false,
+      headless: true,
       slowMo: 25
     },
     browser: 'chromium',
