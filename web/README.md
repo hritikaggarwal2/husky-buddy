@@ -128,8 +128,9 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
   team mates or find it at:
   [Link](https://console.firebase.google.com/u/0/project/study-buddy-uw/settings/general/web:NDRlNDQzNTQtNzY4NS00MmYwLWI1NmUtOGFjMjdiNmM1YzQz)
   -> `SDK setup and configuration` -> `Config`
-  
- > Note: In case you are not a trusted developer (by our organization), you can [Create & Use your own Firebase Project](#creating--using-your-own-firebase-project).
+
+> Note: In case you are not a trusted developer (by our organization), you can
+> [Create & Use your own Firebase Project](#creating--using-your-own-firebase-project).
 
 #### Creating & Using your own Firebase Project
 
@@ -186,7 +187,6 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 >   command once again and check to see if that fixes the issue.
 > - You must complete everything before this point to have successfully setup
 >   the project.
->   
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -206,8 +206,20 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 ## Testing the Project
 
 - Navigate to the `<root>/web` subdirectory.
-- Run the following command using the terminal (at this location): `npm test`
+- Run the following command using the terminal (at this location):
+  `npm run test:integration`
 - Follow allong the interactive terminal window to run the desired tests.
+
+##### Adding Tests to the Project
+
+- Navigate to `<root>/web/src/integration` subdirectory.
+- For any specific _.js file, add a corresponding _.test.js file which contains
+  all the unit tests for a specific component/function.
+- Refer to Jest and Puppeteer testing tools for additional instructions for
+  writing tests.
+- The
+  `` npm run test:integration` script will automatically detect these new unit tests and run them either via CI testing or manually via  ``npm
+  run test:integration` locally.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -239,5 +251,14 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 - Run the following command using the terminal: `firebase deploy`.
 - This will deploy your web app at
   [https://study-buddy-uw.web.app/](https://study-buddy-uw.web.app/)
+
+**[⬆ back to top](#table-of-contents)**
+
+## CI/CD Layout
+
+- Pushing changes to the main branch or making a pull request to merge a branch
+  onto main will trigger Github Actions to execute `node.js.yml` file inside of
+  `<root>/.github/workflows` directory.
+- The `Actions` tab contains the build history and the workflow runs.
 
 **[⬆ back to top](#table-of-contents)**
