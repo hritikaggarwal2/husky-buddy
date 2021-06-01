@@ -114,11 +114,19 @@ export default function Chat(props) {
         // bundle into one
         // Parse out the links so users can click on them
         let messageContents = messages[i].content;
-        if (messageContents.startsWith('<a href=') && messageContents.endsWith('</a>')) {
-          let link = messageContents.substring(messageContents.indexOf("=") + 1, messageContents.indexOf(">"));
-          let name = messageContents.substring(messageContents.indexOf(">") + 1, messageContents.lastIndexOf("<"));
-          temp.push(<a className={messageClassNameTag} href={link}><p>{name}</p></a>);
+        if (messageContents.includes('<a href=') && messageContents.includes('</a>')) {
+          let startIndex = messageContents.indexOf('<a href=');
+          let tagLength = '<a href='.length;
+          let contents = messageContents.substring(0, startIndex);
+          let remainingContents = messageContents.substring(startIndex);
+          let link = remainingContents.substring(tagLength, remainingContents.indexOf(">"));
+          let name = remainingContents.substring(remainingContents.indexOf(">") + 1, remainingContents.lastIndexOf("<"));
+          if(contents.length > 0)
+            temp.push(<div className={messageClassNameTag}><p>{contents}</p></div>);
+
+          temp.push(<a className={messageClassNameTag + " linkTag"} href={link}><p>{name}</p></a>);
         } else {
+
           temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
         }
         

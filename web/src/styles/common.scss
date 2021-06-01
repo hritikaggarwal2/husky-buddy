@@ -452,6 +452,20 @@ button {
   width: 25%;
 }
 
+.linkTag {
+  color: rgb(45, 80, 233);
+  font-family: helvetica;
+  text-decoration: none;
+}
+
+.linkTag:hover {
+  text-decoration: underline;
+}
+
+.linkTag:active {
+  color: black;
+}
+
 .ownMessageContent {
   @include message();
   @include ownMessage();
