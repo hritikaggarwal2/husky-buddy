@@ -25,7 +25,7 @@ export default function Slideout(props) {
         const refChat = props.firebase.firestore().collection("Chats");
         const refInnerChat = props.firebase.firestore().collection(`Chats/${props.groupID.id}/chat`);
         const arrayRemove = props.firebase.firestore.FieldValue.arrayRemove;
-        const refFiles = props.firebase.storage().reference().child(`/${props.user.uwid}`);
+        //const refFiles = props.firebase.storage().reference().child(`/${props.user.uwid}`);
         
         refGroups.doc(props.groupID.id)
         .onSnapshot((snapshot) => {
