@@ -72,14 +72,16 @@ export default function UserProfile() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setMadeChanges(false);
 
     console.log("handle submit");
     console.log("updating w/");
     console.log({ about: "test about" });
     console.log("User ID:");
     console.log(user.uwid);
-    if (!validateInput()) {
+    if (!validateInput() || !madeChanges) {
       // visible error here
+      return;
     }
 
     //const refUsers = firebase.firestore().collection("Users");
@@ -99,14 +101,6 @@ export default function UserProfile() {
       });
 
     console.log("done");
-    //console.log(res);
-
-    //const doc = await refUser.get();
-    //if (!doc.exists) {
-    //  console.log("No such document!");
-    //} else {
-    //  console.log("Document data:", doc.data());
-    //}
   }
 
   return (
@@ -116,16 +110,69 @@ export default function UserProfile() {
       <h2 className="userProfileTitle"> Welcome, {user.display_name} </h2>
       <h3> Edit your user profile! </h3>
 
-      <h3 className="fieldDesc">About</h3>
-      <InlineEdit
-        text={about === "" ? "Write something about yourself here!" : about}
-        onSetText={onSetAbout}
-      />
-      <h3 className="fieldDesc">Status</h3>
-      <InlineEdit
-        text={status === "" ? "Write your status here!" : status}
-        onSetText={onSetStatus}
-      />
+      <div className="d-flex flex-row">&nbsp;</div>
+      <div className="d-flex flex-row">&nbsp;</div>
+
+      <div className="d-flex flex-row justify-between">
+        <div className="p-2 bd-highlight justify-content-start">
+          Display Name :{" "}
+        </div>
+        <div className="p-4 bd-highlight justify-content-end">
+          <InlineEdit
+            className="align-right"
+            text={
+              displayName === "" ? "Write your display name here!" : displayName
+            }
+            onSetText={onSetDisplayName}
+          />
+        </div>
+      </div>
+
+      <div className="d-flex flex-row justify-between">
+        <div className="p-2 bd-highlight">About : </div>
+        <div className="p-4 bd-highlight">
+          <InlineEdit
+            text={about === "" ? "Write something about yourself here!" : about}
+            onSetText={onSetAbout}
+          />
+        </div>
+      </div>
+      <div className="d-flex flex-row justify-between">
+        <div className="p-2 bd-highlight">Status : </div>
+        <div classHame="p-4 bd-highlight">
+          <InlineEdit
+            text={status === "" ? "Write your status here!" : status}
+            onSetText={onSetStatus}
+          />
+        </div>
+      </div>
+      <div>
+        Date of Birth
+        <InlineEdit
+          text={dob === "" ? "Write your date of birth here!" : dob}
+          onSetText={onSetDob}
+        />
+      </div>
+
+      <div>
+        Phone Number
+        <InlineEdit
+          text={phoneNum === "" ? "Write your phone number here!" : phoneNum}
+          onSetText={onSetPhoneNum}
+        />
+      </div>
+
+      <div>
+        Major
+        <InlineEdit
+          text={major === "" ? "Write your major number here!" : major}
+          onSetText={onSetMajor}
+        />
+      </div>
+
+      <div className="d-flex flex-row">&nbsp;</div>
+      <div className="d-flex flex-row">&nbsp;</div>
+
       <div>
         <form onSubmit={handleSubmit}>
           <button
