@@ -105,7 +105,9 @@ export default function UserProfile() {
 
   return (
     <div className="profile container c-fluid d-flex justify-center align-center col">
-      <h1 className="title">Husky Buddy.</h1>
+      <Link to="/dashboard">
+        <h1 className="title">HuskyBuddy</h1>
+      </Link>
 
       <h2 className="userProfileTitle"> Welcome, {user.display_name} </h2>
       <h3> Edit your user profile! </h3>
@@ -115,7 +117,7 @@ export default function UserProfile() {
 
       <div className="d-flex flex-row justify-between">
         <div className="p-2 bd-highlight justify-content-start">
-          Display Name :{" "}
+          Display Name: &nbsp;&nbsp;
         </div>
         <div className="p-4 bd-highlight justify-content-end">
           <InlineEdit
@@ -129,7 +131,7 @@ export default function UserProfile() {
       </div>
 
       <div className="d-flex flex-row justify-between">
-        <div className="p-2 bd-highlight">About : </div>
+        <div className="p-2 bd-highlight">About: &nbsp;&nbsp;</div>
         <div className="p-4 bd-highlight">
           <InlineEdit
             text={about === "" ? "Write something about yourself here!" : about}
@@ -138,7 +140,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="d-flex flex-row justify-between">
-        <div className="p-2 bd-highlight">Status : </div>
+        <div className="p-2 bd-highlight">Status: &nbsp;&nbsp;</div>
         <div classHame="p-4 bd-highlight">
           <InlineEdit
             text={status === "" ? "Write your status here!" : status}
@@ -147,7 +149,7 @@ export default function UserProfile() {
         </div>
       </div>
       <div>
-        Date of Birth
+        Date of Birth: &nbsp;&nbsp;
         <InlineEdit
           text={dob === "" ? "Write your date of birth here!" : dob}
           onSetText={onSetDob}
@@ -155,7 +157,7 @@ export default function UserProfile() {
       </div>
 
       <div>
-        Phone Number
+        Phone Number: &nbsp;&nbsp;
         <InlineEdit
           text={phoneNum === "" ? "Write your phone number here!" : phoneNum}
           onSetText={onSetPhoneNum}
@@ -163,9 +165,9 @@ export default function UserProfile() {
       </div>
 
       <div>
-        Major
+        Major: &nbsp;&nbsp;
         <InlineEdit
-          text={major === "" ? "Write your major number here!" : major}
+          text={major === "" ? "Write your major here!" : major}
           onSetText={onSetMajor}
         />
       </div>

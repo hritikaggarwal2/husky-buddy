@@ -59,18 +59,32 @@ export default function Dashboard() {
         />
       ) : null}
 
-
       {/* MAIN DASHBOARD VIEW */}
       <div className="dashboard container d-flex col justify-center align-center">
         <Link to="/dashboard">
           <h1 className="title">HuskyBuddy</h1>
         </Link>
-        <h2>Welcome, {user.display_name}</h2>
+        <Link to="/userprofile">
+          <h2>Welcome, {user.display_name}</h2>
+          <h4> (edit user profile) </h4>
+        </Link>
         <MyGroupPanel groups={["Group1", "Group2"]} />
         <div className="btnBox">
-          <button id="dashboardGroupBtn" className="btnPrimaryFill" onClick={() => setOpenCreate(true)}>Create Group</button>
+          <button
+            id="dashboardGroupBtn"
+            className="btnPrimaryFill"
+            onClick={() => setOpenCreate(true)}
+          >
+            Create Group
+          </button>
           <p></p>
-          <button id="dashboardGroupBtn" className="btnPrimaryFill" onClick={() => setOpenSearch(true)}>Search Groups</button>
+          <button
+            id="dashboardGroupBtn"
+            className="btnPrimaryFill"
+            onClick={() => setOpenSearch(true)}
+          >
+            Search Groups
+          </button>
         </div>
       </div>
       <div className="justify-center align-center">
