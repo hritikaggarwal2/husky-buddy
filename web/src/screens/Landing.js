@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 
 // Assets
-import LandingImg from "../assets/landing.png";
+import LandingImg from "../assets/landing.svg";
 
 export default function Landing(props) {
   return (

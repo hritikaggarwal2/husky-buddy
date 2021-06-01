@@ -1,3 +1,6 @@
+import "./styles/common_flex.scss";
+import "./styles/common_shapes.scss";
+import "./styles/common_text.scss";
 import "./styles/common.scss";
 
 // firebase stuff

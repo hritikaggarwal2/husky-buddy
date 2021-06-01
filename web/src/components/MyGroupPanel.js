@@ -1,49 +1,17 @@
-import { useState, useEffect } from "react";
-
-import { useUser } from "../providers/UserProvider";
-
-import firebase from "firebase/app";
-import "firebase/firestore";
-
-import GroupBox from "./GroupBox";
-
+// Node Modules
 import { useHistory } from "react-router-dom";
 
+// Components
+import GroupBox from "./GroupBox";
+
 /**
- * Function that displays a side panel with the
- * links to the groups a user is a member of.
+ * Function that displays the collection of groups of which the
+ * current user is a part of. These groups can be clicked and
+ * navigated to as needed by the user.
  *
  */
-export default function MyGroupPanel() {
-  const [groups, setGroups] = useState([]);
-  const user = useUser().user;
-
+export default function MyGroupPanel(props) {
   const history = useHistory();
-
-  // Retrieve the values of the groups
-  useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("Groups")
-      .where("members", "array-contains", user.uwid)
-      .onSnapshot(
-        {
-          // Listen for document metadata changes
-          includeMetadataChanges: true,
-        },
-        (snapshot) => {
-          let allGroups = [];
-          snapshot.docs.forEach((doc) => {
-            allGroups.push({ ...doc.data(), id: doc.id });
-          });
-          setGroups(allGroups);
-        }
-      );
-
-    return () => {
-      unsubscribe();
-    };
-  }, [user]);
 
   function goToChat(groupInfo) {
     history.push({
@@ -53,17 +21,21 @@ export default function MyGroupPanel() {
   }
 
   return (
-    <div className="myGroupPanel container">
-      <h2 className="d-flex row justify-center align-center">MY GROUPS</h2>
-      <div className="d-flex row justify-center align-center">
-        {groups.map((group) => (
+    <div className="myGroupPanel wrap container d-flex row justify-around align-center">
+      {props.groups
+        .sort((a, b) => {
+          if (a[props.sort] === b[props.sort]) {
+            return a.id > b.id ? 1 : -1;
+          }
+          return a[props.sort] > b[props.sort] ? 1 : -1;
+        })
+        .map((group) => (
           <GroupBox
             key={group.id}
             onClick={() => goToChat(group)}
             group={group}
           />
         ))}
-      </div>
     </div>
   );
 }

@@ -1,12 +1,11 @@
+// Node Modules
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-// user provider
+// Firebase
 import { useUser } from "../providers/UserProvider";
 
-// components
-import Logout from "../components/Logout";
-
-// screens
+// Screens
+import Logout from "../screens/Logout";
 import Dashboard from "../screens/Dashboard";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
