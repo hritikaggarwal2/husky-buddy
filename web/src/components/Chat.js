@@ -121,14 +121,12 @@ export default function Chat(props) {
         } else {
           temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
         }
-
         
         i++;
       } while (i < messages.length && (ownerId === messages[i].ownerId) && closeTime(messages[iOld].time, messages[i].time));
 
       output.push(<div className="messageContent" key={messages[iOld].id}>{temp}<br></br></div>);
     }
-
 
     return (
       <div className="chatMsgArea">
@@ -154,7 +152,7 @@ export default function Chat(props) {
             type="text"
           />
           <AddFile firebase={firebase} onChange={appendFile} user={user} sentLink={sent}/>
-          <button className="sendButton" onClick={() => sendMessage(outMessage)}>Send Message</button>
+          <button className="sendButton" onKeyPress={() => sendOnEnter()} onClick={() => sendMessage(outMessage)}>Send Message</button>
         </div>
       </div>
     </div>
@@ -181,8 +179,8 @@ export default function Chat(props) {
   }
 
   function sendOnEnter(e) {
-    if (e.charCode == 13) {
-      sendMessage();
+    if (e.charCode == 13 /* enter */) {
+      sendMessage(outMessage);
     }
   }
 }

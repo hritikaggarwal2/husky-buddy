@@ -41,18 +41,20 @@ $gray-shadow: #c4c4c4;
   max-width: 60%;
   letter-spacing: 0.5px;
   clear: both;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 @mixin ownMessage {
   margin-left: auto;
   margin-right: 0;
-  text-align: right;
+  margin: 1px;
 }
 
 @mixin otherMessage {
   margin-left: 0;
   margin-right: auto;
-  text-align: left;
+  margin: 1px;
 }
 
 @mixin messageContent {
