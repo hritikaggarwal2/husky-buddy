@@ -13,12 +13,19 @@ const gS = '10';
 const meet = true;
 const message = "Puppeteer Test message";
 
+
 describe.only('End-to-End Test', () => {
-    beforeAll(async () => {
-        await page.goto('http://localhost:3000/login')
+    beforeEach( async(done) => {
+        jest.setTimeout(30000);
+        await page.goto('http://localhost:3000/login');
+        done();
     });
 
-    it('Landing-to-Login', async () => {
+    afterAll( (done) => {
+        done();
+    });
+
+    it('Landing-to-Login', async (done) => {
         let retVal;
         await page.goto('http://localhost:3000');
 
@@ -27,31 +34,38 @@ describe.only('End-to-End Test', () => {
         await page.click('.primaryText');
         retVal = await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]", {timeout: 2000});
         expect(retVal).not.toBe(null);
+        done();
 
-        browser.close();
     }, 20000);
 
-    it('Login-to-Dashboard', async () => {
+    it('Login-to-Dashboard', async (done) => {
+        jest.setTimeout(30000);
         let retVal;
+        let button;
 
         // Sign in and check if we're at dashboard
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
+        
         await page.type('input[placeholder="Enter Email"', user);
-        await page.type('input[placeholder="Enter Password"', pass)
-        const [button] = await page.$x("//button[contains(., 'Sign In')]");
+        await page.type('input[placeholder="Enter Password"', pass);
+        [button] = await page.$x("//button[contains(., 'Sign In')]");
         await button.click();
         retVal = await page.waitForXPath("//*[@class='btnPrimaryFill' and contains(., 'Create Group')]");
         expect(retVal).not.toBe(null);
         retVal = await page.waitForXPath("//*[@class='btnPrimaryFill' and contains(., 'Search Group')]");
         expect(retVal).not.toBe(null);
-        
-        browser.close();
+
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
     }, 20000);
 
-
+    
     // TODO: FIGURE OUT WHY I GET DIFFERENT RESULTS IF I REMOVE SLOWmO
     // DATA IS NO LONGER STORED IN FIREBASE WHEN I REMOVE IT
-    it('Create Group', async () => {
+    it('Create Group', async (done) => {
         let retVal;
         let button;
 
@@ -85,11 +99,16 @@ describe.only('End-to-End Test', () => {
         retVal = await page.$x("//div[contains(., '" + gN + "')]");
         expect(retVal).not.toBe(null);
 
-        browser.close();
-    }, 20000);
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
+    }, 20000); 
 
+    
     // Test Expects a user to have joined some group already
-    it('Enter Chat', async () => {
+    it('Enter Chat', async (done) => {
         let retVal;
         let button;
 
@@ -109,13 +128,23 @@ describe.only('End-to-End Test', () => {
         [button] = await page.$x("//*[@class='sendButton' and contains(., 'Send Message')]");
         expect(button).not.toBe(undefined);
 
-        browser.close();
+
+        // Navigate back to dashboard
+        await page.goto('http://localhost:3000/dashboard');
+        await page.waitForXPath("//*[@class='groupBox' and contains(., '" + gN + "')]");
+
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
+
     }, 20000);
 
     // Test Expects a user to have joined some group already
     // TODO: SAME AS CREATE GROUP, INCLUDING SLOWmO WILL ACTUALLY STORE THE MESSAGE
     // IF IT'S NOT INCLUDED, WILL NOT RECORD MESSAGE TO FIREBASE
-    it('Send Chat', async () => {
+    it('Send Chat', async (done) => {
         let retVal;
         let button;
 
@@ -140,11 +169,20 @@ describe.only('End-to-End Test', () => {
         button.click();
         await page.waitForXPath("//*[@class='messageContents' and contains(., '" + message + "')]");
 
-        browser.close();
+        // Navigate back to dashboard
+        await page.goto('http://localhost:3000/dashboard');
+        await page.waitForXPath("//*[@class='groupBox' and contains(., '" + gN + "')]");
+
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
     }, 20000);
 
+    
     // Tests if search functionality works
-    it('Search Groups', async () => {
+    it('Search Groups', async (done) => {
         let retVal;
         let button;
 
@@ -163,11 +201,20 @@ describe.only('End-to-End Test', () => {
         expect(button).not.toBe(undefined);
         expect(button).not.toBe(null);
 
-        browser.close();
+        // Navigate back to dashboard
+        await page.goto('http://localhost:3000/dashboard');
+        await page.waitForXPath("//*[@class='groupBox' and contains(., '" + gN + "')]");
+
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
+
     }, 20000);
 
     // Tests if a user can delete a group
-    it('Leave Group', async () => {
+    it('Leave Group', async (done) => {
         let retVal;
         let button;
 
@@ -195,20 +242,25 @@ describe.only('End-to-End Test', () => {
         await page.waitForSelector('.sidenavBtn')
         await page.click('.sidenavBtn');
         
-        /*await page.waitForXPath("//*[@class='sidenavBtn']");
-        [button] = await page.$x("//*[@class='sidenavBtn' and contains(., 'Delete Group')]");
-        expect(button).not.toBe(undefined);
-        button.click();*/
-
         // Check if deleted group is no longer viewable
         retVal = await page.$x("//div[contains(., '" + gN + "')]");
         expect(retVal).toEqual([]);
 
-        browser.close();
+        // Navigate back to dashboard
+        await page.goto('http://localhost:3000/dashboard');
+        retVal = await page.waitForXPath("//*[@class='btnPrimaryFill' and contains(., 'Create Group')]");
+        expect(retVal).not.toBe(null);
+
+        // Logout
+        [button] = await page.$x("//button[contains(., 'Logout')]");
+        await button.click();
+        await new Promise(r => setTimeout(r, 1000));
+        done();
     }, 20000);
 
+    
     // Tests if logout works
-    it('Logout', async () => {
+    it('Logout', async (done) => {
         let retVal;
         let button;
 
@@ -229,6 +281,6 @@ describe.only('End-to-End Test', () => {
 
         // Check if we're back at sign in page
         await page.waitForXPath("//*[@class='title' and contains(., 'Husky Buddy.')]");
-        browser.close();
+        done();
     }, 20000);
 });

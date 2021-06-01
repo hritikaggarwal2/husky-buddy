@@ -1,7 +1,8 @@
 module.exports = {
+    setupFilesAfterEnv: ['./jest.setup.js'],
     launch: {
       dumpio: true,
-      headless: true,
+      headless: false,
       slowMo: 25
     },
     browser: 'chromium',
@@ -9,7 +10,7 @@ module.exports = {
     server: {
       command: `npm start`,
       port: 3000,
-      launchTimeout: 20000,
+      launchTimeout: 30000,
       debug: true,
     },
   }
