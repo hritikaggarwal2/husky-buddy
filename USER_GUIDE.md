@@ -107,12 +107,14 @@ This web app is publically available at
 
 ### Known Issues
 
-- If you are a member of too many groups, some groups will be pushed offscreen
-  on the dashboard.
+- Refer to https://github.com/hritikaggarwal2/husky-buddy/issues for a list of
+  open bugs and issues known.
 
 ### Report a Bug
 
-- To report a bug, please fill out this form:
-  [https://forms.gle/34v4Z3xVjE2WhNzQ8](https://forms.gle/34v4Z3xVjE2WhNzQ8)
+- To report a bug please create a new issue at:
+  https://github.com/hritikaggarwal2/husky-buddy/issues
+- Include information such as: page that it occurs  
+  on and how to replicate the bug from the very start.
 
 **[⬆ back to top](#table-of-contents)**

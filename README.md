@@ -15,8 +15,11 @@
 ## Project Brief
 
 A study group web app targeted specifically towards UW Seattle students who are
-looking to partner with other students for various classes. Use this app to find
-yourself the perfect study group for each class.
+looking to partner with other students for various classes. This app allows
+users to easily search for study groups within their classes. Users can create
+additional groups with restrictive parameters, and wait for other students to
+join and chat! This app eliminates students' burden of not knowing if any study
+groups exist on Discord, Facebook, or other group chat platforms.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -26,10 +29,10 @@ yourself the perfect study group for each class.
 
 We want all the students at UW to be able to find study groups, collaborate with
 their peers, and build strong relationships, while simultaneously facilitating a
-structured learning environment. Although there exist some services that can
-perform similarly, we want to make Husky Buddy shine among the competition by
-not only including features that make it easier for users to form their perfect
-study groups, but by also abolishing the negatives included in our competitors.
+structured learning environment. The goal of HuskyBuddy is to provide the
+platform for seamless connection with other students. Students can easily locate
+a study group and chat with their new buddies. If no group exists, users can
+create a new one so others can join!
 
 ### 4+ Major Features (MVP)
 
@@ -71,7 +74,7 @@ study groups, but by also abolishing the negatives included in our competitors.
 ### Guides
 
 - [User Guide](USER_GUIDE.md)
-- [Developer Guide](./web/README.md)
+- [Developer Guide](DEVELOPER_GUIDE.md)
 
 ### Current (Operational) Use Cases
 
