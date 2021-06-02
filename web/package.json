@@ -7,6 +7,9 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "expect-puppeteer": "^5.0.4",
+    "jest-puppeteer": "^5.0.4",
+    "puppeteer": "^9.1.1",
     "firebase": "^8.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -20,6 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:integration": "jest -c jest-integration.config.js",
+    "ci:integration": "jest -c jest-browser-tests.config.js --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "jest-puppeteer": "^5.0.4",
     "puppeteer": "^9.1.1"
   }
 }
