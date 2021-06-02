@@ -51,29 +51,28 @@ export default function CreateGroupPopUp(props) {
       return false;
     }
     return true;
-
   }
 
   // references to access GroupsCollection and UsersCollection
   const refGroups = firebase.firestore().collection("Groups");
   const refUsers = firebase.firestore().collection("Users");
-  const refChats = firebase.firestore().collection("Chats");
+  // const refChats = firebase.firestore().collection("Chats");
 
   function recordData() {
     // ***** CHECK IF INPUT IS VALID *****
 
     if (!checkInput()) {
-
       return;
     }
-    
+
     // Create new group by sending new group to firebase.
 
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
     refGroups
       .withConverter(GroupClassConverter)
-      .add(new GroupClass(
+      .add(
+        new GroupClass(
           classNum,
           classPrefix,
           classSection,
@@ -90,7 +89,7 @@ export default function CreateGroupPopUp(props) {
           groups: arrayUnion(docRef.id),
         });
       });
-    
+
     // TODO: FORMALLY CREATE A GROUP DOCUMENT
     // Right now, firebase automatically creates it for us,
     // I think we should do it explicitly, just for sanity.

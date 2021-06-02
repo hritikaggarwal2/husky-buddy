@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/common.scss";
 import "../components/MyGroupPanel";
 import { useUser } from "../providers/UserProvider";
@@ -8,8 +7,6 @@ import "firebase/firestore";
 import "firebase/storage";
 
 import { ChatClass, ChatClassConverter } from "../data/ChatClass";
-import MyGroupSidePanel from "../components/MyGroupSidePanel";
-import Slideout from "../components/Slideout";
 import AddFile from "../components/AddFile";
 
 /**
@@ -24,6 +21,10 @@ export default function Chat(props) {
   const [outMessage, setOutMessage] = useState("");
   const [outFileLink, setOutFileLink] = useState("");
   const [sent, setSent] = useState(true);
+
+  console.log(props);
+
+  const inputRef = useRef();
 
   const user = useUser().user;
 
@@ -46,6 +47,8 @@ export default function Chat(props) {
             tempMessages.push({ ...message.data(), id: message.id });
           });
           setMessages(tempMessages);
+          console.log(tempMessages);
+          console.log("firebase call");
         }
       );
 
@@ -62,6 +65,10 @@ export default function Chat(props) {
 
   // Sends message to Firebase Database
   function sendMessage(outMessage) {
+    if (outMessage === "" && outFileLink === "") {
+      return;
+    }
+
     let newOutMessage = outMessage.concat(outFileLink);
     firebase
       .firestore()
@@ -75,7 +82,7 @@ export default function Chat(props) {
           firebase.firestore.Timestamp.now()
         )
       );
-    
+
     setOutFileLink("");
     setOutMessage("");
     setSent(true);
@@ -84,87 +91,99 @@ export default function Chat(props) {
   // Checks if message was sent by current user or another one.
   // Returns a true if it is from the logged-in user, false otherwise.
   function isOwnMessage(message) {
-    return message.ownerId == user.uwid;
+    return message.ownerId === user.uwid;
   }
 
   function closeTime(oldMessage, newMessage) {
-    var oldTime = oldMessage.toDate().getHours() * 60 + oldMessage.toDate().getMinutes();
-    var newTime = newMessage.toDate().getHours() * 60 + newMessage.toDate().getMinutes();
-    return Math.abs(oldTime - newTime) < 10; 
+    var oldTime =
+      oldMessage.toDate().getHours() * 60 + oldMessage.toDate().getMinutes();
+    var newTime =
+      newMessage.toDate().getHours() * 60 + newMessage.toDate().getMinutes();
+    return Math.abs(oldTime - newTime) < 10;
   }
 
   function buildMessageDisplay() {
     // Takes each individual message and wrapps it in a div
     // I need to bundle up any messages that are sequentially sent by same person
     // While messages.next is sent by same person, add the message to the same div.
-    let output = [<div/>];
+    let output = [<div />];
 
     let i = 0;
     while (i < messages.length) {
       let ownerId = messages[i].ownerId;
-      let ownerClassNameTag = isOwnMessage(messages[i]) ? "ownMessageOwner" : "otherMessageOwner";
-      let messageClassNameTag = isOwnMessage(messages[i]) ? "ownMessageContent" : "otherMessageContent";
+      let ownerClassNameTag = isOwnMessage(messages[i])
+        ? "ownMessageOwner"
+        : "otherMessageOwner";
+      let messageClassNameTag = isOwnMessage(messages[i])
+        ? "ownMessageContent"
+        : "otherMessageContent";
 
       // Create new div for message, and create new div for owner name
       let iOld = i;
-      let temp = [<div className="messageTime"> {formatDate(messages[i].time.toDate())} </div>];
+      let temp = [
+        <div className="messageTime">
+          {formatDate(messages[i].time.toDate())}
+        </div>,
+      ];
       temp.push(<div className={ownerClassNameTag}> {messages[i].owner} </div>);
 
       do {
         // bundle into one
         // Parse out the links so users can click on them
         let messageContents = messages[i].content;
-        if (messageContents.includes('<a href=') && messageContents.includes('</a>')) {
-          let startIndex = messageContents.indexOf('<a href=');
-          let tagLength = '<a href='.length;
+        if (
+          messageContents.includes("<a href=") &&
+          messageContents.includes("</a>")
+        ) {
+          let startIndex = messageContents.indexOf("<a href=");
+          let tagLength = "<a href=".length;
           let contents = messageContents.substring(0, startIndex);
           let remainingContents = messageContents.substring(startIndex);
-          let link = remainingContents.substring(tagLength, remainingContents.indexOf(">"));
-          let name = remainingContents.substring(remainingContents.indexOf(">") + 1, remainingContents.lastIndexOf("<"));
-          if(contents.length > 0)
-            temp.push(<div className={messageClassNameTag}><p>{contents}</p></div>);
+          let link = remainingContents.substring(
+            tagLength,
+            remainingContents.indexOf(">")
+          );
+          let name = remainingContents.substring(
+            remainingContents.indexOf(">") + 1,
+            remainingContents.lastIndexOf("<")
+          );
+          if (contents.length > 0)
+            temp.push(
+              <div className={messageClassNameTag}>
+                <p>{contents}</p>
+              </div>
+            );
 
-          temp.push(<a className={messageClassNameTag + " linkTag"} href={link}><p>{name}</p></a>);
+          temp.push(
+            <a className={messageClassNameTag + " linkTag"} href={link}>
+              <p>{name}</p>
+            </a>
+          );
         } else {
-
-          temp.push(<div className={messageClassNameTag}><p>{messages[i].content}</p></div>);
+          temp.push(
+            <div className={messageClassNameTag}>
+              <p>{messages[i].content}</p>
+            </div>
+          );
         }
-        
-        i++;
-      } while (i < messages.length && (ownerId === messages[i].ownerId) && closeTime(messages[iOld].time, messages[i].time));
 
-      output.push(<div className="messageContent" key={messages[iOld].id}>{temp}<br></br></div>);
+        i++;
+      } while (
+        i < messages.length &&
+        ownerId === messages[i].ownerId &&
+        closeTime(messages[iOld].time, messages[i].time)
+      );
+
+      output.push(
+        <div className="messageContent" key={messages[iOld].id}>
+          {temp}
+          <br></br>
+        </div>
+      );
     }
 
-    return (
-      <div className="chatMsgArea">
-        {output}
-      </div>
-    );
+    return output;
   }
-
-  
-  return (
-    <div className="chatScreen">
-      <Link to="/dashboard" className="backBtn">Back</Link>
-      <div className="sideBar"><MyGroupSidePanel/></div>
-      <Slideout firebase={firebase} groupID={props.groupID} user = {user} />
-      <div className="chatWindow">
-        {buildMessageDisplay()}
-        <br></br>
-        <div className="row">
-          <input
-            className="messageInputer"
-            value={outMessage}
-            onChange={(event) => setOutMessage(event.target.value)}
-            type="text"
-          />
-          <AddFile firebase={firebase} onChange={appendFile} user={user} sentLink={sent}/>
-          <button className="sendButton" onKeyPress={() => sendOnEnter()} onClick={() => sendMessage(outMessage)}>Send Message</button>
-        </div>
-      </div>
-    </div>
-  );
 
   // stack overflow fn
   function formatDate(date) {
@@ -187,8 +206,45 @@ export default function Chat(props) {
   }
 
   function sendOnEnter(e) {
-    if (e.charCode == 13 /* enter */) {
+    if (e.charCode === 13 /* enter */) {
       sendMessage(outMessage);
     }
   }
+
+  function focusChat() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <div className="chatWindow d-flex col">
+        <div className="chatMsgArea flex-grow" onClick={focusChat}>
+          {buildMessageDisplay()}
+        </div>
+        <div className="chatOptions d-flex row justify-center align-center">
+          <AddFile
+            firebase={firebase}
+            onChange={appendFile}
+            user={user}
+            sentLink={sent}
+          />
+          <input
+            className="messageInputer"
+            value={outMessage}
+            onChange={(event) => setOutMessage(event.target.value)}
+            onKeyPress={sendOnEnter}
+            type="text"
+            ref={inputRef}
+          />
+
+          <button
+            className="sendButton btnPrimaryFill"
+            onClick={() => sendMessage(outMessage)}
+          >
+            Send Message
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }

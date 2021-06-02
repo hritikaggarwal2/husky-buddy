@@ -1,10 +1,9 @@
 // Add Imports
 import { useState } from "react";
 import firebase from "firebase/app";
-import { Link } from "react-router-dom";
 import InlineEdit from "../components/InlineEdit";
 import { useUser } from "../providers/UserProvider";
-import { UserClass } from "../data/UserClass";
+import PageContainer from "../components/PageContainer";
 
 /* edit user profile */
 export default function UserProfile() {
@@ -16,7 +15,8 @@ export default function UserProfile() {
   const [major, setMajor] = useState(user.major);
   const [phoneNum, setPhoneNum] = useState(user.personal_phone);
   const [madeChanges, setMadeChanges] = useState(false);
-  const [lastError, setLastError] = useState("");
+
+  const [search, setSearch] = useState();
 
   function validateInput() {
     return true; // todo: validate and surface error msg
@@ -87,7 +87,7 @@ export default function UserProfile() {
     //const refUsers = firebase.firestore().collection("Users");
     const refUser = firebase.firestore().collection("Users").doc(user.uwid);
 
-    const res = await refUser
+    await refUser
       .update({
         display_name: displayName,
         about: about,
@@ -96,86 +96,69 @@ export default function UserProfile() {
         major: major,
         personal_phone: phoneNum,
       })
-      .then(function () {
-        console.log("updated");
-      });
+      .then(function () {});
 
     console.log("done");
   }
 
   return (
-    <div className="profile container c-fluid d-flex justify-center align-center col">
-      <Link to="/dashboard">
-        <h1 className="title">HuskyBuddy</h1>
-      </Link>
+    <PageContainer
+      index={2}
+      search={{ input: search, set: setSearch, text: "Search Settings" }}
+    >
+      <div className="profile container d-flex justify-center align-center col">
+        <h3>Edit your user profile!</h3>
 
-      <h2 className="userProfileTitle"> Welcome, {user.display_name} </h2>
-      <h3> Edit your user profile! </h3>
-
-      <div className="d-flex flex-row">&nbsp;</div>
-      <div className="d-flex flex-row">&nbsp;</div>
-
-      <div className="d-flex flex-row justify-between">
-        <div className="p-2 bd-highlight justify-content-start">
-          Display Name: &nbsp;&nbsp;
-        </div>
-        <div className="p-4 bd-highlight justify-content-end">
+        <div className="d-flex flex-row justify-between">
+          <div>Display Name</div>
           <InlineEdit
-            className="align-right"
             text={
               displayName === "" ? "Write your display name here!" : displayName
             }
             onSetText={onSetDisplayName}
           />
         </div>
-      </div>
 
-      <div className="d-flex flex-row justify-between">
-        <div className="p-2 bd-highlight">About: &nbsp;&nbsp;</div>
-        <div className="p-4 bd-highlight">
+        <div className="d-flex flex-row justify-between">
+          <div>About</div>
           <InlineEdit
             text={about === "" ? "Write something about yourself here!" : about}
             onSetText={onSetAbout}
           />
         </div>
-      </div>
-      <div className="d-flex flex-row justify-between">
-        <div className="p-2 bd-highlight">Status: &nbsp;&nbsp;</div>
-        <div classHame="p-4 bd-highlight">
+
+        <div className="d-flex flex-row justify-between">
+          <div>Status</div>
           <InlineEdit
             text={status === "" ? "Write your status here!" : status}
             onSetText={onSetStatus}
           />
         </div>
-      </div>
-      <div>
-        Date of Birth: &nbsp;&nbsp;
-        <InlineEdit
-          text={dob === "" ? "Write your date of birth here!" : dob}
-          onSetText={onSetDob}
-        />
-      </div>
 
-      <div>
-        Phone Number: &nbsp;&nbsp;
-        <InlineEdit
-          text={phoneNum === "" ? "Write your phone number here!" : phoneNum}
-          onSetText={onSetPhoneNum}
-        />
-      </div>
+        <div className="d-flex flex-row justify-between">
+          <div>Date of Birth</div>
+          <InlineEdit
+            text={dob === "" ? "Write your date of birth here!" : dob}
+            onSetText={onSetDob}
+          />
+        </div>
 
-      <div>
-        Major: &nbsp;&nbsp;
-        <InlineEdit
-          text={major === "" ? "Write your major here!" : major}
-          onSetText={onSetMajor}
-        />
-      </div>
+        <div className="d-flex flex-row justify-between">
+          <div>Phone Number</div>
+          <InlineEdit
+            text={phoneNum === "" ? "Write your phone number here!" : phoneNum}
+            onSetText={onSetPhoneNum}
+          />
+        </div>
 
-      <div className="d-flex flex-row">&nbsp;</div>
-      <div className="d-flex flex-row">&nbsp;</div>
+        <div className="d-flex flex-row justify-between">
+          <div>Major</div>
+          <InlineEdit
+            text={major === "" ? "Write your major here!" : major}
+            onSetText={onSetMajor}
+          />
+        </div>
 
-      <div>
         <form onSubmit={handleSubmit}>
           <button
             className="btnPrimaryFill"
@@ -186,6 +169,6 @@ export default function UserProfile() {
           </button>
         </form>
       </div>
-    </div>
+    </PageContainer>
   );
 }

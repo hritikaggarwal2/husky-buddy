@@ -45,10 +45,10 @@ function InlineEdit(props) {
         setIsInputActive(false);
       }
     }
-  }, [enter, esc]); // watch the Enter and Escape key presses
+  }, [enter, esc, props, isInputActive, inputValue]); // watch the Enter and Escape key presses
 
   return (
-    <span className="inline-text" ref={wrapperRef}>
+    <div className="inline-text" ref={wrapperRef}>
       <span
         ref={textRef}
         onClick={() => setIsInputActive(true)}
@@ -71,7 +71,7 @@ function InlineEdit(props) {
           isInputActive ? "active" : "hidden"
         }`}
       />
-    </span>
+    </div>
   );
 }
 

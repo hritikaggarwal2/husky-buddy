@@ -14,8 +14,8 @@ import ImageButton from "../components/ImageButton";
 
 // Assets
 import addImg from "../assets/add.png";
-import sortLine from "../assets/sortLine.svg";
-import sortBox from "../assets/sortBox.svg";
+// import sortLine from "../assets/sortLine.svg";
+// import sortBox from "../assets/sortBox.svg";
 
 export default function Dashboard() {
   const [openCreate, setOpenCreate] = useState(false);
@@ -45,6 +45,7 @@ export default function Dashboard() {
           includeMetadataChanges: true,
         },
         (snapshot) => {
+          console.log("firebase  2");
           let allGroups = [];
           snapshot.docs.forEach((doc) => {
             allGroups.push({ ...doc.data(), id: doc.id });
@@ -54,13 +55,17 @@ export default function Dashboard() {
           if (searchGps === null) {
             setGroupToShow(allGroups);
           }
+          console.log("firebase call");
         }
       );
 
     return () => {
       unsubscribe();
     };
-  }, [user, groupToShow]);
+    // XXX : don't add other dependancies. It will run into an infinite loop and thus
+    // kill/exhaust firebase.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   // Retrieve the values of all the groups in the database
   useEffect(() => {
@@ -73,6 +78,7 @@ export default function Dashboard() {
           includeMetadataChanges: true,
         },
         (snapshot) => {
+          console.log("firebase call 3");
           let allGroups = [];
           snapshot.docs.forEach((doc) => {
             if (doc.data().members.includes(user.uwid)) {
@@ -82,6 +88,7 @@ export default function Dashboard() {
             allGroups.push({ ...doc.data(), id: doc.id });
           });
           setGps(allGroups);
+          console.log("firebase call");
         }
       );
 
@@ -157,7 +164,12 @@ export default function Dashboard() {
       ) : null}
       <PageContainer
         index={0}
-        search={{ input: searchInput, set: searchTextUpdate }}
+        chat={{ isChat: false }}
+        search={{
+          input: searchInput,
+          set: searchTextUpdate,
+          text: "Explore New Groups",
+        }}
       >
         <div className="dashboard container d-flex col justify-center align-center">
           <div className="cover d-flex row justify-between align-center">
@@ -195,6 +207,7 @@ export default function Dashboard() {
             </div>
           </div>
           <MyGroupPanel
+            isSearch={searchGps !== null}
             sort={sortOn}
             groups={groupToShow !== null ? groupToShow : []}
           />

@@ -41,7 +41,7 @@ export default function Routes() {
       ) : (
         <Router>
           <Switch>
-            <Route path="/userprofile">
+            <Route path="/profile">
               <UserProfile />
             </Route>
             <Route path="/search">
