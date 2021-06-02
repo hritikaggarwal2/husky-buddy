@@ -32,15 +32,19 @@ This is a guide that allows developers to easily setup the project, ...[TODO]
 ## Folder Structure
 
     .
-    ├── public              # public files for building final app.
-    └── src                 # development source.
-      ├── assets            # image, video, logo, and other assets.
-      ├── components        # individual components (no screens here)
-      ├── config            # secret config files (not visible on repo)
-      ├── data              # data classes for talking to firebase
-      ├── providers         # context providers (pass data across components)
-      ├── screens           # different full screens with their own routes
-      └── styles            # CSS styles
+    ├── .github/workflows     # stores config files for Github Actions to automatically run.
+    ├── .vscode               # stores VS Code config files for project consistency.
+    ├── status-reports        # weekly reports of progress maintained during development.
+    ├── web                   # React.js web app for development.
+      ├── public              # public files for building final app.
+      └── src                 # development source.
+        ├── assets            # image, video, logo, and other assets.
+        ├── components        # individual components (no screens here)
+        ├── config            # secret config files (not visible on repo)
+        ├── data              # data classes for talking to firebase
+        ├── providers         # context providers (pass data across components)
+        ├── screens           # different full screens with their own routes
+        └── styles            # CSS styles
 
 **[⬆ back to top](#table-of-contents)**
 
