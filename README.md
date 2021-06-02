@@ -74,7 +74,7 @@ create a new one so others can join!
 ### Guides
 
 - [User Guide](USER_GUIDE.md)
-- [Developer Guide](./web/README.md)
+- [Developer Guide](DEVELOPER_GUIDE.md)
 
 ### Current (Operational) Use Cases
 
