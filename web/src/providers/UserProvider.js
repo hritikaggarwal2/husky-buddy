@@ -18,8 +18,10 @@ export default function UserProvider(props) {
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
+    console.log("mounted");
     let unsubscribeInner = null;
     const unsubscribeOuter = firebase.auth().onAuthStateChanged((userAuth) => {
+      console.log("onauthstatechanged");
       if (userAuth === null) {
         setUser(null);
         setLoad(false);
