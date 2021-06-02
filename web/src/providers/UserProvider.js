@@ -42,6 +42,7 @@ export default function UserProvider(props) {
             let updateUser = snapshot.data();
             updateUser.uwid = userAuth.uid;
             setUser(updateUser);
+            console.log("firebase call");
 
             setLoad(false);
           }

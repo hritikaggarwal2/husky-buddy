@@ -35,6 +35,7 @@ export default function MyGroupPanel() {
             allGroups.push({ ...doc.data(), id: doc.id });
           });
           setGroups(allGroups);
+          console.log("firebase call");
         }
       );
 
@@ -55,9 +56,9 @@ export default function MyGroupPanel() {
       <h2 className="d-flex column justify-center align-center">MY GROUPS</h2>
       <div className="groupWrap column justify-center align-center">
         {groups.map((group) => (
-            <div className="listItem" onClick={() => goToChat(group)}>
-                <h3>{group.group_name}</h3>
-            </div>
+          <div className="listItem" onClick={() => goToChat(group)}>
+            <h3>{group.group_name}</h3>
+          </div>
         ))}
       </div>
     </div>

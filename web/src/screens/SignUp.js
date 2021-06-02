@@ -1,7 +1,9 @@
-// Add Imports
-import React, { useState } from "react";
-import firebase from "firebase/app";
+// Node Modules
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+// Firebase
+import firebase from "firebase/app";
 import { UserClass, UserClassConverter } from "../data/UserClass";
 
 /* User creation module */
@@ -96,33 +98,33 @@ export default function SignUp() {
   }
 
   return (
-    <div className="signup container c-fluid d-flex justify-center align-center col">
+    <div className="signup signupTest container c-fluid d-flex justify-center align-center col">
       <h1 className="title">Husky Buddy.</h1>
       <form onSubmit={handleSubmit}>
         <input
           required
-          className="inputComponent"
+          className="inputComponent emailTest"
           placeholder="Enter UW Email"
-          type="text"
+          type="email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           required
-          className="inputComponent"
+          className="inputComponent nameTest"
           placeholder="Enter Display Name"
           type="text"
           onChange={(e) => setDisplayName(e.target.value)}
         />
         <input
           required
-          className="inputComponent"
+          className="inputComponent passTest"
           placeholder="Enter Password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
           required
-          className="inputComponent"
+          className="inputComponent passConfirmTest"
           placeholder="Re-enter Password"
           type="password"
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -139,7 +141,7 @@ export default function SignUp() {
         >
           Sign Up
         </button>
-        <Link className="btnEmptyHover" to="/login">
+        <Link className="btnEmptyHover loginTest" to="/login">
           Already have an account? Log in
         </Link>
       </form>
